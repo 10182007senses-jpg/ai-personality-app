@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="theme-color" content="#170821">
+    <title>AI恋愛人格診断</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css?v=20260527-1">
+</head>
+<body data-theme="default" data-screen="start">
+    <div class="scene" aria-hidden="true">
+        <div class="scene-gradient scene-gradient-one"></div>
+        <div class="scene-gradient scene-gradient-two"></div>
+        <div class="scene-gradient scene-gradient-three"></div>
+        <div class="scene-gradient scene-gradient-four"></div>
+        <div id="particle-field" class="particle-field"></div>
+    </div>
+
+    <main class="app-shell">
+        <header class="app-header">
+            <span id="brand-chip" class="brand-chip">AI恋愛人格診断</span>
+            <div id="lang-switcher" class="lang-switcher" role="group" aria-label="Language">
+                <button type="button" class="lang-button is-active" data-lang="ja" aria-pressed="true">日本語</button>
+                <button type="button" class="lang-button" data-lang="en" aria-pressed="false">EN</button>
+                <button type="button" class="lang-button" data-lang="zh" aria-pressed="false">中文</button>
+                <button type="button" class="lang-button" data-lang="ko" aria-pressed="false">한국어</button>
+            </div>
+        </header>
+
+        <section id="start-screen" class="screen active">
+            <div class="hero-card glass-card">
+                <div class="hero-copy">
+                    <p id="hero-kicker" class="hero-kicker">恋愛オーラフィルター</p>
+                    <h1 id="hero-title">AI恋愛人格診断</h1>
+                    <p id="hero-catch" class="hero-catch">あなたの“好きのクセ”&#10;AIに見抜かれてみる？</p>
+                    <p id="hero-lead" class="hero-lead">
+                        直感で答えるだけで、恋愛のテンポや本音の出し方、
+                        ときめき方の空気感をかわいく可視化します。
+                    </p>
+
+                    <div id="hero-tags" class="hero-tags">
+                        <span id="hero-tag-1">#本音</span>
+                        <span id="hero-tag-2">#恋愛温度</span>
+                        <span id="hero-tag-3">#スクショしたい</span>
+                    </div>
+
+                    <button id="start-button" class="main-button">診断スタート</button>
+                </div>
+
+                <div class="hero-visual" aria-hidden="true">
+                    <span id="floating-note-1" class="floating-note note-one">好きのクセ</span>
+                    <span id="floating-note-2" class="floating-note note-two">恋愛オーラ</span>
+                    <span id="floating-note-3" class="floating-note note-three">本音フィルター</span>
+                    <div class="aura-preview">
+                        <div class="aura-ring aura-ring-one"></div>
+                        <div class="aura-ring aura-ring-two"></div>
+                        <div class="aura-ring aura-ring-three"></div>
+                        <div class="aura-core">LOVE</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="question-loading-screen" class="screen">
+            <div class="loading-card glass-card">
+                <div class="aura-loader" aria-hidden="true">
+                    <div class="loader-ring loader-ring-one"></div>
+                    <div class="loader-ring loader-ring-two"></div>
+                    <div class="loader-ring loader-ring-three"></div>
+                    <div class="loader-core"></div>
+                </div>
+                <p id="question-loading-stage" class="loading-stage">質問を準備中</p>
+                <h2 id="question-loading-title">あなた向けの質問をえらんでいます</h2>
+                <p id="question-loading-text" class="loading-copy">
+                    恋愛の空気感が見えやすいように、やさしく答えやすい順番へ整えています。
+                </p>
+            </div>
+        </section>
+
+        <section id="question-screen" class="screen">
+            <div class="question-head">
+                <p id="question-count" class="question-count">Q1 / 10</p>
+                <strong id="progress-label" class="progress-label">10%</strong>
+            </div>
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill"></div>
+            </div>
+
+            <div class="question-card glass-card">
+                <p id="question-kicker" class="question-kicker">気分に近いものをタップ</p>
+                <h2 id="question-text">質問がここに表示されます。</h2>
+                <div id="choices" class="choices"></div>
+            </div>
+        </section>
+
+        <section id="loading-screen" class="screen">
+            <div class="loading-card glass-card">
+                <div class="aura-loader aura-loader-result" aria-hidden="true">
+                    <div class="loader-ring loader-ring-one"></div>
+                    <div class="loader-ring loader-ring-two"></div>
+                    <div class="loader-ring loader-ring-three"></div>
+                    <div class="loader-core"></div>
+                </div>
+                <p id="loading-stage" class="loading-stage">恋愛オーラをまとめています</p>
+                <h2 id="loading-title">あなたの本音をやさしく整理中</h2>
+                <p id="loading-status-text" class="loading-copy">
+                    ときめき方や距離感のクセを、スクショしたくなる形にまとめています。
+                </p>
+
+                <div id="loading-tags" class="loading-tags">
+                    <span id="loading-tag-1">ときめき</span>
+                    <span id="loading-tag-2">本音</span>
+                    <span id="loading-tag-3">距離感</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="result-screen" class="screen">
+            <div class="result-card glass-card">
+                <div class="result-chip-row">
+                    <span id="result-theme-badge" class="result-chip">恋愛オーラタイプ</span>
+                    <span id="result-subtype" class="result-subtype"></span>
+                </div>
+
+                <p id="result-kicker" class="result-kicker">あなたの恋愛フィルター</p>
+                <h2 id="result-title">診断結果</h2>
+                <p id="result-copy" class="result-copy"></p>
+                <p id="result-theme-description" class="result-mini"></p>
+                <div id="result-tags" class="result-tags"></div>
+
+                <div class="result-stack">
+                    <div class="result-block">
+                        <p id="result-description-label" class="result-block-label">AIが見つけた本音</p>
+                        <p id="result-description" class="result-block-copy"></p>
+                    </div>
+
+                    <div class="result-divider" aria-hidden="true"></div>
+
+                    <div class="result-block">
+                        <p id="result-recommendation-label" class="result-block-label">恋愛モード</p>
+                        <p id="result-recommendation" class="result-block-copy"></p>
+                    </div>
+                </div>
+            </div>
+
+            <button id="restart-button" class="main-button secondary-button">もう一度診断する</button>
+        </section>
+    </main>
+
+    <script src="/static/script.js?v=20260527-1"></script>
+</body>
+</html>
