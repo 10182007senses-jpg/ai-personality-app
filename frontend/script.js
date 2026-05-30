@@ -25,6 +25,15 @@ const resultRecommendation = document.getElementById("result-recommendation");
 const resultThemeBadge = document.getElementById("result-theme-badge");
 const resultThemeDescription = document.getElementById("result-theme-description");
 const resultTags = document.getElementById("result-tags");
+const resultTraits = document.getElementById("result-traits");
+const resultInnerTags = document.getElementById("result-inner-tags");
+const resultLoveTags = document.getElementById("result-love-tags");
+const resultCompatibility = document.getElementById("result-compatibility");
+const resultCompatibilityLabel = document.getElementById("result-compatibility-label");
+const resultCarousel = document.getElementById("result-carousel");
+const resultCarouselPrev = document.getElementById("carousel-prev");
+const resultCarouselNext = document.getElementById("carousel-next");
+const resultCarouselDots = document.getElementById("carousel-dots");
 const particleField = document.getElementById("particle-field");
 const brandChip = document.getElementById("brand-chip");
 const langSwitcher = document.getElementById("lang-switcher");
@@ -52,6 +61,7 @@ const loadingTags = [
 const resultKicker = document.getElementById("result-kicker");
 const resultDescriptionLabel = document.getElementById("result-description-label");
 const resultRecommendationLabel = document.getElementById("result-recommendation-label");
+const resultSlides = Array.from(document.querySelectorAll(".result-slide"));
 
 const screens = [
     startScreen,
@@ -113,6 +123,12 @@ const translations = {
         resultSubtypePrefix: "近い空気感",
         resultDescriptionLabel: "AIが見つけた本音",
         resultRecommendationLabel: "恋愛モード",
+        resultCompatibilityLabel: "相性の良いタイプ",
+        compatibilityPlaceholder: "もう一度診断すると相性タイプが表示されます。",
+        carouselPagesLabel: "結果カード",
+        carouselDotLabel: "結果カード",
+        carouselPrev: "前へ",
+        carouselNext: "次へ",
         restartButton: "もう一度診断する",
         errorStartTitle: "ちょっと準備に失敗しました",
         errorStartCopy: "質問の表示に少し時間がかかっています。",
@@ -121,9 +137,7 @@ const translations = {
         errorResultAbortCopy: "結果の整理に少しだけ時間がかかっています。",
         errorResultCopy: "結果の表示に失敗しました。",
         errorResultDescription: "通信環境を確認して、もう一度診断してみてください。",
-        errorResultRecommendation: "もう一度はじめると、恋愛オーラをやさしく表示し直します。",
-        descriptionLimit: 72,
-        recommendationLimit: 96
+        errorResultRecommendation: "もう一度はじめると、恋愛オーラをやさしく表示し直します。"
     },
     en: {
         metaTitle: "AI Love Persona Test",
@@ -167,6 +181,12 @@ const translations = {
         resultSubtypePrefix: "Close vibe",
         resultDescriptionLabel: "What AI picked up",
         resultRecommendationLabel: "Love mode",
+        resultCompatibilityLabel: "Best Match Types",
+        compatibilityPlaceholder: "Run the diagnosis again to reveal your best matches.",
+        carouselPagesLabel: "Result cards",
+        carouselDotLabel: "Result card",
+        carouselPrev: "Prev",
+        carouselNext: "Next",
         restartButton: "Try Again",
         errorStartTitle: "We hit a small setup glitch",
         errorStartCopy: "The questions are taking a little longer to appear.",
@@ -175,9 +195,7 @@ const translations = {
         errorResultAbortCopy: "Your result needs a few more seconds to come together.",
         errorResultCopy: "We could not show your result this time.",
         errorResultDescription: "Please check your connection and try again.",
-        errorResultRecommendation: "Start over and we will refresh your love aura card softly.",
-        descriptionLimit: 108,
-        recommendationLimit: 132
+        errorResultRecommendation: "Start over and we will refresh your love aura card softly."
     },
     zh: {
         metaTitle: "AI恋爱人格测试",
@@ -221,6 +239,12 @@ const translations = {
         resultSubtypePrefix: "相近气质",
         resultDescriptionLabel: "AI捕捉到的真心",
         resultRecommendationLabel: "恋爱模式",
+        resultCompatibilityLabel: "相性好的类型",
+        compatibilityPlaceholder: "重新测试后会显示更适合的类型。",
+        carouselPagesLabel: "结果卡片",
+        carouselDotLabel: "结果卡片",
+        carouselPrev: "上一张",
+        carouselNext: "下一张",
         restartButton: "再测一次",
         errorStartTitle: "准备时出了点小问题",
         errorStartCopy: "问题出现得比平时慢一点。",
@@ -229,9 +253,7 @@ const translations = {
         errorResultAbortCopy: "这次结果需要再多一点时间。",
         errorResultCopy: "这次没有成功显示结果。",
         errorResultDescription: "请检查网络后再试一次。",
-        errorResultRecommendation: "重新开始后，我们会再温柔地整理你的恋爱气场。",
-        descriptionLimit: 50,
-        recommendationLimit: 78
+        errorResultRecommendation: "重新开始后，我们会再温柔地整理你的恋爱气场。"
     },
     ko: {
         metaTitle: "AI 연애 성향 테스트",
@@ -275,6 +297,12 @@ const translations = {
         resultSubtypePrefix: "비슷한 무드",
         resultDescriptionLabel: "AI가 읽은 속마음",
         resultRecommendationLabel: "연애 모드",
+        resultCompatibilityLabel: "잘 맞는 타입",
+        compatibilityPlaceholder: "다시 진단하면 잘 맞는 타입이 표시됩니다.",
+        carouselPagesLabel: "결과 카드",
+        carouselDotLabel: "결과 카드",
+        carouselPrev: "이전",
+        carouselNext: "다음",
         restartButton: "다시 진단하기",
         errorStartTitle: "준비 중에 작은 문제가 생겼어요",
         errorStartCopy: "질문이 뜨기까지 조금 더 시간이 걸리고 있어요.",
@@ -283,9 +311,7 @@ const translations = {
         errorResultAbortCopy: "이번 결과는 몇 초만 더 기다려야 해요.",
         errorResultCopy: "이번에는 결과를 보여 주지 못했어요.",
         errorResultDescription: "연결 상태를 확인한 뒤 다시 시도해 주세요.",
-        errorResultRecommendation: "처음부터 다시 시작하면 연애 오라 카드를 부드럽게 다시 정리해 드릴게요.",
-        descriptionLimit: 88,
-        recommendationLimit: 112
+        errorResultRecommendation: "처음부터 다시 시작하면 연애 오라 카드를 부드럽게 다시 정리해 드릴게요."
     }
 };
 
@@ -563,6 +589,8 @@ let activeTickerId = null;
 let activeSessionId = 0;
 let activeThemeName = "default";
 let activeSubtype = null;
+let activeCarouselIndex = 0;
+let isCarouselInitialized = false;
 
 function normalizeLanguage(language) {
     if (typeof language !== "string") {
@@ -783,7 +811,12 @@ function clearResultContent() {
     resultCopy.textContent = "";
     resultDescription.textContent = "";
     resultRecommendation.textContent = "";
+    renderTraits([]);
+    renderTagCollection(resultInnerTags, []);
+    renderTagCollection(resultLoveTags, []);
+    renderCompatibility([]);
     populateThemeProfile("default", null);
+    setCarouselIndex(0, { behavior: "auto" });
 }
 
 async function renderQuestion(sessionId = activeSessionId, language = currentLanguage) {
@@ -946,11 +979,11 @@ async function showResult(sessionId = activeSessionId, language = currentLanguag
         const bestType = resultType.bestType || "default";
         applyTheme(bestType);
         populateThemeProfile(bestType, resultType.subtype || null, language);
-        resultTitle.textContent = resultType.title || locale.resultTitle;
-        resultCopy.textContent = resultType.copy || "";
-        resultDescription.textContent = fitCardText(resultType.description, locale.descriptionLimit);
-        resultRecommendation.textContent = fitCardText(resultType.recommendation, locale.recommendationLimit);
+        renderResultCarousel(resultType, language);
         showScreen(resultScreen, "result");
+        requestAnimationFrame(() => {
+            setCarouselIndex(0, { behavior: "auto" });
+        });
     } catch (error) {
         if (sessionId !== activeSessionId) {
             return;
@@ -967,14 +1000,24 @@ async function showResult(sessionId = activeSessionId, language = currentLanguag
 
 function showErrorResult(title, copy, description) {
     const locale = getTranslations();
+    const errorResult = {
+        title,
+        copy,
+        description,
+        recommendation: locale.errorResultRecommendation,
+        traits: [],
+        innerTags: [],
+        loveTags: [],
+        compatibility: []
+    };
 
     applyTheme("default");
     populateThemeProfile("default", null);
-    resultTitle.textContent = title;
-    resultCopy.textContent = copy;
-    resultDescription.textContent = description;
-    resultRecommendation.textContent = locale.errorResultRecommendation;
+    renderResultCarousel(errorResult, currentLanguage);
     showScreen(resultScreen, "result");
+    requestAnimationFrame(() => {
+        setCarouselIndex(0, { behavior: "auto" });
+    });
 }
 
 function applyTheme(themeName) {
@@ -1006,6 +1049,108 @@ function populateThemeProfile(themeName, subtype, language = currentLanguage) {
     renderResultTags(profile.tags);
 }
 
+function cleanResultText(text) {
+    if (typeof text !== "string") {
+        return "";
+    }
+
+    return text.replace(/\.{3,}|…+/g, "").trim();
+}
+
+function renderResultCarousel(resultType, language = currentLanguage) {
+    const locale = getTranslations(language);
+
+    resultTitle.textContent = resultType.title || locale.resultTitle;
+    resultCopy.textContent = cleanResultText(resultType.copy || "");
+    resultDescription.textContent = cleanResultText(resultType.description || "");
+    resultRecommendation.textContent = cleanResultText(resultType.recommendation || "");
+
+    renderTraits(Array.isArray(resultType.traits) ? resultType.traits : []);
+    renderTagCollection(resultInnerTags, Array.isArray(resultType.innerTags) ? resultType.innerTags : []);
+    renderTagCollection(resultLoveTags, Array.isArray(resultType.loveTags) ? resultType.loveTags : []);
+    renderCompatibility(Array.isArray(resultType.compatibility) ? resultType.compatibility : [], language);
+
+    activeCarouselIndex = 0;
+    updateCarouselState();
+}
+
+function renderTraits(traits) {
+    resultTraits.replaceChildren();
+
+    traits.forEach((trait) => {
+        const row = document.createElement("div");
+        const label = document.createElement("span");
+        const stars = document.createElement("span");
+        const safeStars = Math.max(0, Math.min(5, Number(trait.stars) || 0));
+
+        row.className = "trait-row";
+        label.className = "trait-label";
+        label.textContent = trait.label || "";
+        stars.className = "trait-stars";
+        stars.textContent = `${"★".repeat(safeStars)}${"☆".repeat(Math.max(0, 5 - safeStars))}`;
+
+        row.append(label, stars);
+        resultTraits.appendChild(row);
+    });
+}
+
+function renderTagCollection(container, tags) {
+    container.replaceChildren();
+
+    tags.forEach((tag) => {
+        const chip = document.createElement("span");
+        chip.textContent = tag;
+        container.appendChild(chip);
+    });
+}
+
+function renderCompatibility(items, language = currentLanguage) {
+    const locale = getTranslations(language);
+    const medals = ["🥇", "🥈", "🥉"];
+
+    resultCompatibility.replaceChildren();
+
+    if (!Array.isArray(items) || items.length === 0) {
+        const copy = document.createElement("p");
+        copy.className = "compatibility-reason";
+        copy.textContent = locale.compatibilityPlaceholder;
+        resultCompatibility.appendChild(copy);
+        return;
+    }
+
+    items.forEach((item, index) => {
+        const wrapper = document.createElement("div");
+        const rank = document.createElement("span");
+        const body = document.createElement("div");
+        const type = document.createElement("strong");
+        const reason = document.createElement("p");
+
+        wrapper.className = "compatibility-item";
+        rank.className = "compatibility-rank";
+        rank.textContent = medals[index] || "•";
+        body.className = "compatibility-body";
+        type.className = "compatibility-type";
+        type.textContent = item.type || "";
+        reason.className = "compatibility-reason";
+        reason.textContent = cleanResultText(item.reason || "");
+        body.append(type, reason);
+        wrapper.append(rank, body);
+        resultCompatibility.appendChild(wrapper);
+    });
+}
+
+function applyCarouselLabels(language = currentLanguage) {
+    const locale = getTranslations(language);
+
+    if (resultCarouselDots) {
+        resultCarouselDots.setAttribute("aria-label", locale.carouselPagesLabel);
+    }
+
+    Array.from(resultCarouselDots.children).forEach((dot, index) => {
+        dot.setAttribute("aria-label", `${locale.carouselDotLabel} ${index + 1}`);
+    });
+}
+
 function renderResultTags(tags) {
     resultTags.replaceChildren();
 
@@ -1016,30 +1161,100 @@ function renderResultTags(tags) {
     });
 }
 
-function fitCardText(text, limit) {
-    if (typeof text !== "string") {
-        return "";
+function setupCarouselControls() {
+    if (isCarouselInitialized || !resultCarousel) {
+        return;
     }
 
-    const trimmed = text.trim();
-    if (trimmed.length <= limit) {
-        return trimmed;
-    }
+    resultCarouselDots.replaceChildren();
 
-    const breakChars = ["。", "！", "？", ".", "!", "?", "、", "，", ",", " "];
-    const softBreakIndex = Math.max(
-        ...breakChars.map((character) => trimmed.lastIndexOf(character, limit))
-    );
+    resultSlides.forEach((slide, index) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "carousel-dot";
+        dot.dataset.slideIndex = String(index);
+        resultCarouselDots.appendChild(dot);
+    });
 
-    if (softBreakIndex >= Math.floor(limit * 0.55)) {
-        const sliced = trimmed.slice(0, softBreakIndex + 1).trim();
-        if (/[。！？.!?]$/.test(sliced)) {
-            return sliced;
+    resultCarouselPrev.addEventListener("click", () => {
+        setCarouselIndex(activeCarouselIndex - 1);
+    });
+
+    resultCarouselNext.addEventListener("click", () => {
+        setCarouselIndex(activeCarouselIndex + 1);
+    });
+
+    resultCarouselDots.addEventListener("click", (event) => {
+        const button = event.target.closest(".carousel-dot");
+        if (!button) {
+            return;
         }
-        return sliced.endsWith("…") ? sliced : `${sliced}…`;
+
+        const nextIndex = Number(button.dataset.slideIndex);
+        if (!Number.isNaN(nextIndex)) {
+            setCarouselIndex(nextIndex);
+        }
+    });
+
+    resultCarousel.addEventListener("scroll", () => {
+        const width = resultCarousel.clientWidth;
+        if (!width) {
+            return;
+        }
+
+        const nextIndex = Math.round(resultCarousel.scrollLeft / width);
+        if (nextIndex !== activeCarouselIndex) {
+            activeCarouselIndex = Math.max(0, Math.min(resultSlides.length - 1, nextIndex));
+            updateCarouselState();
+        }
+    }, { passive: true });
+
+    window.addEventListener("resize", () => {
+        setCarouselIndex(activeCarouselIndex, { behavior: "auto" });
+    });
+
+    isCarouselInitialized = true;
+    applyCarouselLabels();
+    updateCarouselState();
+}
+
+function setCarouselIndex(index, { behavior = "smooth" } = {}) {
+    if (!resultCarousel || resultSlides.length === 0) {
+        return;
     }
 
-    return `${trimmed.slice(0, limit).trim()}…`;
+    activeCarouselIndex = Math.max(0, Math.min(resultSlides.length - 1, index));
+    updateCarouselState();
+
+    const width = resultCarousel.clientWidth;
+    if (width > 0) {
+        resultCarousel.scrollTo({
+            left: width * activeCarouselIndex,
+            behavior
+        });
+    }
+}
+
+function updateCarouselState() {
+    resultSlides.forEach((slide, index) => {
+        const isActive = index === activeCarouselIndex;
+        slide.classList.toggle("is-active", isActive);
+        slide.setAttribute("aria-hidden", String(!isActive));
+    });
+
+    Array.from(resultCarouselDots.children).forEach((dot, index) => {
+        const isActive = index === activeCarouselIndex;
+        dot.classList.toggle("is-active", isActive);
+        dot.setAttribute("aria-pressed", String(isActive));
+    });
+
+    if (resultCarouselPrev) {
+        resultCarouselPrev.disabled = activeCarouselIndex === 0;
+    }
+
+    if (resultCarouselNext) {
+        resultCarouselNext.disabled = activeCarouselIndex === resultSlides.length - 1;
+    }
 }
 
 function startTicker(sequence, interval, onTick) {
@@ -1110,6 +1325,10 @@ function applyTranslations() {
     setText(resultKicker, locale.resultKicker);
     setText(resultDescriptionLabel, locale.resultDescriptionLabel);
     setText(resultRecommendationLabel, locale.resultRecommendationLabel);
+    setText(resultCompatibilityLabel, locale.resultCompatibilityLabel);
+    setText(resultCarouselPrev, locale.carouselPrev);
+    setText(resultCarouselNext, locale.carouselNext);
+    applyCarouselLabels(currentLanguage);
     setText(restartButton, locale.restartButton);
     applyLanguageButtonState();
 }
@@ -1172,6 +1391,7 @@ function createParticleField() {
 
 function initialize() {
     createParticleField();
+    setupCarouselControls();
     setLanguage(currentLanguage);
     resetExperience();
 }

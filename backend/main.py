@@ -315,6 +315,390 @@ TYPE_LOCALES = {
     },
 }
 
+DIAGNOSIS_TRAIT_LABELS = {
+    "ja": {
+        "clarity": "透明感",
+        "refinement": "洗練度",
+        "balance": "安定感",
+        "gentleness": "やわらかさ",
+        "curiosity": "好奇心",
+        "expression": "表現力",
+        "spontaneity": "軽やかさ",
+        "friendliness": "親しみやすさ",
+        "drive": "行動力",
+        "decisiveness": "決断力",
+        "tempo": "テンポ感",
+        "practicality": "現実感",
+        "kindness": "やさしさ",
+        "stability": "安心感",
+        "listening": "受け止め力",
+        "sincerity": "誠実さ",
+        "passion": "情熱",
+        "magnetism": "引力",
+        "boldness": "大胆さ",
+        "momentum": "勢い",
+        "empathy": "共感力",
+        "connection": "つながり力",
+        "communication": "会話力",
+        "warmth": "あたたかさ",
+        "insight": "洞察力",
+        "focus": "集中力",
+        "mystery": "神秘性",
+        "composure": "静けさ",
+        "sensitivity": "感受性",
+        "atmosphere": "空気づくり",
+        "afterglow": "余韻力",
+        "creativity": "表現センス",
+    },
+    "en": {
+        "clarity": "Clarity",
+        "refinement": "Polish",
+        "balance": "Balance",
+        "gentleness": "Softness",
+        "curiosity": "Curiosity",
+        "expression": "Expression",
+        "spontaneity": "Lightness",
+        "friendliness": "Warmth",
+        "drive": "Drive",
+        "decisiveness": "Decisiveness",
+        "tempo": "Pace",
+        "practicality": "Practicality",
+        "kindness": "Kindness",
+        "stability": "Stability",
+        "listening": "Listening",
+        "sincerity": "Sincerity",
+        "passion": "Passion",
+        "magnetism": "Magnetism",
+        "boldness": "Boldness",
+        "momentum": "Momentum",
+        "empathy": "Empathy",
+        "connection": "Connection",
+        "communication": "Conversation",
+        "warmth": "Warmth",
+        "insight": "Insight",
+        "focus": "Focus",
+        "mystery": "Mystery",
+        "composure": "Calm",
+        "sensitivity": "Sensitivity",
+        "atmosphere": "Atmosphere",
+        "afterglow": "Afterglow",
+        "creativity": "Creative Sense",
+    },
+    "zh": {
+        "clarity": "透明感",
+        "refinement": "精致感",
+        "balance": "稳定感",
+        "gentleness": "柔和感",
+        "curiosity": "好奇心",
+        "expression": "表达力",
+        "spontaneity": "轻盈感",
+        "friendliness": "亲和力",
+        "drive": "行动力",
+        "decisiveness": "决断力",
+        "tempo": "节奏感",
+        "practicality": "务实感",
+        "kindness": "温柔度",
+        "stability": "安心感",
+        "listening": "倾听力",
+        "sincerity": "真诚度",
+        "passion": "热度",
+        "magnetism": "吸引力",
+        "boldness": "大胆度",
+        "momentum": "推进力",
+        "empathy": "共感力",
+        "connection": "连接感",
+        "communication": "聊天力",
+        "warmth": "温度感",
+        "insight": "洞察力",
+        "focus": "专注力",
+        "mystery": "神秘感",
+        "composure": "安静感",
+        "sensitivity": "感受力",
+        "atmosphere": "氛围感",
+        "afterglow": "余韵感",
+        "creativity": "表达感",
+    },
+    "ko": {
+        "clarity": "투명함",
+        "refinement": "세련미",
+        "balance": "안정감",
+        "gentleness": "부드러움",
+        "curiosity": "호기심",
+        "expression": "표현력",
+        "spontaneity": "가벼운 템포",
+        "friendliness": "친화력",
+        "drive": "행동력",
+        "decisiveness": "결단력",
+        "tempo": "템포감",
+        "practicality": "현실감",
+        "kindness": "다정함",
+        "stability": "안심감",
+        "listening": "들어주는 힘",
+        "sincerity": "성실함",
+        "passion": "열정",
+        "magnetism": "끌림",
+        "boldness": "대담함",
+        "momentum": "추진력",
+        "empathy": "공감력",
+        "connection": "연결감",
+        "communication": "대화력",
+        "warmth": "온기",
+        "insight": "통찰력",
+        "focus": "집중력",
+        "mystery": "미스터리함",
+        "composure": "차분함",
+        "sensitivity": "감수성",
+        "atmosphere": "무드감",
+        "afterglow": "여운",
+        "creativity": "표현 감각",
+    },
+}
+
+DIAGNOSIS_TAG_LABELS = {
+    "ja": {
+        "refined": "洗練",
+        "calm": "落ち着き",
+        "comfort": "心地よさ",
+        "trust": "信頼感",
+        "steady": "安定型",
+        "curious": "好奇心",
+        "playful": "遊び心",
+        "bright": "明るさ",
+        "conversation": "会話上手",
+        "fresh": "新鮮さ",
+        "direct": "素直さ",
+        "initiative": "主導力",
+        "action": "行動派",
+        "honest": "分かりやすさ",
+        "reliable": "安心感",
+        "care": "気配り",
+        "longterm": "長期型",
+        "intense": "熱量高め",
+        "heat": "情熱",
+        "bold": "直球感",
+        "empathy": "共感力",
+        "sharing": "共有型",
+        "connection": "つながり重視",
+        "observer": "観察者",
+        "depth": "深読み型",
+        "slowburn": "じわっと型",
+        "mystery": "静かな魅力",
+        "emotional": "感情派",
+        "memorable": "余韻強め",
+        "specialness": "特別感",
+    },
+    "en": {
+        "refined": "Polished",
+        "calm": "Calm",
+        "comfort": "Comfort",
+        "trust": "Trust",
+        "steady": "Steady",
+        "curious": "Curious",
+        "playful": "Playful",
+        "bright": "Bright",
+        "conversation": "Talkative",
+        "fresh": "Fresh",
+        "direct": "Direct",
+        "initiative": "Initiative",
+        "action": "Action-first",
+        "honest": "Honest",
+        "reliable": "Reliable",
+        "care": "Caring",
+        "longterm": "Long-term",
+        "intense": "Intense",
+        "heat": "High Heat",
+        "bold": "Bold",
+        "empathy": "Empathy",
+        "sharing": "Sharing",
+        "connection": "Connection",
+        "observer": "Observer",
+        "depth": "Deep Reader",
+        "slowburn": "Slow Burn",
+        "mystery": "Quiet Charm",
+        "emotional": "Emotional",
+        "memorable": "Lingering",
+        "specialness": "Special Feel",
+    },
+    "zh": {
+        "refined": "精致感",
+        "calm": "松弛感",
+        "comfort": "舒服感",
+        "trust": "信赖感",
+        "steady": "稳定型",
+        "curious": "好奇心",
+        "playful": "玩心",
+        "bright": "明亮感",
+        "conversation": "会聊天",
+        "fresh": "新鲜感",
+        "direct": "直率感",
+        "initiative": "主动感",
+        "action": "行动派",
+        "honest": "很直接",
+        "reliable": "安心感",
+        "care": "会照顾人",
+        "longterm": "长期型",
+        "intense": "热度高",
+        "heat": "有火花",
+        "bold": "直球感",
+        "empathy": "共感力",
+        "sharing": "共享型",
+        "connection": "连接感",
+        "observer": "观察者",
+        "depth": "深读型",
+        "slowburn": "慢热型",
+        "mystery": "安静魅力",
+        "emotional": "情绪感",
+        "memorable": "后劲强",
+        "specialness": "特别感",
+    },
+    "ko": {
+        "refined": "세련미",
+        "calm": "차분함",
+        "comfort": "편안함",
+        "trust": "신뢰감",
+        "steady": "안정형",
+        "curious": "호기심",
+        "playful": "장난기",
+        "bright": "밝은 무드",
+        "conversation": "대화력",
+        "fresh": "신선함",
+        "direct": "솔직함",
+        "initiative": "주도력",
+        "action": "행동파",
+        "honest": "직진감",
+        "reliable": "안심감",
+        "care": "배려심",
+        "longterm": "장기형",
+        "intense": "열기 높음",
+        "heat": "열정 무드",
+        "bold": "직설적",
+        "empathy": "공감력",
+        "sharing": "공유형",
+        "connection": "연결감",
+        "observer": "관찰자",
+        "depth": "깊이형",
+        "slowburn": "천천히형",
+        "mystery": "조용한 매력",
+        "emotional": "감정형",
+        "memorable": "여운 강함",
+        "specialness": "특별한 감",
+    },
+}
+
+DIAGNOSIS_REASON_LABELS = {
+    "ja": {
+        "steady_comfort": "落ち着いたテンポが心地よい",
+        "quiet_depth": "静けさと洞察の相性がいい",
+        "bright_balance": "明るさがほどよく広がる",
+        "talk_flows": "会話の広がりが自然に続く",
+        "fast_fun": "テンポの良さが楽しい",
+        "safe_support": "安心感が支えになりやすい",
+        "calm_polish": "上品な距離感が噛み合う",
+        "gentle_reassurance": "やさしい受け止め方が合う",
+        "energy_match": "熱量のリズムが揃いやすい",
+        "heat_afterglow": "熱さと余韻のギャップが刺さる",
+        "contrast_balance": "静けさと勢いの差が魅力になる",
+        "shared_feelings": "感情の共有がしやすい",
+        "subtype_sync": "感覚のテンポが自然に合いやすい",
+    },
+    "en": {
+        "steady_comfort": "Your steady pace feels easy together.",
+        "quiet_depth": "Calm energy and depth fit well.",
+        "bright_balance": "Their brightness opens you up nicely.",
+        "talk_flows": "Conversation keeps flowing naturally.",
+        "fast_fun": "The pace feels lively and fun.",
+        "safe_support": "They bring a reassuring balance.",
+        "calm_polish": "Your polished calm works well together.",
+        "gentle_reassurance": "Their kindness makes closeness easier.",
+        "energy_match": "Your momentum lines up well.",
+        "heat_afterglow": "Heat and afterglow create a strong pull.",
+        "contrast_balance": "The calm-and-bold contrast feels magnetic.",
+        "shared_feelings": "You connect through shared emotion easily.",
+        "subtype_sync": "Your emotional rhythm tends to match naturally.",
+    },
+    "zh": {
+        "steady_comfort": "相处节奏稳定又舒服",
+        "quiet_depth": "安静感和洞察力很合拍",
+        "bright_balance": "对方的明亮感能自然带动你",
+        "talk_flows": "聊天很容易越聊越顺",
+        "fast_fun": "节奏感很对，玩起来轻松",
+        "safe_support": "对方能带来刚好的安心感",
+        "calm_polish": "分寸感和质感都很合适",
+        "gentle_reassurance": "温柔的接法会让关系更顺",
+        "energy_match": "彼此的热度节奏容易同步",
+        "heat_afterglow": "热烈和余韵的反差很有吸引力",
+        "contrast_balance": "安静和冲劲的反差很有火花",
+        "shared_feelings": "很容易在情绪上产生共鸣",
+        "subtype_sync": "彼此的感觉节奏通常很容易对上",
+    },
+    "ko": {
+        "steady_comfort": "편안한 템포가 잘 맞아요.",
+        "quiet_depth": "차분함과 깊이가 잘 통합니다.",
+        "bright_balance": "상대의 밝음이 자연스럽게 풀어 줘요.",
+        "talk_flows": "대화가 부드럽게 이어지기 쉬워요.",
+        "fast_fun": "템포가 잘 맞아서 즐겁습니다.",
+        "safe_support": "안심감을 주는 균형이 좋아요.",
+        "calm_polish": "정돈된 무드와 거리감이 잘 맞아요.",
+        "gentle_reassurance": "다정한 받아줌이 가까워지기 쉬워요.",
+        "energy_match": "열기의 리듬이 잘 맞습니다.",
+        "heat_afterglow": "뜨거움과 여운의 대비가 매력적이에요.",
+        "contrast_balance": "고요함과 추진력의 대비가 끌립니다.",
+        "shared_feelings": "감정을 나누는 호흡이 좋아요.",
+        "subtype_sync": "감정의 템포가 자연스럽게 맞는 편이에요.",
+    },
+}
+
+DIAGNOSIS_FALLBACK_PROFILES = {
+    "Apple": {
+        "traits": [("clarity", 5), ("refinement", 5), ("balance", 4), ("gentleness", 4)],
+        "inner_tags": ["refined", "calm", "comfort"],
+        "love_tags": ["trust", "steady", "care"],
+        "compatibility": [("Microsoft", "steady_comfort"), ("Nvidia", "quiet_depth"), ("Google", "bright_balance")],
+    },
+    "Google": {
+        "traits": [("curiosity", 5), ("expression", 4), ("spontaneity", 4), ("friendliness", 4)],
+        "inner_tags": ["curious", "playful", "bright"],
+        "love_tags": ["conversation", "fresh", "sharing"],
+        "compatibility": [("Meta", "talk_flows"), ("Amazon", "fast_fun"), ("Apple", "bright_balance")],
+    },
+    "Amazon": {
+        "traits": [("drive", 5), ("decisiveness", 4), ("tempo", 5), ("practicality", 4)],
+        "inner_tags": ["direct", "initiative", "action"],
+        "love_tags": ["honest", "action", "direct"],
+        "compatibility": [("Tesla", "energy_match"), ("Google", "fast_fun"), ("Microsoft", "safe_support")],
+    },
+    "Microsoft": {
+        "traits": [("kindness", 5), ("stability", 5), ("listening", 4), ("sincerity", 4)],
+        "inner_tags": ["reliable", "care", "calm"],
+        "love_tags": ["trust", "longterm", "comfort"],
+        "compatibility": [("Apple", "calm_polish"), ("Meta", "gentle_reassurance"), ("Nvidia", "quiet_depth")],
+    },
+    "Tesla": {
+        "traits": [("passion", 5), ("magnetism", 5), ("boldness", 4), ("momentum", 4)],
+        "inner_tags": ["intense", "heat", "bold"],
+        "love_tags": ["action", "direct", "specialness"],
+        "compatibility": [("Amazon", "energy_match"), ("Netflix", "heat_afterglow"), ("Apple", "contrast_balance")],
+    },
+    "Meta": {
+        "traits": [("empathy", 5), ("connection", 5), ("communication", 4), ("warmth", 4)],
+        "inner_tags": ["empathy", "connection", "sharing"],
+        "love_tags": ["conversation", "care", "connection"],
+        "compatibility": [("Google", "talk_flows"), ("Microsoft", "gentle_reassurance"), ("Apple", "calm_polish")],
+    },
+    "Nvidia": {
+        "traits": [("insight", 5), ("focus", 5), ("mystery", 4), ("composure", 3)],
+        "inner_tags": ["observer", "depth", "mystery"],
+        "love_tags": ["slowburn", "trust", "observer"],
+        "compatibility": [("Apple", "quiet_depth"), ("Microsoft", "safe_support"), ("Tesla", "contrast_balance")],
+    },
+    "Netflix": {
+        "traits": [("sensitivity", 5), ("atmosphere", 5), ("afterglow", 4), ("creativity", 4)],
+        "inner_tags": ["emotional", "memorable", "specialness"],
+        "love_tags": ["heat", "sharing", "memorable"],
+        "compatibility": [("Tesla", "heat_afterglow"), ("Meta", "shared_feelings"), ("Apple", "calm_polish")],
+    },
+}
+
 BASE_TYPE_LAYOUTS = [
     ["Apple", "Google", "Amazon", "Microsoft"],
     ["Tesla", "Meta", "Nvidia", "Netflix"],
@@ -550,6 +934,175 @@ def normalize_language(language: str | None) -> str:
 def get_type_locale(type_name: str, language: str) -> dict[str, str]:
     normalized_language = normalize_language(language)
     return TYPE_LOCALES[type_name][normalized_language]
+
+
+def get_localized_value(mapping: dict[str, dict[str, str]], key: str, language: str) -> str:
+    normalized_language = normalize_language(language)
+    return mapping.get(normalized_language, mapping["ja"]).get(key, key)
+
+
+def strip_ellipsis(text: str) -> str:
+    return re.sub(r"(?:\.{3,}|…+)", "", text)
+
+
+def normalize_short_text(value: str | None, max_length: int = 120) -> str:
+    if value is None:
+        return ""
+
+    text = strip_ellipsis(str(value)).replace("\n", " ").replace("\r", " ").strip()
+    text = re.sub(r"\s+", " ", text)
+    return text[:max_length].strip()
+
+
+def is_complete_result_text(text: str) -> bool:
+    return bool(text) and text[-1] in {"。", "！", "？", ".", "!", "?"}
+
+
+def build_fallback_traits(best_type: str, language: str) -> list[dict[str, int | str]]:
+    profile = DIAGNOSIS_FALLBACK_PROFILES[best_type]
+    return [
+        {
+            "label": get_localized_value(DIAGNOSIS_TRAIT_LABELS, label_key, language),
+            "stars": stars,
+        }
+        for label_key, stars in profile["traits"]
+    ]
+
+
+def build_fallback_tags(best_type: str, tag_group: str, language: str) -> list[str]:
+    profile = DIAGNOSIS_FALLBACK_PROFILES[best_type]
+    return [
+        get_localized_value(DIAGNOSIS_TAG_LABELS, tag_key, language)
+        for tag_key in profile[tag_group]
+    ]
+
+
+def build_fallback_compatibility(best_type: str, sub_type: str | None, language: str) -> list[dict[str, str]]:
+    profile = DIAGNOSIS_FALLBACK_PROFILES[best_type]
+    candidates = list(profile["compatibility"])
+
+    if sub_type is not None and sub_type != best_type:
+        if any(type_name == sub_type for type_name, _ in candidates):
+            candidates.sort(key=lambda item: item[0] != sub_type)
+        else:
+            candidates.insert(0, (sub_type, "subtype_sync"))
+
+    compatibility = []
+    seen_types = set()
+
+    for type_name, reason_key in candidates:
+        if type_name == best_type or type_name in seen_types:
+            continue
+
+        compatibility.append(
+            {
+                "type": type_name,
+                "reason": get_localized_value(DIAGNOSIS_REASON_LABELS, reason_key, language),
+            }
+        )
+        seen_types.add(type_name)
+
+        if len(compatibility) == 3:
+            break
+
+    return compatibility
+
+
+def build_fallback_diagnosis_payload(best_type: str, sub_type: str | None, language: str) -> dict:
+    settings = LANGUAGE_SETTINGS[normalize_language(language)]
+    return {
+        "description": settings["fallback_comment"],
+        "recommendation": settings["fallback_love"],
+        "traits": build_fallback_traits(best_type, language),
+        "innerTags": build_fallback_tags(best_type, "inner_tags", language),
+        "loveTags": build_fallback_tags(best_type, "love_tags", language),
+        "compatibility": build_fallback_compatibility(best_type, sub_type, language),
+    }
+
+
+def normalize_generated_traits(raw_traits: object, best_type: str, language: str) -> list[dict[str, int | str]]:
+    fallback_traits = build_fallback_traits(best_type, language)
+
+    if not isinstance(raw_traits, list) or len(raw_traits) != 4:
+        return fallback_traits
+
+    normalized_traits = []
+
+    for item in raw_traits:
+        if not isinstance(item, dict):
+            return fallback_traits
+
+        label = normalize_short_text(item.get("label"), max_length=24)
+        stars_raw = item.get("stars")
+
+        if isinstance(stars_raw, bool) or not isinstance(stars_raw, (int, float)):
+            return fallback_traits
+
+        stars = int(round(stars_raw))
+
+        if not label or stars < 2 or stars > 5:
+            return fallback_traits
+
+        normalized_traits.append({"label": label, "stars": stars})
+
+    if all(item["stars"] == 5 for item in normalized_traits):
+        return fallback_traits
+
+    return normalized_traits
+
+
+def normalize_generated_tags(raw_tags: object, best_type: str, tag_group: str, language: str) -> list[str]:
+    fallback_tags = build_fallback_tags(best_type, tag_group, language)
+
+    if not isinstance(raw_tags, list) or len(raw_tags) != 3:
+        return fallback_tags
+
+    normalized_tags = []
+
+    for tag in raw_tags:
+        cleaned = normalize_short_text(str(tag).replace("#", ""), max_length=18)
+        if not cleaned:
+            return fallback_tags
+        normalized_tags.append(cleaned)
+
+    return normalized_tags
+
+
+def normalize_generated_compatibility(
+    raw_items: object,
+    best_type: str,
+    sub_type: str | None,
+    language: str,
+) -> list[dict[str, str]]:
+    fallback_items = build_fallback_compatibility(best_type, sub_type, language)
+
+    if not isinstance(raw_items, list) or len(raw_items) != 3:
+        return fallback_items
+
+    normalized_items = []
+    seen_types = set()
+
+    for item in raw_items:
+        if not isinstance(item, dict):
+            return fallback_items
+
+        type_name = str(item.get("type", "")).strip()
+        reason = normalize_short_text(item.get("reason"), max_length=72)
+
+        if (
+            type_name not in ALLOWED_TYPE_KEYS
+            or type_name == best_type
+            or type_name in seen_types
+            or not reason
+            or "..." in reason
+            or "…" in reason
+        ):
+            return fallback_items
+
+        normalized_items.append({"type": type_name, "reason": reason})
+        seen_types.add(type_name)
+
+    return normalized_items
 
 
 def build_random_type_layouts() -> list[list[str]]:
@@ -855,15 +1408,13 @@ def generate_diagnosis_text(
     counts: dict[str, int],
     sub_type: str | None,
     language: str,
-) -> dict[str, str]:
+) -> dict:
     normalized_language = normalize_language(language)
     settings = LANGUAGE_SETTINGS[normalized_language]
+    fallback_payload = build_fallback_diagnosis_payload(best_type, sub_type, normalized_language)
 
     if not OPEN_ROUTER_KEY:
-        return {
-            "description": settings["fallback_comment"],
-            "recommendation": settings["fallback_love"],
-        }
+        return fallback_payload
 
     best_profile = get_type_locale(best_type, normalized_language)
     subtype_section = (
@@ -897,22 +1448,51 @@ Important rules:
 - No code block
 - No preface
 - No extra text outside the JSON
+- Never use ... or … in any field
+- Do not end sentences midway
 
 Output rules:
 - Return exactly this JSON shape:
   {{
     "description": "...",
-    "recommendation": "..."
+    "recommendation": "...",
+    "traits": [
+      {{
+        "label": "...",
+        "stars": 5
+      }}
+    ],
+    "innerTags": ["...", "...", "..."],
+    "loveTags": ["...", "...", "..."],
+    "compatibility": [
+      {{
+        "type": "Apple",
+        "reason": "..."
+      }}
+    ]
   }}
 - `description` is for "AIが見つけた本音"
 - `recommendation` is for "恋愛モード"
 - `description` length: {settings["diagnosis_description_length"]}
 - `recommendation` length: {settings["diagnosis_recommendation_length"]}
-- Each field should be 2 to 3 short sentences
+- `description` and `recommendation` should each be 2 short sentences or fewer
+- `traits` must contain exactly 4 items
+- `traits[].label` must be short and in the output language
+- `traits[].stars` must be an integer from 1 to 5
+- Do not make all 4 star ratings equal to 5
+- Avoid using 1 unless truly necessary
+- `innerTags` must contain exactly 3 short tags in the output language
+- `loveTags` must contain exactly 3 short tags in the output language
+- `compatibility` must contain exactly 3 items
+- `compatibility[].type` must remain exactly one of:
+  Apple, Google, Amazon, Microsoft, Tesla, Meta, Nvidia, Netflix
+- Do not include the primary type inside compatibility
+- If a subtype exists, you may place it near the top if it fits naturally
+- `compatibility[].reason` must be short, natural, and in the output language
 """.strip()
 
     user_prompt = f"""
-Create both result fields for this person.
+Create all result fields for this person.
 
 Primary type:
 - {best_profile["title"]}
@@ -935,6 +1515,23 @@ recommendation requirements:
 - Describe how this person tends to interact when feelings deepen
 - Mention a strength that becomes attractive in close relationships
 - Keep it positive and practical
+
+traits requirements:
+- Choose 4 traits that fit this person's actual answer pattern
+- Do not just restate the type profile
+- Let the stars vary a little based on the answers
+
+innerTags requirements:
+- Tags should feel like short keywords for the person's inner vibe
+
+loveTags requirements:
+- Tags should feel like short keywords for how they come across in close relationships
+
+compatibility requirements:
+- Pick 3 compatible types from:
+  Apple, Google, Amazon, Microsoft, Tesla, Meta, Nvidia, Netflix
+- Never include {best_type}
+- Keep each reason short and readable
 """.strip()
 
     try:
@@ -943,25 +1540,34 @@ recommendation requirements:
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt},
             ],
-            max_tokens=360,
+            max_tokens=380,
         )
         parsed = json.loads(strip_json_wrapper(raw_text))
-        description = str(parsed.get("description", "")).strip()
-        recommendation = str(parsed.get("recommendation", "")).strip()
+        description = normalize_short_text(parsed.get("description"), max_length=220)
+        recommendation = normalize_short_text(parsed.get("recommendation"), max_length=220)
 
-        if not description or not recommendation:
-            raise ValueError("Diagnosis JSON is missing description or recommendation.")
+        if not is_complete_result_text(description):
+            description = fallback_payload["description"]
+
+        if not is_complete_result_text(recommendation):
+            recommendation = fallback_payload["recommendation"]
 
         return {
-            "description": description,
-            "recommendation": recommendation,
+            "description": description or fallback_payload["description"],
+            "recommendation": recommendation or fallback_payload["recommendation"],
+            "traits": normalize_generated_traits(parsed.get("traits"), best_type, normalized_language),
+            "innerTags": normalize_generated_tags(parsed.get("innerTags"), best_type, "inner_tags", normalized_language),
+            "loveTags": normalize_generated_tags(parsed.get("loveTags"), best_type, "love_tags", normalized_language),
+            "compatibility": normalize_generated_compatibility(
+                parsed.get("compatibility"),
+                best_type,
+                sub_type,
+                normalized_language,
+            ),
         }
     except Exception as error:
         print("AI diagnosis text error:", error)
-        return {
-            "description": settings["fallback_comment"],
-            "recommendation": settings["fallback_love"],
-        }
+        return fallback_payload
 
 
 def generate_questions(language: str) -> tuple[dict, list[list[str]]]:
@@ -1069,6 +1675,10 @@ def diagnose(data: AnswerData):
         "copy": best_locale["copy"],
         "description": description,
         "recommendation": recommendation,
+        "traits": diagnosis_text["traits"],
+        "innerTags": diagnosis_text["innerTags"],
+        "loveTags": diagnosis_text["loveTags"],
+        "compatibility": diagnosis_text["compatibility"],
         "bestType": best_type,
         "subtype": sub_type,
         "language": normalized_language,

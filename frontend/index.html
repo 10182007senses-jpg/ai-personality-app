@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/style.css?v=20260527-1">
+    <link rel="stylesheet" href="/static/style.css?v=20260530-1">
 </head>
 <body data-theme="default" data-screen="start">
     <div class="scene" aria-hidden="true">
@@ -128,23 +128,41 @@
                     <span id="result-subtype" class="result-subtype"></span>
                 </div>
 
-                <p id="result-kicker" class="result-kicker">あなたの恋愛フィルター</p>
-                <h2 id="result-title">診断結果</h2>
-                <p id="result-copy" class="result-copy"></p>
-                <p id="result-theme-description" class="result-mini"></p>
-                <div id="result-tags" class="result-tags"></div>
+                <div class="result-carousel-shell">
+                    <div id="result-carousel" class="result-carousel" aria-live="polite">
+                        <div id="result-carousel-track" class="result-carousel-track">
+                            <article class="result-slide is-active" data-slide-index="0">
+                                <p id="result-kicker" class="result-kicker">あなたの恋愛フィルター</p>
+                                <h2 id="result-title">診断結果</h2>
+                                <p id="result-copy" class="result-copy"></p>
+                                <p id="result-theme-description" class="result-mini"></p>
+                                <div id="result-traits" class="trait-list"></div>
+                                <div id="result-tags" class="result-tags"></div>
+                            </article>
 
-                <div class="result-stack">
-                    <div class="result-block">
-                        <p id="result-description-label" class="result-block-label">AIが見つけた本音</p>
-                        <p id="result-description" class="result-block-copy"></p>
+                            <article class="result-slide" data-slide-index="1">
+                                <p id="result-description-label" class="result-slide-label">AIが見つけた本音</p>
+                                <p id="result-description" class="result-slide-copy"></p>
+                                <div id="result-inner-tags" class="result-tag-collection"></div>
+                            </article>
+
+                            <article class="result-slide" data-slide-index="2">
+                                <p id="result-recommendation-label" class="result-slide-label">恋愛モード</p>
+                                <p id="result-recommendation" class="result-slide-copy"></p>
+                                <div id="result-love-tags" class="result-tag-collection"></div>
+                            </article>
+
+                            <article class="result-slide" data-slide-index="3">
+                                <p id="result-compatibility-label" class="result-slide-label">相性の良いタイプ</p>
+                                <div id="result-compatibility" class="compatibility-list"></div>
+                            </article>
+                        </div>
                     </div>
 
-                    <div class="result-divider" aria-hidden="true"></div>
-
-                    <div class="result-block">
-                        <p id="result-recommendation-label" class="result-block-label">恋愛モード</p>
-                        <p id="result-recommendation" class="result-block-copy"></p>
+                    <div class="carousel-controls">
+                        <button id="carousel-prev" type="button" class="carousel-button">前へ</button>
+                        <div id="carousel-dots" class="carousel-dots" aria-label="Result pages"></div>
+                        <button id="carousel-next" type="button" class="carousel-button">次へ</button>
                     </div>
                 </div>
             </div>
@@ -153,6 +171,6 @@
         </section>
     </main>
 
-    <script src="/static/script.js?v=20260527-1"></script>
+    <script src="/static/script.js?v=20260530-1"></script>
 </body>
 </html>

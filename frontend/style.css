@@ -359,7 +359,9 @@ h2 {
 
 .lang-button:focus-visible,
 .main-button:focus-visible,
-.choice-button:focus-visible {
+.choice-button:focus-visible,
+.carousel-button:focus-visible,
+.carousel-dot:focus-visible {
     outline: 2px solid rgba(255, 255, 255, 0.68);
     outline-offset: 2px;
 }
@@ -370,7 +372,8 @@ h2 {
 .loading-tags span,
 .result-chip,
 .result-subtype,
-.result-tags span {
+.result-tags span,
+.result-tag-collection span {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -729,7 +732,7 @@ h2 {
     position: relative;
     overflow: hidden;
     display: grid;
-    gap: 14px;
+    gap: 18px;
 }
 
 .result-card::before {
@@ -754,63 +757,212 @@ h2 {
 
 .result-copy {
     font-size: 1.08rem;
-    margin-bottom: 0;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    overflow: hidden;
+    margin: 0;
 }
 
 .result-mini {
     font-size: 0.96rem;
-    margin-bottom: 0;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    overflow: hidden;
+    margin: 0;
 }
 
-.result-tags {
+.result-carousel-shell {
+    display: grid;
+    gap: 16px;
+}
+
+.result-carousel {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+}
+
+.result-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.result-carousel-track {
+    display: flex;
+    width: 100%;
+}
+
+.result-slide {
+    flex: 0 0 100%;
+    min-width: 100%;
+    scroll-snap-align: start;
+    display: grid;
+    gap: 16px;
+    align-content: start;
+    justify-items: center;
+    padding: 4px 2px 2px;
+    opacity: 0.7;
+    transition: opacity 0.25s ease;
+}
+
+.result-slide.is-active {
+    opacity: 1;
+}
+
+.result-tags,
+.result-tag-collection {
     justify-content: center;
 }
 
-.result-stack {
+.trait-list {
+    width: min(100%, 440px);
     display: grid;
-    gap: 12px;
-    margin-top: 4px;
-}
-
-.result-block {
+    gap: 10px;
+    margin-inline: auto;
     text-align: left;
-    padding: 14px 14px 0;
 }
 
-.result-block-label {
-    margin: 0 0 8px;
-    color: var(--accent-3);
-    font-size: 0.84rem;
+.trait-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+}
+
+.trait-label {
+    min-width: 0;
+    font-size: 0.96rem;
     font-weight: 700;
+    color: var(--text-main);
+}
+
+.trait-stars {
+    font-family: "Outfit", "M PLUS Rounded 1c", "Hiragino Sans", "Yu Gothic", sans-serif;
+    font-size: 0.92rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--accent-3);
+    white-space: nowrap;
+}
+
+.result-slide-label {
+    margin: 0;
+    color: var(--accent-3);
+    font-size: 0.9rem;
+    font-weight: 800;
     letter-spacing: 0.03em;
 }
 
-.result-block-copy {
+.result-slide-copy {
+    max-width: 520px;
     margin: 0;
     color: var(--text-soft);
-    line-height: 1.68;
-    font-size: 0.95rem;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
-    overflow: hidden;
+    line-height: 1.78;
+    font-size: 0.98rem;
+    text-align: left;
+    text-wrap: pretty;
 }
 
-.result-divider {
-    height: 1px;
-    margin: 0 14px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+.carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.carousel-button {
+    min-width: 76px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-main);
+    font-size: 0.84rem;
+    font-weight: 800;
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: transform 0.18s ease, opacity 0.18s ease, background 0.18s ease;
+}
+
+.carousel-button:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.carousel-button:disabled {
+    opacity: 0.42;
+    cursor: default;
+    transform: none;
+}
+
+.carousel-dots {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.carousel-dot {
+    width: 10px;
+    height: 10px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+    cursor: pointer;
+    transition: width 0.22s ease, background 0.22s ease, opacity 0.22s ease;
+}
+
+.carousel-dot.is-active {
+    width: 28px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2) 56%, var(--accent-3));
+}
+
+.compatibility-list {
+    width: min(100%, 470px);
+    display: grid;
+    gap: 12px;
+    margin-inline: auto;
+    text-align: left;
+}
+
+.compatibility-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    align-items: start;
+    padding: 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+}
+
+.compatibility-rank {
+    font-size: 1.35rem;
+    line-height: 1;
+    padding-top: 2px;
+}
+
+.compatibility-type {
+    display: block;
+    margin-bottom: 4px;
+    font-family: "Outfit", "M PLUS Rounded 1c", "Hiragino Sans", "Yu Gothic", sans-serif;
+    font-size: 1.02rem;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.compatibility-reason {
+    margin: 0;
+    color: var(--text-soft);
+    line-height: 1.62;
+    font-size: 0.94rem;
+}
+
+.compatibility-body {
+    min-width: 0;
 }
 
 @keyframes fadeUp {
