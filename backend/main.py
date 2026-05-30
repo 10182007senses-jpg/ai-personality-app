@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 FRONTEND_DIR = BASE_DIR / "frontend"
 
 OPEN_ROUTER_KEY = os.getenv("OPENROUTER_API_KEY")
-OPENROUTER_MODEL = "openrouter/auto"
+OPENROUTER_MODEL = "google/gemini-2.5-flash"
 
 app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
 
@@ -32,6 +32,8 @@ LANGUAGE_SETTINGS = {
         "result_output_rule": "All result text must be written in natural Japanese.",
         "comment_length": "40 to 70 Japanese characters",
         "love_length": "60 to 100 Japanese characters",
+        "diagnosis_description_length": "up to 120 Japanese characters",
+        "diagnosis_recommendation_length": "up to 120 Japanese characters",
         "fallback_comment": "準備中...",
         "fallback_love": "準備中...",
     },
@@ -41,6 +43,8 @@ LANGUAGE_SETTINGS = {
         "result_output_rule": "All result text must be written in natural English.",
         "comment_length": "40 to 80 characters",
         "love_length": "70 to 120 characters",
+        "diagnosis_description_length": "up to 200 characters",
+        "diagnosis_recommendation_length": "up to 200 characters",
         "fallback_comment": "Preparing your result...",
         "fallback_love": "Preparing your result...",
     },
@@ -50,6 +54,8 @@ LANGUAGE_SETTINGS = {
         "result_output_rule": "所有结果文案都必须使用自然的简体中文。",
         "comment_length": "30 to 60 Chinese characters",
         "love_length": "50 to 90 Chinese characters",
+        "diagnosis_description_length": "120字以内",
+        "diagnosis_recommendation_length": "120字以内",
         "fallback_comment": "准备中...",
         "fallback_love": "准备中...",
     },
@@ -59,6 +65,8 @@ LANGUAGE_SETTINGS = {
         "result_output_rule": "모든 결과 문장은 자연스러운 한국어로 작성하세요.",
         "comment_length": "35 to 70 Korean characters",
         "love_length": "55 to 100 Korean characters",
+        "diagnosis_description_length": "120자 이내",
+        "diagnosis_recommendation_length": "120자 이내",
         "fallback_comment": "준비 중...",
         "fallback_love": "준비 중...",
     },
@@ -570,9 +578,17 @@ def get_question_forbidden_terms(language: str) -> list[str]:
     return list(dict.fromkeys(terms))
 
 
-def call_openrouter_chat(messages: list[dict[str, str]], timeout: int = 10) -> str:
+def call_openrouter_chat(messages: list[dict[str, str]], timeout: int = 10, max_tokens: int | None = None) -> str:
     if not OPEN_ROUTER_KEY:
         raise ValueError("OPENROUTER_API_KEY is not configured.")
+
+    payload = {
+        "model": OPENROUTER_MODEL,
+        "messages": messages,
+    }
+
+    if max_tokens is not None:
+        payload["max_tokens"] = max_tokens
 
     response = requests.post(
         "https://openrouter.ai/api/v1/chat/completions",
@@ -580,10 +596,7 @@ def call_openrouter_chat(messages: list[dict[str, str]], timeout: int = 10) -> s
             "Authorization": f"Bearer {OPEN_ROUTER_KEY}",
             "Content-Type": "application/json",
         },
-        json={
-            "model": OPENROUTER_MODEL,
-            "messages": messages,
-        },
+        json=payload,
         timeout=timeout,
     )
     response.raise_for_status()
@@ -836,12 +849,21 @@ def format_answers_for_prompt(answers: list[AnswerItem]) -> str:
     )
 
 
-def generate_result_comment(best_type: str, answers: list[AnswerItem], counts: dict[str, int], sub_type: str | None, language: str) -> str:
+def generate_diagnosis_text(
+    best_type: str,
+    answers: list[AnswerItem],
+    counts: dict[str, int],
+    sub_type: str | None,
+    language: str,
+) -> dict[str, str]:
     normalized_language = normalize_language(language)
     settings = LANGUAGE_SETTINGS[normalized_language]
 
     if not OPEN_ROUTER_KEY:
-        return settings["fallback_comment"]
+        return {
+            "description": settings["fallback_comment"],
+            "recommendation": settings["fallback_love"],
+        }
 
     best_profile = get_type_locale(best_type, normalized_language)
     subtype_section = (
@@ -852,7 +874,7 @@ def generate_result_comment(best_type: str, answers: list[AnswerItem], counts: d
     )
 
     system_prompt = f"""
-You write the main one-liner for a mobile-friendly AI love personality diagnosis card.
+You are the analysis AI for a mobile-friendly love personality diagnosis app.
 Output language: {settings["output_name"]}.
 {settings["result_output_rule"]}
 
@@ -861,6 +883,8 @@ Tone requirements:
 - Warm, emotionally resonant, and easy to share
 - Feels suitable for a school festival love/personality quiz
 - Do not sound clinical, robotic, or judgmental
+- Positive, grounded, and lightly insightful
+- Do not sound like fortune telling
 
 Important rules:
 - Do not decide the whole text from the best type alone
@@ -868,18 +892,27 @@ Important rules:
 - If a subtype exists, blend it in naturally
 - If score gaps are small, reflect that nuance
 - Avoid generic type-description paraphrases
+- Output JSON only
+- No markdown
+- No code block
+- No preface
+- No extra text outside the JSON
 
 Output rules:
-- Write only the final text
-- Length: about {settings["comment_length"]}
-- 1 to 2 sentences
-- No bullet points
-- No heading
-- No quotation marks
+- Return exactly this JSON shape:
+  {{
+    "description": "...",
+    "recommendation": "..."
+  }}
+- `description` is for "AIが見つけた本音"
+- `recommendation` is for "恋愛モード"
+- `description` length: {settings["diagnosis_description_length"]}
+- `recommendation` length: {settings["diagnosis_recommendation_length"]}
+- Each field should be 2 to 3 short sentences
 """.strip()
 
     user_prompt = f"""
-Create the short main result copy for this person.
+Create both result fields for this person.
 
 Primary type:
 - {best_profile["title"]}
@@ -893,126 +926,42 @@ Score trend:
 Answer history:
 {format_answers_for_prompt(answers)}
 
-The copy should capture:
-- how this person tends to feel and move in love
-- what kind of emotional vibe appears in their answers
-- what makes them memorable or attractive
+description requirements:
+- Analyze the user's personality from the answer tendencies
+- Focus on emotional style, social rhythm, and how they naturally come across
+- Keep it positive and specific
+
+recommendation requirements:
+- Describe how this person tends to interact when feelings deepen
+- Mention a strength that becomes attractive in close relationships
+- Keep it positive and practical
 """.strip()
 
     try:
-        response = requests.post(
-            "https://openrouter.ai/api/v1/chat/completions",
-            headers={
-                "Authorization": f"Bearer {OPEN_ROUTER_KEY}",
-                "Content-Type": "application/json",
-            },
-            json={
-                "model": OPENROUTER_MODEL,
-                "messages": [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_prompt},
-                ],
-            },
-            timeout=10,
+        raw_text = call_openrouter_chat(
+            [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt},
+            ],
+            max_tokens=360,
         )
-        response.raise_for_status()
-        data = response.json()
-        return data["choices"][0]["message"]["content"].strip()
+        parsed = json.loads(strip_json_wrapper(raw_text))
+        description = str(parsed.get("description", "")).strip()
+        recommendation = str(parsed.get("recommendation", "")).strip()
+
+        if not description or not recommendation:
+            raise ValueError("Diagnosis JSON is missing description or recommendation.")
+
+        return {
+            "description": description,
+            "recommendation": recommendation,
+        }
     except Exception as error:
-        print("AI comment error:", error)
-        if "response" in locals():
-            print("status:", response.status_code)
-            print("body:", response.text)
-        return settings["fallback_comment"]
-
-
-def generate_love_mode(best_type: str, answers: list[AnswerItem], counts: dict[str, int], sub_type: str | None, language: str) -> str:
-    normalized_language = normalize_language(language)
-    settings = LANGUAGE_SETTINGS[normalized_language]
-
-    if not OPEN_ROUTER_KEY:
-        return settings["fallback_love"]
-
-    best_profile = get_type_locale(best_type, normalized_language)
-    subtype_section = (
-        f"- Secondary type: {get_type_locale(sub_type, normalized_language)['title']}\n"
-        f"- Secondary profile: {get_type_locale(sub_type, normalized_language)['profile']}"
-        if sub_type is not None
-        else "- Secondary type: none"
-    )
-
-    system_prompt = f"""
-You write the "love mode" description for a mobile-friendly AI love personality diagnosis card.
-Output language: {settings["output_name"]}.
-{settings["result_output_rule"]}
-
-Tone requirements:
-- Natural and native, never stiff or translated
-- Warm, lightly emotional, and easy to relate to
-- Suitable for a fun and shareable festival diagnosis
-- Do not sound judgmental or overly serious
-
-Important rules:
-- Do not rely on the best type alone
-- Read all answers and reflect the user's actual tendencies
-- If a subtype exists, blend it in naturally
-- Avoid generic type blurbs
-
-Output rules:
-- Write only the final text
-- Length: about {settings["love_length"]}
-- 1 to 2 sentences
-- No bullet points
-- No heading
-- No quotation marks
-""".strip()
-
-    user_prompt = f"""
-Create a short "love mode" description for this person.
-
-Primary type:
-- {best_profile["title"]}
-- Profile: {best_profile["profile"]}
-
-{subtype_section}
-
-Score trend:
-{build_type_summary(counts, normalized_language)}
-
-Answer history:
-{format_answers_for_prompt(answers)}
-
-The description should naturally reflect:
-- how they usually close emotional distance
-- what kind of partner or vibe they are drawn to
-- how their feelings tend to show up in real interactions
-""".strip()
-
-    try:
-        response = requests.post(
-            "https://openrouter.ai/api/v1/chat/completions",
-            headers={
-                "Authorization": f"Bearer {OPEN_ROUTER_KEY}",
-                "Content-Type": "application/json",
-            },
-            json={
-                "model": OPENROUTER_MODEL,
-                "messages": [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_prompt},
-                ],
-            },
-            timeout=10,
-        )
-        response.raise_for_status()
-        data = response.json()
-        return data["choices"][0]["message"]["content"].strip()
-    except Exception as error:
-        print("AI love mode error:", error)
-        if "response" in locals():
-            print("status:", response.status_code)
-            print("body:", response.text)
-        return settings["fallback_love"]
+        print("AI diagnosis text error:", error)
+        return {
+            "description": settings["fallback_comment"],
+            "recommendation": settings["fallback_love"],
+        }
 
 
 def generate_questions(language: str) -> tuple[dict, list[list[str]]]:
@@ -1105,8 +1054,9 @@ def diagnose(data: AnswerData):
     sub_type = next((type_name for type_name, score in sorted_types[1:] if score > 0), None)
 
     best_locale = get_type_locale(best_type, normalized_language)
-    description = generate_result_comment(best_type, data.answers, counts, sub_type, normalized_language)
-    recommendation = generate_love_mode(best_type, data.answers, counts, sub_type, normalized_language)
+    diagnosis_text = generate_diagnosis_text(best_type, data.answers, counts, sub_type, normalized_language)
+    description = diagnosis_text["description"]
+    recommendation = diagnosis_text["recommendation"]
 
     if description == LANGUAGE_SETTINGS[normalized_language]["fallback_comment"]:
         description = best_locale["fallback_description"]
