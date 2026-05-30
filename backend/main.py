@@ -503,9 +503,6 @@ QUESTION_OPENING_STYLE_POOL = [
     "While everyone is deciding ...",
 ]
 
-QUESTION_REVIEW_PASS_SCORE = 8
-QUESTION_MAX_API_CALLS = 3
-
 question_cache: dict[str, list[dict]] = {}
 
 
@@ -622,13 +619,7 @@ def sample_question_prompt_context() -> dict[str, list[str]]:
     }
 
 
-def build_question_generation_prompts(
-    language: str,
-    type_layout_text: str,
-    *,
-    regeneration_advice: str | None = None,
-    previous_questions_payload: dict | None = None,
-) -> tuple[str, str]:
+def build_question_generation_prompts(language: str, type_layout_text: str) -> tuple[str, str]:
     normalized_language = normalize_language(language)
     settings = LANGUAGE_SETTINGS[normalized_language]
     forbidden_terms_text = ", ".join(get_question_forbidden_terms(normalized_language))
@@ -639,23 +630,6 @@ def build_question_generation_prompts(
     )
     texture_text = "\n".join(f"- {texture}" for texture in variation_context["scene_textures"])
     opening_style_text = "\n".join(f"- {style}" for style in variation_context["opening_styles"])
-    previous_questions_text = (
-        json.dumps(previous_questions_payload, ensure_ascii=False, indent=2)
-        if previous_questions_payload is not None
-        else ""
-    )
-    regeneration_section = ""
-
-    if regeneration_advice:
-        regeneration_section = f"""
-Previous attempt feedback:
-- Improve the next set using this advice: {regeneration_advice}
-- Make a fresh new set instead of only lightly editing the previous one.
-- Keep the successful parts, but solve the pointed-out bias or obviousness.
-
-Previous question set to improve:
-{previous_questions_text}
-""".strip()
 
     system_prompt = f"""
 You create indirect, hard-to-read personality questions for a school festival diagnosis app.
@@ -706,8 +680,6 @@ Scene and mood accents you may lightly weave into some questions:
 
 Question opening styles to vary across the set:
 {opening_style_text}
-
-{regeneration_section}
 
 Question writing rules:
 - Do not ask personality traits directly.
@@ -764,69 +736,6 @@ Output JSON format:
       ]
     }}
   ]
-}}
-""".strip()
-
-    return system_prompt, user_prompt
-
-
-def build_question_review_prompts(language: str, questions_payload: dict) -> tuple[str, str]:
-    normalized_language = normalize_language(language)
-    settings = LANGUAGE_SETTINGS[normalized_language]
-    serialized_questions = json.dumps(questions_payload, ensure_ascii=False, indent=2)
-
-    system_prompt = f"""
-You are a balanced critic reviewing question quality for a school festival personality diagnosis app.
-The questions are written in {settings["output_name"]}.
-
-Review mindset:
-- Be thoughtful but not overly strict.
-- Allow a little human unevenness and randomness.
-- Prioritize freshness and naturalness over perfection.
-- Flag issues only if a visitor would likely notice them.
-
-Return JSON only.
-No markdown.
-No code block.
-No explanation outside the JSON.
-""".strip()
-
-    user_prompt = f"""
-Review the following 10-question set and score it on a 0-10 scale.
-
-Check these points:
-- diversity of scenes and categories
-- everyday naturalness
-- whether any choice feels too close to a hidden type stereotype
-- whether romance is asked too directly
-- category bias across the set
-- whether the choices feel natural instead of too polished
-- whether the set creates a "how did this figure me out?" feeling
-
-Scoring guide:
-- 9 to 10: very natural, varied, and well-hidden
-- 7 to 8: good overall, with mild bias or repetition
-- 5 to 6: noticeable repetition or slightly obvious type leakage
-- 0 to 4: too direct, too biased, or too easy to reverse-engineer
-
-Important:
-- Do not be harsher than necessary.
-- Some randomness, asymmetry, and casual wording are okay.
-- Mark `passed` as true only when score is 8 or higher.
-- `advice` should be one concise improvement direction for the next generation.
-
-Question JSON:
-{serialized_questions}
-
-Return this JSON format only:
-{{
-  "score": 7,
-  "passed": false,
-  "issues": [
-    "issue 1",
-    "issue 2"
-  ],
-  "advice": "short improvement advice"
 }}
 """.strip()
 
@@ -910,42 +819,6 @@ def parse_and_validate_questions_payload(raw_questions: str, language: str, expe
     parsed = json.loads(strip_json_wrapper(raw_questions))
     validate_generated_questions_payload(parsed, language, expected_layouts)
     return parsed
-
-
-def normalize_question_review(review_payload: dict) -> dict:
-    if not isinstance(review_payload, dict):
-        raise ValueError("Review payload must be a JSON object.")
-
-    raw_score = review_payload.get("score")
-    if isinstance(raw_score, bool) or not isinstance(raw_score, (int, float)):
-        raise ValueError("Review score must be a number.")
-
-    score = max(0, min(10, int(round(raw_score))))
-
-    issues = review_payload.get("issues", [])
-    if not isinstance(issues, list):
-        raise ValueError("Review issues must be a list.")
-
-    normalized_issues = [str(issue).strip() for issue in issues if str(issue).strip()]
-    advice = str(review_payload.get("advice", "")).strip()
-    passed = score >= QUESTION_REVIEW_PASS_SCORE
-
-    if not advice:
-        if normalized_issues:
-            advice = " / ".join(normalized_issues[:2])
-        else:
-            advice = "Increase variety, hide the types better, and keep the questions natural."
-
-    return {
-        "score": score,
-        "passed": passed,
-        "issues": normalized_issues,
-        "advice": advice,
-    }
-
-
-def log_question_pipeline(stage: str, message: str) -> None:
-    print(f"[question-pipeline] {stage}: {message}")
 
 
 def build_type_summary(counts: dict[str, int], language: str) -> str:
@@ -1157,105 +1030,14 @@ def generate_questions(language: str) -> tuple[dict, list[list[str]]]:
     return parsed_questions, type_layouts
 
 
-def review_questions(language: str, questions_payload: dict) -> dict:
-    normalized_language = normalize_language(language)
-    system_prompt, user_prompt = build_question_review_prompts(normalized_language, questions_payload)
-    raw_review = call_openrouter_chat(
-        [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt},
-        ]
-    )
-    parsed_review = json.loads(strip_json_wrapper(raw_review))
-    return normalize_question_review(parsed_review)
-
-
-def regenerate_questions(
-    language: str,
-    type_layouts: list[list[str]],
-    advice: str,
-    previous_questions_payload: dict,
-) -> dict:
-    normalized_language = normalize_language(language)
-    type_layout_text = build_random_type_layout_text(type_layouts)
-    system_prompt, user_prompt = build_question_generation_prompts(
-        normalized_language,
-        type_layout_text,
-        regeneration_advice=advice,
-        previous_questions_payload=previous_questions_payload,
-    )
-    raw_questions = call_openrouter_chat(
-        [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt},
-        ]
-    )
-    return parse_and_validate_questions_payload(raw_questions, normalized_language, type_layouts)
-
-
-def generate_questions_with_critic(language: str) -> list[dict]:
-    normalized_language = normalize_language(language)
-    api_calls_used = 0
-
-    try:
-        api_calls_used += 1
-        generated_payload, type_layouts = generate_questions(normalized_language)
-        log_question_pipeline("generator", f"ok lang={normalized_language} calls={api_calls_used}")
-    except Exception as error:
-        log_question_pipeline("generator", f"failed lang={normalized_language} calls={api_calls_used} reason={error}")
-        raise
-
-    review = None
-    try:
-        api_calls_used += 1
-        review = review_questions(normalized_language, generated_payload)
-        log_question_pipeline(
-            "critic",
-            (
-                f"score={review['score']} passed={review['passed']} "
-                f"issues={len(review['issues'])} calls={api_calls_used}"
-            ),
-        )
-    except Exception as error:
-        log_question_pipeline("critic", f"failed, using generator result. reason={error}")
-        return generated_payload["questions"]
-
-    if review["score"] >= QUESTION_REVIEW_PASS_SCORE:
-        return generated_payload["questions"]
-
-    if api_calls_used >= QUESTION_MAX_API_CALLS:
-        log_question_pipeline(
-            "regenerator",
-            "skipped because the API call limit was reached; using generator result.",
-        )
-        return generated_payload["questions"]
-
-    try:
-        api_calls_used += 1
-        regenerated_payload = regenerate_questions(
-            normalized_language,
-            type_layouts,
-            review["advice"],
-            generated_payload,
-        )
-        log_question_pipeline(
-            "regenerator",
-            f"accepted after critique score={review['score']} calls={api_calls_used}",
-        )
-        return regenerated_payload["questions"]
-    except Exception as error:
-        log_question_pipeline("regenerator", f"failed, falling back to generator result. reason={error}")
-        return generated_payload["questions"]
-
-
 def get_or_create_questions(language: str) -> list[dict]:
     normalized_language = normalize_language(language)
 
     if normalized_language in question_cache:
         return question_cache[normalized_language]
 
-    questions = generate_questions_with_critic(normalized_language)
-    question_cache[normalized_language] = questions
+    generated_payload, _ = generate_questions(normalized_language)
+    question_cache[normalized_language] = generated_payload["questions"]
     return question_cache[normalized_language]
 
 
