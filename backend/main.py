@@ -2,6 +2,7 @@ import json
 import os
 import random
 import re
+import threading
 from pathlib import Path
 
 import requests
@@ -896,6 +897,7 @@ QUESTION_OPENING_STYLE_POOL = [
 ]
 
 question_cache: dict[str, list[dict]] = {}
+question_pending: dict[str, threading.Event] = {}
 
 
 class LanguagePayload(BaseModel):
@@ -1131,7 +1133,7 @@ def get_question_forbidden_terms(language: str) -> list[str]:
     return list(dict.fromkeys(terms))
 
 
-def call_openrouter_chat(messages: list[dict[str, str]], timeout: int = 10, max_tokens: int | None = None) -> str:
+def call_openrouter_chat(messages: list[dict[str, str]], timeout: int = 45, max_tokens: int | None = None) -> str:
     if not OPEN_ROUTER_KEY:
         raise ValueError("OPENROUTER_API_KEY is not configured.")
 
@@ -1540,7 +1542,8 @@ compatibility requirements:
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt},
             ],
-            max_tokens=380,
+            timeout=30,
+            max_tokens=520,
         )
         parsed = json.loads(strip_json_wrapper(raw_text))
         description = normalize_short_text(parsed.get("description"), max_length=220)
@@ -1591,9 +1594,23 @@ def get_or_create_questions(language: str) -> list[dict]:
     if normalized_language in question_cache:
         return question_cache[normalized_language]
 
-    generated_payload, _ = generate_questions(normalized_language)
-    question_cache[normalized_language] = generated_payload["questions"]
-    return question_cache[normalized_language]
+    # 同言語の生成が進行中なら完了を待つ（重複API呼び出しを防ぐ）
+    if normalized_language in question_pending:
+        question_pending[normalized_language].wait(timeout=60)
+        if normalized_language in question_cache:
+            return question_cache[normalized_language]
+        raise RuntimeError("Question generation timed out or failed.")
+
+    event = threading.Event()
+    question_pending[normalized_language] = event
+
+    try:
+        generated_payload, _ = generate_questions(normalized_language)
+        question_cache[normalized_language] = generated_payload["questions"]
+        return question_cache[normalized_language]
+    finally:
+        question_pending.pop(normalized_language, None)
+        event.set()
 
 
 @app.get("/")
@@ -1653,7 +1670,8 @@ def diagnose(data: AnswerData):
     }
 
     for answer in data.answers:
-        counts[answer.type] += 1
+        if answer.type in counts:
+            counts[answer.type] += 1
 
     sorted_types = sorted(counts.items(), key=lambda item: item[1], reverse=True)
     best_type = sorted_types[0][0]
