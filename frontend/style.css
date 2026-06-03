@@ -829,11 +829,14 @@ h2 {
 
 .result-tags,
 .result-tag-collection {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
     justify-content: center;
 }
 
 .result-slide .result-tag-collection {
-    margin-top: 10px;
+    margin-top: 24px;
 }
 
 .trait-list {
