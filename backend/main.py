@@ -33,8 +33,8 @@ LANGUAGE_SETTINGS = {
         "result_output_rule": "All result text must be written in natural Japanese.",
         "comment_length": "40 to 70 Japanese characters",
         "love_length": "60 to 100 Japanese characters",
-        "diagnosis_description_length": "up to 120 Japanese characters",
-        "diagnosis_recommendation_length": "up to 120 Japanese characters",
+        "diagnosis_description_length": "160 to 200 Japanese characters",
+        "diagnosis_recommendation_length": "160 to 200 Japanese characters",
         "fallback_comment": "準備中...",
         "fallback_love": "準備中...",
     },
@@ -44,8 +44,8 @@ LANGUAGE_SETTINGS = {
         "result_output_rule": "All result text must be written in natural English.",
         "comment_length": "40 to 80 characters",
         "love_length": "70 to 120 characters",
-        "diagnosis_description_length": "up to 200 characters",
-        "diagnosis_recommendation_length": "up to 200 characters",
+        "diagnosis_description_length": "240 to 320 characters (3 full sentences minimum — each sentence must be at least 40 characters)",
+        "diagnosis_recommendation_length": "240 to 320 characters (3 full sentences minimum — each sentence must be at least 40 characters)",
         "fallback_comment": "Preparing your result...",
         "fallback_love": "Preparing your result...",
     },
@@ -55,8 +55,8 @@ LANGUAGE_SETTINGS = {
         "result_output_rule": "所有结果文案都必须使用自然的简体中文。",
         "comment_length": "30 to 60 Chinese characters",
         "love_length": "50 to 90 Chinese characters",
-        "diagnosis_description_length": "120字以内",
-        "diagnosis_recommendation_length": "120字以内",
+        "diagnosis_description_length": "160字から200字",
+        "diagnosis_recommendation_length": "160字から200字",
         "fallback_comment": "准备中...",
         "fallback_love": "准备中...",
     },
@@ -66,8 +66,8 @@ LANGUAGE_SETTINGS = {
         "result_output_rule": "모든 결과 문장은 자연스러운 한국어로 작성하세요.",
         "comment_length": "35 to 70 Korean characters",
         "love_length": "55 to 100 Korean characters",
-        "diagnosis_description_length": "120자 이내",
-        "diagnosis_recommendation_length": "120자 이내",
+        "diagnosis_description_length": "160자에서 200자",
+        "diagnosis_recommendation_length": "160자에서 200자",
         "fallback_comment": "준비 중...",
         "fallback_love": "준비 중...",
     },
@@ -77,209 +77,209 @@ TYPE_LOCALES = {
     "Apple": {
         "ja": {
             "title": "Appleタイプ",
-            "copy": "透明感と洗練で、静かに心を惹きつける恋愛タイプ。",
-            "profile": "透明感・洗練・静かな余裕を持つタイプ",
-            "fallback_description": "気持ちを大きく見せすぎず、上品な余韻で惹きつけるタイプです。",
-            "fallback_recommendation": "好きな相手には丁寧に距離を縮めやすく、心地よさや品の良さを大切にします。",
+            "copy": "透明感と洗練で、静かに際立つパーソナリティ。",
+            "profile": "透明感・洗練・静かな余裕を持つパーソナリティ",
+            "fallback_description": "感情を大げさに見せず、上品な存在感で自然に人を惹きつけるタイプです。",
+            "fallback_recommendation": "恋愛では丁寧に距離を縮めやすく、心地よさや品の良さを大切にします。",
         },
         "en": {
             "title": "Apple Type",
-            "copy": "A love type that draws people in with clarity, polish, and quiet confidence.",
-            "profile": "a type with clarity, refinement, and calm confidence",
-            "fallback_description": "You tend to attract people with understated charm instead of loud signals.",
-            "fallback_recommendation": "In love, you usually close the distance gently and value comfort, taste, and emotional poise.",
+            "copy": "A personality that stands out quietly through clarity and polish.",
+            "profile": "a personality with clarity, refinement, and calm confidence",
+            "fallback_description": "You draw people in with understated presence rather than loud gestures.",
+            "fallback_recommendation": "In love, you close the distance gently and value comfort, taste, and emotional balance.",
         },
         "zh": {
             "title": "Apple型",
-            "copy": "靠透明感与精致感，安静地吸引人心的恋爱类型。",
-            "profile": "拥有透明感、精致感和从容气质的类型",
-            "fallback_description": "你不太会用夸张的方式表达喜欢，而是靠细腻气质慢慢打动对方。",
+            "copy": "靠透明感与精致感，安静散发独特魅力的个性。",
+            "profile": "拥有透明感、精致感和从容气质的个性",
+            "fallback_description": "你不需要刻意表现，自然散发出的气质就能默默打动身边的人。",
             "fallback_recommendation": "在恋爱里，你更容易用温柔而有分寸的方式拉近距离，也很在意相处的质感。",
         },
         "ko": {
             "title": "Apple 타입",
-            "copy": "투명함과 세련됨으로 조용히 마음을 끄는 연애 타입.",
-            "profile": "투명함, 세련됨, 차분한 여유를 지닌 타입",
-            "fallback_description": "감정을 크게 드러내기보다 은은한 분위기로 상대를 끌어당기는 편입니다.",
+            "copy": "투명함과 세련됨으로 조용히 존재감을 드러내는 퍼스널리티.",
+            "profile": "투명함, 세련됨, 차분한 여유를 지닌 퍼스널리티",
+            "fallback_description": "감정을 크게 드러내기보다 은은한 분위기로 자연스럽게 주변을 이끄는 편입니다.",
             "fallback_recommendation": "연애에서는 천천히 거리를 좁히며 편안함과 분위기의 결을 중요하게 생각합니다.",
         },
     },
     "Google": {
         "ja": {
             "title": "Googleタイプ",
-            "copy": "明るさと好奇心で、ときめきを広げていく恋愛タイプ。",
-            "profile": "好奇心・明るさ・遊び心を持つタイプ",
-            "fallback_description": "会話や発見を楽しみながら、恋の空気を軽やかに広げていくタイプです。",
-            "fallback_recommendation": "好きな相手とはテンポよく仲良くなりやすく、一緒に新しいことを楽しめる関係を好みます。",
+            "copy": "明るさと好奇心で、どこでも空気を変えるパーソナリティ。",
+            "profile": "好奇心・明るさ・遊び心を持つパーソナリティ",
+            "fallback_description": "会話や新しい発見を楽しみながら、場の空気を自然と軽やかにするタイプです。",
+            "fallback_recommendation": "恋愛ではテンポよく仲良くなりやすく、一緒に新しいことを楽しめる関係を好みます。",
         },
         "en": {
             "title": "Google Type",
-            "copy": "A love type that expands attraction through curiosity, brightness, and playful energy.",
-            "profile": "a type with curiosity, brightness, and playfulness",
-            "fallback_description": "You naturally build attraction through conversation, discovery, and a light, upbeat vibe.",
-            "fallback_recommendation": "You tend to bond quickly with someone you like and enjoy relationships that feel fresh and fun.",
+            "copy": "A personality that brightens any room through curiosity and playful energy.",
+            "profile": "a personality with curiosity, brightness, and playfulness",
+            "fallback_description": "You naturally lift the energy around you through conversation, discovery, and an upbeat vibe.",
+            "fallback_recommendation": "In love, you tend to bond quickly and enjoy relationships that feel fresh and full of new experiences.",
         },
         "zh": {
             "title": "Google型",
-            "copy": "用明亮感和好奇心，把心动一点点放大的恋爱类型。",
-            "profile": "充满好奇心、明亮感和玩心的类型",
-            "fallback_description": "你很会通过聊天、发现新鲜感和轻松气氛，让暧昧自然升温。",
-            "fallback_recommendation": "面对喜欢的人，你通常比较容易快速熟起来，也偏爱一起探索新鲜事物的关系。",
+            "copy": "用明亮感和好奇心，随时把气氛带动起来的个性。",
+            "profile": "充满好奇心、明亮感和玩心的个性",
+            "fallback_description": "你很擅长通过聊天和发现新鲜感，自然而然地让周围气氛变得轻松活跃。",
+            "fallback_recommendation": "在恋爱里，你通常比较容易快速熟起来，也偏爱一起探索新鲜事物的关系。",
         },
         "ko": {
             "title": "Google 타입",
-            "copy": "밝음과 호기심으로 설렘을 넓혀 가는 연애 타입.",
-            "profile": "호기심, 밝음, 장난기를 가진 타입",
-            "fallback_description": "대화와 새로운 발견을 즐기면서 가볍고 경쾌하게 호감을 키워 가는 편입니다.",
-            "fallback_recommendation": "좋아하는 사람과는 빠르게 친해지기 쉽고, 함께 새로운 자극을 즐기는 관계를 선호합니다.",
+            "copy": "밝음과 호기심으로 어디서든 분위기를 바꾸는 퍼스널리티.",
+            "profile": "호기심, 밝음, 장난기를 가진 퍼스널리티",
+            "fallback_description": "대화와 새로운 발견을 즐기면서 자연스럽게 주변 분위기를 밝고 경쾌하게 만드는 편입니다.",
+            "fallback_recommendation": "연애에서는 빠르게 친해지기 쉽고, 함께 새로운 자극을 즐기는 관계를 선호합니다.",
         },
     },
     "Amazon": {
         "ja": {
             "title": "Amazonタイプ",
-            "copy": "気持ちが動いたら早い、行動力で魅せる恋愛タイプ。",
-            "profile": "行動力・実用感・テンポの良さを持つタイプ",
-            "fallback_description": "迷う時間より動くタイミングを大切にして、恋を前へ進めるタイプです。",
-            "fallback_recommendation": "好きになると連絡や行動も早めで、分かりやすく関係を前に進めたくなりやすいです。",
+            "copy": "決めたら動く、行動力とテンポで存在感を示すパーソナリティ。",
+            "profile": "行動力・実用感・テンポの良さを持つパーソナリティ",
+            "fallback_description": "迷う時間より動くタイミングを大切にして、物事をテンポよく前に進めるタイプです。",
+            "fallback_recommendation": "恋愛では連絡や行動も早めで、分かりやすく関係を前に進めたくなりやすいです。",
         },
         "en": {
             "title": "Amazon Type",
-            "copy": "A love type that moves fast once feelings click and shows interest through action.",
-            "profile": "a type with action, practicality, and good tempo",
-            "fallback_description": "You prefer momentum over hesitation and tend to move a connection forward in practical ways.",
-            "fallback_recommendation": "When you like someone, your messages and actions often become quicker and more direct.",
+            "copy": "A personality that moves fast and makes things happen through action.",
+            "profile": "a personality with action, practicality, and good tempo",
+            "fallback_description": "You prefer momentum over hesitation and push things forward in practical, decisive ways.",
+            "fallback_recommendation": "In love, your messages and actions tend to become quicker and more direct when you care.",
         },
         "zh": {
             "title": "Amazon型",
-            "copy": "一旦心动就很快行动，用节奏感推进关系的恋爱类型。",
-            "profile": "拥有行动力、务实感和节奏感的类型",
-            "fallback_description": "你比起反复犹豫，更重视及时行动，喜欢让关系有明确推进。",
-            "fallback_recommendation": "对喜欢的人，你往往会更主动、更直接，也更希望关系往前走得清晰一点。",
+            "copy": "一旦决定就立刻行动，用节奏感推动一切的个性。",
+            "profile": "拥有行动力、务实感和节奏感的个性",
+            "fallback_description": "你比起反复犹豫，更重视及时行动，习惯让事情有明确的推进。",
+            "fallback_recommendation": "在恋爱里，你往往会更主动、更直接，也更希望关系往前走得清晰一点。",
         },
         "ko": {
             "title": "Amazon 타입",
-            "copy": "마음이 움직이면 빠르게 행동으로 보여 주는 연애 타입.",
-            "profile": "행동력, 현실감, 좋은 템포를 지닌 타입",
-            "fallback_description": "오래 망설이기보다 적절한 타이밍에 움직여 관계를 앞으로 밀어가는 편입니다.",
-            "fallback_recommendation": "좋아하는 사람이 생기면 연락과 행동이 빨라지고, 관계를 분명하게 진전시키고 싶어 합니다.",
+            "copy": "결정하면 곧장 움직이는, 행동력과 템포로 존재감을 드러내는 퍼스널리티.",
+            "profile": "행동력, 현실감, 좋은 템포를 지닌 퍼스널리티",
+            "fallback_description": "오래 망설이기보다 적절한 타이밍에 움직여 일을 앞으로 밀어가는 편입니다.",
+            "fallback_recommendation": "연애에서는 연락과 행동이 빠르고, 관계를 분명하게 진전시키고 싶어 합니다.",
         },
     },
     "Microsoft": {
         "ja": {
             "title": "Microsoftタイプ",
-            "copy": "安心感とやさしさで、じっくり距離を縮める恋愛タイプ。",
-            "profile": "安心感・やさしさ・誠実さを持つタイプ",
-            "fallback_description": "相手に寄り添いながら、無理のないペースで信頼を育てるタイプです。",
+            "copy": "安心感とやさしさで、そっと場を支えるパーソナリティ。",
+            "profile": "安心感・やさしさ・誠実さを持つパーソナリティ",
+            "fallback_description": "周囲に寄り添いながら、無理のないペースで信頼関係を育てるタイプです。",
             "fallback_recommendation": "恋愛では急ぎすぎず、やさしい会話や気遣いで自然に心の距離を近づけます。",
         },
         "en": {
             "title": "Microsoft Type",
-            "copy": "A love type that closes the distance through warmth, patience, and reassurance.",
-            "profile": "a type with reassurance, kindness, and sincerity",
-            "fallback_description": "You build trust gently and make people feel safe around you without forcing the pace.",
-            "fallback_recommendation": "In love, you usually rely on steady care, kind words, and emotional consistency.",
+            "copy": "A personality that supports others quietly through warmth and sincerity.",
+            "profile": "a personality with reassurance, kindness, and sincerity",
+            "fallback_description": "You build trust steadily and make people around you feel genuinely supported.",
+            "fallback_recommendation": "In love, you rely on steady care, kind words, and consistent emotional presence.",
         },
         "zh": {
             "title": "Microsoft型",
-            "copy": "用温柔和安心感，慢慢拉近距离的恋爱类型。",
-            "profile": "拥有安心感、温柔和真诚的类型",
-            "fallback_description": "你很会照顾对方的感受，也擅长在不勉强的节奏里建立信任。",
-            "fallback_recommendation": "在恋爱中，你通常不会太急，而是靠稳定、贴心和持续的关心让关系变近。",
+            "copy": "用温柔和安心感，默默支撑周围人的个性。",
+            "profile": "拥有安心感、温柔和真诚的个性",
+            "fallback_description": "你很会照顾别人的感受，也擅长在不勉强的节奏里建立信任。",
+            "fallback_recommendation": "在恋爱中，你通常靠稳定、贴心和持续的关心让关系慢慢变近。",
         },
         "ko": {
             "title": "Microsoft 타입",
-            "copy": "안정감과 다정함으로 천천히 가까워지는 연애 타입.",
-            "profile": "안정감, 다정함, 성실함을 지닌 타입",
-            "fallback_description": "상대를 배려하며 무리하지 않는 속도로 신뢰를 쌓아 가는 편입니다.",
+            "copy": "안정감과 다정함으로 조용히 주변을 지지하는 퍼스널리티.",
+            "profile": "안정감, 다정함, 성실함을 지닌 퍼스널리티",
+            "fallback_description": "주변을 배려하며 무리하지 않는 속도로 신뢰를 쌓아 가는 편입니다.",
             "fallback_recommendation": "연애에서는 서두르기보다 다정한 대화와 꾸준한 배려로 마음의 거리를 좁힙니다.",
         },
     },
     "Tesla": {
         "ja": {
             "title": "Teslaタイプ",
-            "copy": "情熱の熱量で、一気に空気を変える恋愛タイプ。",
-            "profile": "情熱・強い引力・勢いを持つタイプ",
-            "fallback_description": "気持ちが高まると一直線で、恋の温度を一気に上げるタイプです。",
-            "fallback_recommendation": "好きになると熱量が伝わりやすく、本音は隠していても態度には出やすいです。",
+            "copy": "情熱の熱量で、一気に空気を塗り替えるパーソナリティ。",
+            "profile": "情熱・強い引力・勢いを持つパーソナリティ",
+            "fallback_description": "気持ちが高まると一直線で、場の温度を一気に引き上げるタイプです。",
+            "fallback_recommendation": "恋愛では熱量が伝わりやすく、本音は隠していても態度には出やすいです。",
         },
         "en": {
             "title": "Tesla Type",
-            "copy": "A love type that changes the whole mood with passion, pull, and intensity.",
-            "profile": "a type with passion, strong pull, and momentum",
-            "fallback_description": "Once your feelings rise, you move intensely and can shift the emotional energy very quickly.",
-            "fallback_recommendation": "When you like someone, your intensity tends to show even if you try to hide your softer feelings.",
+            "copy": "A personality that reshapes the whole mood with passion and intensity.",
+            "profile": "a personality with passion, strong pull, and momentum",
+            "fallback_description": "Once you commit to something, you move with intensity and shift the energy around you quickly.",
+            "fallback_recommendation": "In love, your intensity tends to show even when you try to hold back your softer feelings.",
         },
         "zh": {
             "title": "Tesla型",
-            "copy": "带着强烈热度和吸引力，一下子改变气氛的恋爱类型。",
-            "profile": "拥有热情、强引力和冲劲的类型",
-            "fallback_description": "一旦心动升温，你就会很直接，能迅速把恋爱的温度推高。",
-            "fallback_recommendation": "面对喜欢的人，你的热度通常藏不太住，就算嘴上克制，态度里也很容易露出来。",
+            "copy": "带着强烈热度和冲劲，一下子改变气场的个性。",
+            "profile": "拥有热情、强引力和冲劲的个性",
+            "fallback_description": "一旦下定决心，你就会很直接地全力推进，能迅速把周围气氛推到高温。",
+            "fallback_recommendation": "在恋爱里，你的热度通常藏不太住，就算嘴上克制，态度里也很容易露出来。",
         },
         "ko": {
             "title": "Tesla 타입",
-            "copy": "강한 열기와 끌림으로 분위기를 단번에 바꾸는 연애 타입.",
-            "profile": "열정, 강한 끌림, 추진력을 지닌 타입",
-            "fallback_description": "감정이 올라오면 곧장 직진하며 연애의 온도를 빠르게 끌어올리는 편입니다.",
-            "fallback_recommendation": "좋아하는 사람이 생기면 속마음을 숨기려 해도 태도와 분위기에서 열기가 드러나기 쉽습니다.",
+            "copy": "강한 열기와 추진력으로 분위기를 단번에 바꾸는 퍼스널리티.",
+            "profile": "열정, 강한 끌림, 추진력을 지닌 퍼스널리티",
+            "fallback_description": "한번 결심하면 곧장 전력을 다하며 주변의 온도를 빠르게 끌어올리는 편입니다.",
+            "fallback_recommendation": "연애에서는 속마음을 숨기려 해도 태도와 분위기에서 열기가 드러나기 쉽습니다.",
         },
     },
     "Meta": {
         "ja": {
             "title": "Metaタイプ",
-            "copy": "共感とつながりで、恋の空気をあたためるタイプ。",
-            "profile": "共感・つながり・やわらかなコミュニケーションを持つタイプ",
-            "fallback_description": "相手の気分に寄り添いながら、自然なやり取りで空気をあたためるタイプです。",
+            "copy": "共感とつながりで、人と人の間をあたためるパーソナリティ。",
+            "profile": "共感・つながり・やわらかなコミュニケーションを持つパーソナリティ",
+            "fallback_description": "相手の気持ちに自然に寄り添い、やり取りを通じてじんわりと場をあたためるタイプです。",
             "fallback_recommendation": "恋愛では会話や共感を通して親しくなりやすく、気持ちを共有できる関係を好みます。",
         },
         "en": {
             "title": "Meta Type",
-            "copy": "A love type that warms the mood through empathy, connection, and easy communication.",
-            "profile": "a type with empathy, connection, and soft communication",
-            "fallback_description": "You make people feel close through emotional awareness and naturally warm conversation.",
-            "fallback_recommendation": "In love, you often grow closer through shared feelings, regular contact, and emotional reciprocity.",
+            "copy": "A personality that warms the space between people through empathy and connection.",
+            "profile": "a personality with empathy, connection, and soft communication",
+            "fallback_description": "You naturally tune into how others feel and create warmth through genuine, flowing conversation.",
+            "fallback_recommendation": "In love, you grow closer through shared feelings, consistent contact, and emotional reciprocity.",
         },
         "zh": {
             "title": "Meta型",
-            "copy": "靠共感和连接感，把恋爱氛围慢慢暖起来的类型。",
-            "profile": "拥有共感、连接感和柔和沟通力的类型",
-            "fallback_description": "你很会感受对方的情绪，也擅长用自然的互动让关系变得亲近。",
-            "fallback_recommendation": "在恋爱里，你通常会通过聊天、共鸣和持续联系，一点点拉近彼此距离。",
+            "copy": "靠共感和连接感，温暖人与人之间关系的个性。",
+            "profile": "拥有共感、连接感和柔和沟通力的个性",
+            "fallback_description": "你很自然地感受到别人的情绪，也擅长用流畅的互动让关系变得更近。",
+            "fallback_recommendation": "在恋爱里，你通常通过聊天、共鸣和持续联系，一点点拉近彼此距离。",
         },
         "ko": {
             "title": "Meta 타입",
-            "copy": "공감과 연결감으로 연애의 공기를 따뜻하게 만드는 타입.",
-            "profile": "공감, 연결감, 부드러운 소통력을 지닌 타입",
-            "fallback_description": "상대의 기분을 잘 읽고 자연스러운 대화로 가까운 분위기를 만드는 편입니다.",
+            "copy": "공감과 연결감으로 사람 사이를 따뜻하게 만드는 퍼스널리티.",
+            "profile": "공감, 연결감, 부드러운 소통력을 지닌 퍼스널리티",
+            "fallback_description": "상대의 감정을 자연스럽게 읽고 부드러운 대화로 편안한 분위기를 만드는 편입니다.",
             "fallback_recommendation": "연애에서는 공감과 꾸준한 소통을 통해 친밀감을 쌓아 가는 관계를 선호합니다.",
         },
     },
     "Nvidia": {
         "ja": {
             "title": "Nvidiaタイプ",
-            "copy": "ミステリアスな余韻で、じわっと惹かせる恋愛タイプ。",
-            "profile": "ミステリアス・深夜感・静かな吸引力を持つタイプ",
-            "fallback_description": "全部を見せ切らず、余韻や静かな雰囲気で惹きつけるタイプです。",
+            "copy": "ミステリアスな余韻と深みで、じわっと惹きつけるパーソナリティ。",
+            "profile": "ミステリアス・深夜感・静かな吸引力を持つパーソナリティ",
+            "fallback_description": "全部を見せ切らず、余韻や静かな雰囲気で人を引きつけるタイプです。",
             "fallback_recommendation": "恋愛では慎重に距離を縮めつつ、知るほど気になる空気を自然に作りやすいです。",
         },
         "en": {
             "title": "Nvidia Type",
-            "copy": "A love type that attracts people slowly through mystery, depth, and quiet magnetism.",
-            "profile": "a type with mystery, midnight mood, and quiet magnetism",
-            "fallback_description": "You rarely reveal everything at once and often leave a lingering, intriguing emotional impression.",
-            "fallback_recommendation": "In love, you tend to move carefully while naturally creating a mood that makes people want to know more.",
+            "copy": "A personality that draws people in slowly through mystery and quiet depth.",
+            "profile": "a personality with mystery, midnight mood, and quiet magnetism",
+            "fallback_description": "You rarely reveal everything at once and leave a lingering impression that makes people want to know more.",
+            "fallback_recommendation": "In love, you move carefully and naturally create a mood that makes others want to get closer.",
         },
         "zh": {
             "title": "Nvidia型",
-            "copy": "靠神秘感和余韵，慢慢让人上头的恋爱类型。",
-            "profile": "拥有神秘感、深夜氛围和安静吸引力的类型",
-            "fallback_description": "你不会一下子把全部情绪都摊开，而是更容易用氛围和余韵打动人。",
-            "fallback_recommendation": "在恋爱里，你通常会谨慎靠近，但也很会自然营造“越了解越想靠近”的感觉。",
+            "copy": "靠神秘感和深度，慢慢让人着迷的个性。",
+            "profile": "拥有神秘感、深夜氛围和安静吸引力的个性",
+            "fallback_description": "你不会一下子把全部都摊开，而是更容易用氛围和余韵，让人越来越想了解你。",
+            "fallback_recommendation": "在恋爱里，你通常会谨慎靠近，但也很会自然营造「越了解越想靠近」的感觉。",
         },
         "ko": {
             "title": "Nvidia 타입",
-            "copy": "미스터리한 여운으로 천천히 빠져들게 하는 연애 타입.",
-            "profile": "미스터리함, 밤 같은 무드, 조용한 흡인력을 지닌 타입",
+            "copy": "미스터리한 여운과 깊이로 천천히 사람을 끌어당기는 퍼스널리티.",
+            "profile": "미스터리함, 밤 같은 무드, 조용한 흡인력을 지닌 퍼스널리티",
             "fallback_description": "감정을 한 번에 모두 드러내기보다 여운과 분위기로 상대를 끌어당기는 편입니다.",
             "fallback_recommendation": "연애에서는 조심스럽게 다가가면서도, 알수록 더 궁금해지는 공기를 자연스럽게 만듭니다.",
         },
@@ -287,30 +287,30 @@ TYPE_LOCALES = {
     "Netflix": {
         "ja": {
             "title": "Netflixタイプ",
-            "copy": "ドラマみたいな余韻で、感情を深く残す恋愛タイプ。",
-            "profile": "映画感・余韻・感情表現の強さを持つタイプ",
-            "fallback_description": "見せ方や空気づくりがうまく、感情の印象を深く残しやすいタイプです。",
+            "copy": "感情の余韻と表現力で、深く記憶に刻むパーソナリティ。",
+            "profile": "映画感・余韻・感情表現の強さを持つパーソナリティ",
+            "fallback_description": "場の空気づくりがうまく、感情の印象を深く残しやすいタイプです。",
             "fallback_recommendation": "恋愛では特別感や物語性を大切にし、忘れられない時間を作ろうとしやすいです。",
         },
         "en": {
             "title": "Netflix Type",
-            "copy": "A love type that leaves a cinematic afterglow and makes emotions feel unforgettable.",
-            "profile": "a type with cinematic mood, afterglow, and strong emotional expression",
-            "fallback_description": "You know how to shape the mood and leave emotional moments that feel vivid and memorable.",
-            "fallback_recommendation": "In love, you often value chemistry, timing, and the kind of moments that feel like a scene from a story.",
+            "copy": "A personality that leaves a deep, cinematic impression through emotion and expression.",
+            "profile": "a personality with cinematic mood, afterglow, and strong emotional expression",
+            "fallback_description": "You know how to shape a moment and leave emotional impressions that stay with people long after.",
+            "fallback_recommendation": "In love, you value the feeling of something special and tend to create moments that feel unforgettable.",
         },
         "zh": {
             "title": "Netflix型",
-            "copy": "像电影余韵一样，把情绪深深留住的恋爱类型。",
-            "profile": "拥有电影感、余韵和强烈情绪表达的类型",
+            "copy": "靠情绪感和表现力，在人心里留下深刻印记的个性。",
+            "profile": "拥有电影感、余韵和强烈情绪表达的个性",
             "fallback_description": "你很会营造氛围，也容易让一段情绪或瞬间在别人心里停留很久。",
             "fallback_recommendation": "在恋爱里，你通常很在意感觉、时机和故事感，喜欢让相处变得难忘。",
         },
         "ko": {
             "title": "Netflix 타입",
-            "copy": "영화 같은 여운으로 감정을 깊게 남기는 연애 타입.",
-            "profile": "영화 같은 무드, 여운, 강한 감정 표현을 지닌 타입",
-            "fallback_description": "분위기와 연출 감각이 좋아서 감정의 장면을 오래 기억에 남기기 쉽습니다.",
+            "copy": "감정의 여운과 표현력으로 깊은 인상을 남기는 퍼스널리티.",
+            "profile": "영화 같은 무드, 여운, 강한 감정 표현을 지닌 퍼스널리티",
+            "fallback_description": "분위기와 표현 감각이 좋아서 감정의 순간을 오래 기억에 남기기 쉽습니다.",
             "fallback_recommendation": "연애에서는 특별한 분위기와 서사를 중요하게 여기며, 오래 남는 순간을 만들고 싶어 합니다.",
         },
     },
@@ -1440,11 +1440,13 @@ Tone requirements:
 - Do not sound like fortune telling
 
 Important rules:
-- Do not decide the whole text from the best type alone
-- Read all answers carefully and reflect the user's actual patterns
+- Read every answer carefully before writing anything
+- The result must feel like it was written specifically for this person, not for their type in general
+- At least one concrete behavioral pattern from the answers must be reflected in description
+- Avoid phrases generic enough to apply to anyone with this type
+- If two people have the same type but different answer patterns, their results should feel noticeably different
 - If a subtype exists, blend it in naturally
 - If score gaps are small, reflect that nuance
-- Avoid generic type-description paraphrases
 - Output JSON only
 - No markdown
 - No code block
@@ -1473,11 +1475,13 @@ Output rules:
       }}
     ]
   }}
-- `description` is for "AIが見つけた本音"
-- `recommendation` is for "恋愛モード"
-- `description` length: {settings["diagnosis_description_length"]}
-- `recommendation` length: {settings["diagnosis_recommendation_length"]}
-- `description` and `recommendation` should each be 2 short sentences or fewer
+- `description` is for the personality insight section ("AIが読んだ個性")
+- `recommendation` is for the love tendency section ("恋愛モード") — like a fortune slip's love column
+- `description` length: {settings["diagnosis_description_length"]} — this is a strict minimum, not a target
+- `recommendation` length: {settings["diagnosis_recommendation_length"]} — this is a strict minimum, not a target
+- `description` and `recommendation` must each be 2 to 3 sentences — never fewer than 2
+- Write full, complete sentences — do not pad with filler, earn every character with specific insight
+- Each sentence must add a new angle — never restate the previous sentence in different words
 - `traits` must contain exactly 4 items
 - `traits[].label` must be short and in the output language
 - `traits[].stars` must be an integer from 1 to 5
@@ -1509,14 +1513,23 @@ Answer history:
 {format_answers_for_prompt(answers)}
 
 description requirements:
-- Analyze the user's personality from the answer tendencies
-- Focus on emotional style, social rhythm, and how they naturally come across
-- Keep it positive and specific
+- This is the core personality read — analyze who this person is from their specific answer patterns
+- Do NOT write a generic type description — this must feel written for THIS person
+- Write exactly 3 sentences, each covering a different angle:
+  sentence 1: their core thinking or decision-making style based on specific answers
+  sentence 2: how they come across socially or in groups, with a concrete example from the answers
+  sentence 3: what quietly drives them or what others notice about them over time
+- Each sentence must be substantial — at least 40 characters
+- Do NOT frame this as a love or romance description
 
 recommendation requirements:
-- Describe how this person tends to interact when feelings deepen
-- Mention a strength that becomes attractive in close relationships
-- Keep it positive and practical
+- This is the love tendency section — like the love fortune in a traditional omikuji slip
+- Write exactly 3 sentences:
+  sentence 1: how feelings develop for this person and what triggers them
+  sentence 2: how they behave once they like someone — their pace, signals, or style
+  sentence 3: one quality that makes them quietly attractive in close relationships
+- Each sentence must be substantial — at least 40 characters
+- Keep it warm, specific, and clearly distinct from the personality description above
 
 traits requirements:
 - Choose 4 traits that fit this person's actual answer pattern
@@ -1543,11 +1556,11 @@ compatibility requirements:
                 {"role": "user", "content": user_prompt},
             ],
             timeout=30,
-            max_tokens=520,
+            max_tokens=700,
         )
         parsed = json.loads(strip_json_wrapper(raw_text))
-        description = normalize_short_text(parsed.get("description"), max_length=220)
-        recommendation = normalize_short_text(parsed.get("recommendation"), max_length=220)
+        description = normalize_short_text(parsed.get("description"), max_length=520)
+        recommendation = normalize_short_text(parsed.get("recommendation"), max_length=520)
 
         if not is_complete_result_text(description):
             description = fallback_payload["description"]
@@ -1575,17 +1588,27 @@ compatibility requirements:
 
 def generate_questions(language: str) -> tuple[dict, list[list[str]]]:
     normalized_language = normalize_language(language)
-    type_layouts = build_random_type_layouts()
-    type_layout_text = build_random_type_layout_text(type_layouts)
-    system_prompt, user_prompt = build_question_generation_prompts(normalized_language, type_layout_text)
-    raw_questions = call_openrouter_chat(
-        [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt},
-        ]
-    )
-    parsed_questions = parse_and_validate_questions_payload(raw_questions, normalized_language, type_layouts)
-    return parsed_questions, type_layouts
+    max_attempts = 3
+    last_error: Exception = RuntimeError("Unknown error")
+
+    for attempt in range(max_attempts):
+        try:
+            type_layouts = build_random_type_layouts()
+            type_layout_text = build_random_type_layout_text(type_layouts)
+            system_prompt, user_prompt = build_question_generation_prompts(normalized_language, type_layout_text)
+            raw_questions = call_openrouter_chat(
+                [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ]
+            )
+            parsed_questions = parse_and_validate_questions_payload(raw_questions, normalized_language, type_layouts)
+            return parsed_questions, type_layouts
+        except (ValueError, json.JSONDecodeError) as error:
+            last_error = error
+            print(f"Question generation attempt {attempt + 1}/{max_attempts} failed: {error}")
+
+    raise last_error
 
 
 def get_or_create_questions(language: str) -> list[dict]:

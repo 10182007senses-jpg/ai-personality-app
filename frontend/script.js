@@ -35,6 +35,7 @@ const resultCarousel = document.getElementById("result-carousel");
 const resultCarouselPrev = document.getElementById("carousel-prev");
 const resultCarouselNext = document.getElementById("carousel-next");
 const resultCarouselDots = document.getElementById("carousel-dots");
+const auraCoreText = document.getElementById("aura-core-text");
 const particleField = document.getElementById("particle-field");
 const brandChip = document.getElementById("brand-chip");
 const langSwitcher = document.getElementById("lang-switcher");
@@ -83,46 +84,47 @@ const HTML_LANG_MAP = {
 
 const translations = {
     ja: {
-        metaTitle: "AI恋愛人格診断",
+        metaTitle: "AIパーソナリティ診断",
         languageSwitcherLabel: "言語切り替え",
-        brand: "AI恋愛人格診断",
-        heroKicker: "恋愛オーラフィルター",
-        heroTitle: "AI恋愛人格診断",
-        heroCatch: "あなたの“好きのクセ”\nAIに見抜かれてみる？",
-        heroLead: "直感で答えるだけで、恋愛のテンポや本音の出し方、ときめき方の空気感をかわいく可視化します。",
-        heroTags: ["#本音", "#恋愛温度", "#スクショしたい"],
-        floatingNotes: ["好きのクセ", "恋愛オーラ", "本音フィルター"],
+        brand: "AIパーソナリティ診断",
+        heroKicker: "AIパーソナリティ診断",
+        heroTitle: "AIパーソナリティ診断",
+        heroCatch: "あなたの「隠れた個性」\nAIに見抜かれてみる？",
+        heroLead: "直感で答えるだけで、あなたの思考パターンや行動の癖、個性の空気感を鮮やかに可視化します。",
+        heroTags: ["#個性", "#思考のクセ", "#スクショしたい"],
+        floatingNotes: ["隠れた個性", "思考パターン", "本音フィルター"],
+        auraCore: "YOU",
         startButton: "診断スタート",
         questionLoadingTitle: "あなた向けの質問をえらんでいます",
         questionLoadingSequence: [
             {
                 stage: "質問を準備中",
-                text: "恋愛の空気感が見えやすいように、やさしく答えやすい順番へ整えています。"
+                text: "個性が自然に出やすいように、やさしく答えやすい順番へ整えています。"
             },
             {
                 stage: "あなた向けに調整中",
-                text: "本音や好きのクセが自然に出やすいように、質問のムードをふわっと合わせています。"
+                text: "思考パターンや行動の癖が見えやすいように、質問のムードをふわっと合わせています。"
             },
             {
                 stage: "まもなくスタート",
-                text: "直感で答えるほど、あなたらしい恋愛オーラがきれいに見えてきます。"
+                text: "直感で答えるほど、あなたらしい個性がくっきり見えてきます。"
             }
         ],
         questionKicker: "気分に近いものをタップ",
         questionPlaceholder: "質問がここに表示されます。",
         choiceHint: "タップして選ぶ",
-        loadingStage: "恋愛オーラをまとめています",
-        loadingTitle: "あなたの本音をやさしく整理中",
+        loadingStage: "パーソナリティをまとめています",
+        loadingTitle: "あなたの個性をやさしく整理中",
         resultLoadingSequence: [
-            "ときめき方や距離感のクセを、やさしくまとめています。",
-            "本音が出やすい瞬間と、好きになるテンポを整理しています。",
-            "あなたの恋愛オーラを、スクショしたくなる形に仕上げています。"
+            "思考パターンや行動の癖を、やさしくまとめています。",
+            "あなたの個性が出やすい瞬間を、丁寧に読み取っています。",
+            "あなたのパーソナリティを、スクショしたくなる形に仕上げています。"
         ],
-        loadingTags: ["ときめき", "本音", "距離感"],
-        resultKicker: "あなたの恋愛フィルター",
+        loadingTags: ["個性", "思考", "行動パターン"],
+        resultKicker: "あなたのパーソナリティ",
         resultTitle: "診断結果",
-        resultSubtypePrefix: "近い空気感",
-        resultDescriptionLabel: "AIが見つけた本音",
+        resultSubtypePrefix: "近い個性",
+        resultDescriptionLabel: "AIが読んだ個性",
         resultRecommendationLabel: "恋愛モード",
         resultCompatibilityLabel: "相性の良いタイプ",
         compatibilityPlaceholder: "もう一度診断すると相性タイプが表示されます。",
@@ -139,49 +141,50 @@ const translations = {
         errorResultAbortCopy: "結果の整理に少しだけ時間がかかっています。",
         errorResultCopy: "結果の表示に失敗しました。",
         errorResultDescription: "通信環境を確認して、もう一度診断してみてください。",
-        errorResultRecommendation: "もう一度はじめると、恋愛オーラをやさしく表示し直します。"
+        errorResultRecommendation: "もう一度はじめると、パーソナリティをやさしく表示し直します。"
     },
     en: {
-        metaTitle: "AI Love Persona Test",
+        metaTitle: "AI Personality Test",
         languageSwitcherLabel: "Language",
-        brand: "AI Love Persona Test",
-        heroKicker: "Love Aura Filter",
-        heroTitle: "AI Love Persona Test",
-        heroCatch: "Want AI to read\nyour love pattern?",
-        heroLead: "Answer on instinct and turn your flirting rhythm, honesty, and emotional vibe into a cute shareable card.",
-        heroTags: ["#HeartMode", "#LoveVibe", "#ScreenshotWorthy"],
-        floatingNotes: ["Love Pattern", "Aura Vibe", "Inner Voice"],
+        brand: "AI Personality Test",
+        heroKicker: "AI Personality Test",
+        heroTitle: "AI Personality Test",
+        heroCatch: "Want AI to read\nyour hidden personality?",
+        heroLead: "Answer on instinct and turn your thought patterns, behavioral habits, and personal vibe into a shareable card.",
+        heroTags: ["#Personality", "#TrueColors", "#ScreenshotWorthy"],
+        floatingNotes: ["Hidden Self", "Thought Pattern", "Inner Voice"],
+        auraCore: "YOU",
         startButton: "Start Test",
         questionLoadingTitle: "Picking questions that match your vibe",
         questionLoadingSequence: [
             {
                 stage: "Preparing questions",
-                text: "We are lining them up in a soft, easy flow so your real dating vibe shows up naturally."
+                text: "We are lining them up so your natural personality shows up without overthinking."
             },
             {
-                stage: "Tuning the mood",
-                text: "The prompts are being adjusted so your honest feelings come through without overthinking."
+                stage: "Tuning the flow",
+                text: "The prompts are being adjusted so your real traits and habits come through clearly."
             },
             {
                 stage: "Almost ready",
-                text: "The more instinctively you answer, the more your love aura will feel like you."
+                text: "The more instinctively you answer, the more your true personality will come through."
             }
         ],
         questionKicker: "Tap what feels most like you",
         questionPlaceholder: "Your question will show up here.",
         choiceHint: "Tap to choose",
-        loadingStage: "Wrapping up your love aura",
-        loadingTitle: "Gently sorting your real feelings",
+        loadingStage: "Mapping your personality",
+        loadingTitle: "Gently reading your personality",
         resultLoadingSequence: [
-            "Sorting out your flirting rhythm and emotional distance.",
-            "Finding the moments where your real feelings quietly show.",
-            "Wrapping your love aura into something worth screenshotting."
+            "Sorting your thought patterns and behavioral tendencies.",
+            "Finding the traits that make your personality stand out.",
+            "Wrapping your personality into something worth screenshotting."
         ],
-        loadingTags: ["spark", "feelings", "distance"],
-        resultKicker: "Your love filter",
+        loadingTags: ["personality", "patterns", "inner self"],
+        resultKicker: "Your personality",
         resultTitle: "Your Result",
-        resultSubtypePrefix: "Close vibe",
-        resultDescriptionLabel: "What AI picked up",
+        resultSubtypePrefix: "Close type",
+        resultDescriptionLabel: "Your personality read",
         resultRecommendationLabel: "Love mode",
         resultCompatibilityLabel: "Best Match Types",
         compatibilityPlaceholder: "Run the diagnosis again to reveal your best matches.",
@@ -198,49 +201,50 @@ const translations = {
         errorResultAbortCopy: "Your result needs a few more seconds to come together.",
         errorResultCopy: "We could not show your result this time.",
         errorResultDescription: "Please check your connection and try again.",
-        errorResultRecommendation: "Start over and we will refresh your love aura card softly."
+        errorResultRecommendation: "Start over and we will refresh your personality card."
     },
     zh: {
-        metaTitle: "AI恋爱人格测试",
+        metaTitle: "AI性格测试",
         languageSwitcherLabel: "语言切换",
-        brand: "AI恋爱人格测试",
-        heroKicker: "恋爱气场滤镜",
-        heroTitle: "AI恋爱人格测试",
-        heroCatch: "让 AI 看穿\n你的心动习惯？",
-        heroLead: "凭直觉回答几个问题，就能把你的恋爱节奏、真心表达和心动氛围变成一张可爱的分享卡。",
-        heroTags: ["#真心", "#恋爱温度", "#想截图"],
-        floatingNotes: ["心动习惯", "恋爱气场", "真心滤镜"],
+        brand: "AI性格测试",
+        heroKicker: "AI性格测试",
+        heroTitle: "AI性格测试",
+        heroCatch: "让 AI 看穿\n你隐藏的个性？",
+        heroLead: "凭直觉回答几个问题，就能把你的思维方式、行为习惯和个性氛围变成一张精准的分享卡。",
+        heroTags: ["#个性", "#思维习惯", "#想截图"],
+        floatingNotes: ["隐藏个性", "思维模式", "真心滤镜"],
+        auraCore: "YOU",
         startButton: "开始测试",
         questionLoadingTitle: "正在挑选适合你的问题",
         questionLoadingSequence: [
             {
                 stage: "正在准备问题",
-                text: "为了更自然地看见你的恋爱氛围，问题会按轻松又好答的顺序排好。"
+                text: "为了让你的个性自然显现，问题会按轻松又好答的顺序排好。"
             },
             {
-                stage: "正在调整感觉",
-                text: "我们会把题目的情绪感调柔一点，让你的真心更容易自然流出来。"
+                stage: "正在调整节奏",
+                text: "我们会把题目调整到最适合你的状态，让真实的个性更容易流露出来。"
             },
             {
                 stage: "马上开始",
-                text: "越凭感觉作答，越能看见最像你的恋爱气场。"
+                text: "越凭感觉作答，越能看见最像你的真实个性。"
             }
         ],
         questionKicker: "点选最像你的感觉",
         questionPlaceholder: "问题会显示在这里。",
         choiceHint: "点我选择",
-        loadingStage: "正在整理你的恋爱气场",
-        loadingTitle: "温柔梳理你的真实心意",
+        loadingStage: "正在整理你的性格",
+        loadingTitle: "温柔梳理你的个性",
         resultLoadingSequence: [
-            "正在整理你的心动节奏和距离感。",
-            "正在找出你最容易露出真心的瞬间。",
-            "正在把你的恋爱气场变成一张很想截图的结果卡。"
+            "正在整理你的思维模式和行为习惯。",
+            "正在找出最能体现你个性的特征。",
+            "正在把你的性格变成一张很想截图的结果卡。"
         ],
-        loadingTags: ["心动", "真心", "距离感"],
-        resultKicker: "你的恋爱滤镜",
+        loadingTags: ["个性", "思维", "行为模式"],
+        resultKicker: "你的个性",
         resultTitle: "诊断结果",
-        resultSubtypePrefix: "相近气质",
-        resultDescriptionLabel: "AI捕捉到的真心",
+        resultSubtypePrefix: "相近类型",
+        resultDescriptionLabel: "AI读出的个性",
         resultRecommendationLabel: "恋爱模式",
         resultCompatibilityLabel: "相性好的类型",
         compatibilityPlaceholder: "重新测试后会显示更适合的类型。",
@@ -257,49 +261,50 @@ const translations = {
         errorResultAbortCopy: "这次结果需要再多一点时间。",
         errorResultCopy: "这次没有成功显示结果。",
         errorResultDescription: "请检查网络后再试一次。",
-        errorResultRecommendation: "重新开始后，我们会再温柔地整理你的恋爱气场。"
+        errorResultRecommendation: "重新开始后，我们会再温柔地整理你的性格结果。"
     },
     ko: {
-        metaTitle: "AI 연애 성향 테스트",
+        metaTitle: "AI 성격 테스트",
         languageSwitcherLabel: "언어 선택",
-        brand: "AI 연애 성향 테스트",
-        heroKicker: "연애 오라 필터",
-        heroTitle: "AI 연애 성향 테스트",
-        heroCatch: "AI가 너의\n설렘 패턴을 읽어볼까?",
-        heroLead: "직감대로 답하면 연애 템포, 속마음을 드러내는 방식, 설렘 무드까지 귀엽게 시각화해 줍니다.",
-        heroTags: ["#속마음", "#연애온도", "#스크린샷각"],
-        floatingNotes: ["설렘 패턴", "연애 오라", "속마음 필터"],
+        brand: "AI 성격 테스트",
+        heroKicker: "AI 성격 테스트",
+        heroTitle: "AI 성격 테스트",
+        heroCatch: "AI가 너의\n숨겨진 개성을 읽어볼까?",
+        heroLead: "직감대로 답하면 너의 사고 패턴, 행동 습관, 개성의 분위기를 선명하게 시각화해 줍니다.",
+        heroTags: ["#개성", "#사고패턴", "#스크린샷각"],
+        floatingNotes: ["숨겨진 개성", "사고 패턴", "속마음 필터"],
+        auraCore: "YOU",
         startButton: "테스트 시작",
         questionLoadingTitle: "너한테 맞는 질문을 고르는 중",
         questionLoadingSequence: [
             {
                 stage: "질문 준비 중",
-                text: "연애 무드가 자연스럽게 보이도록 편하게 답할 수 있는 흐름으로 정리하고 있어요."
+                text: "개성이 자연스럽게 드러나도록 편하게 답할 수 있는 흐름으로 정리하고 있어요."
             },
             {
-                stage: "무드 조정 중",
-                text: "너의 진짜 마음이 자연스럽게 드러나도록 질문의 결을 부드럽게 맞추고 있어요."
+                stage: "흐름 조정 중",
+                text: "너의 진짜 성격과 행동 패턴이 잘 보이도록 질문의 결을 부드럽게 맞추고 있어요."
             },
             {
                 stage: "곧 시작해요",
-                text: "직감대로 답할수록 너다운 연애 오라가 더 선명하게 보여요."
+                text: "직감대로 답할수록 너다운 개성이 더 선명하게 보여요."
             }
         ],
         questionKicker: "가장 가까운 기분을 탭해 줘",
         questionPlaceholder: "질문이 여기에 표시됩니다.",
         choiceHint: "탭해서 선택",
-        loadingStage: "연애 오라를 정리하는 중",
-        loadingTitle: "너의 진짜 마음을 부드럽게 읽는 중",
+        loadingStage: "성격을 정리하는 중",
+        loadingTitle: "너의 개성을 부드럽게 읽는 중",
         resultLoadingSequence: [
-            "설렘이 올라오는 템포와 거리감을 정리하고 있어요.",
-            "속마음이 가장 잘 드러나는 순간을 찾고 있어요.",
-            "스크린샷 하고 싶은 연애 오라 카드로 마무리하고 있어요."
+            "사고 패턴과 행동 습관을 정리하고 있어요.",
+            "너의 개성이 가장 잘 드러나는 특징을 찾고 있어요.",
+            "스크린샷 하고 싶은 성격 카드로 마무리하고 있어요."
         ],
-        loadingTags: ["설렘", "속마음", "거리감"],
-        resultKicker: "너의 연애 필터",
+        loadingTags: ["개성", "사고패턴", "행동습관"],
+        resultKicker: "너의 퍼스널리티",
         resultTitle: "진단 결과",
-        resultSubtypePrefix: "비슷한 무드",
-        resultDescriptionLabel: "AI가 읽은 속마음",
+        resultSubtypePrefix: "비슷한 타입",
+        resultDescriptionLabel: "AI가 읽은 개성",
         resultRecommendationLabel: "연애 모드",
         resultCompatibilityLabel: "잘 맞는 타입",
         compatibilityPlaceholder: "다시 진단하면 잘 맞는 타입이 표시됩니다.",
@@ -316,7 +321,7 @@ const translations = {
         errorResultAbortCopy: "이번 결과는 몇 초만 더 기다려야 해요.",
         errorResultCopy: "이번에는 결과를 보여 주지 못했어요.",
         errorResultDescription: "연결 상태를 확인한 뒤 다시 시도해 주세요.",
-        errorResultRecommendation: "처음부터 다시 시작하면 연애 오라 카드를 부드럽게 다시 정리해 드릴게요."
+        errorResultRecommendation: "처음부터 다시 시작하면 성격 카드를 부드럽게 다시 정리해 드릴게요."
     }
 };
 
@@ -326,27 +331,27 @@ const themeProfiles = {
         locales: {
             ja: {
                 title: "診断結果",
-                badge: "恋愛オーラタイプ",
-                description: "ピンクとオーロラのやわらかい空気感。今のあなたに近い恋愛フィルターです。",
-                tags: ["#恋愛人格", "#本音フィルター", "#オーラ診断"]
+                badge: "パーソナリティタイプ",
+                description: "ピンクとオーロラのやわらかい空気感。あなたの個性を映し出すフィルターです。",
+                tags: ["#パーソナリティ", "#個性フィルター", "#性格診断"]
             },
             en: {
                 title: "Result",
-                badge: "Love Aura Type",
-                description: "A soft pink aurora mood that frames the love vibe that feels most like you.",
-                tags: ["#LovePersona", "#InnerVoice", "#AuraCheck"]
+                badge: "Personality Type",
+                description: "A soft aurora mood that reflects the personality vibe that feels most like you.",
+                tags: ["#Personality", "#TrueColors", "#PersonalityTest"]
             },
             zh: {
                 title: "诊断结果",
-                badge: "恋爱气场类型",
-                description: "柔和的粉色极光氛围，映出现在最像你的恋爱滤镜。",
-                tags: ["#恋爱人格", "#真心滤镜", "#气场测试"]
+                badge: "性格类型",
+                description: "柔和的极光氛围，映出最像你的个性滤镜。",
+                tags: ["#个性", "#真实自我", "#性格测试"]
             },
             ko: {
                 title: "진단 결과",
-                badge: "연애 오라 타입",
-                description: "핑크 오로라의 부드러운 공기감으로 지금의 너와 가장 닮은 연애 필터를 보여 줘요.",
-                tags: ["#연애성향", "#속마음필터", "#오라테스트"]
+                badge: "퍼스널리티 타입",
+                description: "오로라의 부드러운 공기감으로 지금의 너와 가장 닮은 개성을 보여 줘요.",
+                tags: ["#퍼스널리티", "#개성필터", "#성격테스트"]
             }
         }
     },
@@ -355,26 +360,26 @@ const themeProfiles = {
         locales: {
             ja: {
                 title: "Appleタイプ",
-                badge: "クリアオーラ",
-                description: "透明感と静かな余裕がにじむ、すっきり上品な恋愛フィルター。",
+                badge: "クリアタイプ",
+                description: "透明感と静かな余裕がにじむ、洗練された個性の持ち主。",
                 tags: ["#透明感", "#洗練", "#静かな余裕"]
             },
             en: {
                 title: "Apple Type",
-                badge: "Clear Aura",
-                description: "Clean, polished, and quietly elegant. A love filter with calm confidence.",
+                badge: "Clear Type",
+                description: "Clean, polished, and quietly elegant. A personality with calm, refined confidence.",
                 tags: ["#ClearVibes", "#Polished", "#QuietConfidence"]
             },
             zh: {
                 title: "Apple型",
-                badge: "清透气场",
-                description: "清透又克制，带着安静高级感的恋爱滤镜。",
+                badge: "清透型",
+                description: "清透又克制，带着安静高级感的个性。",
                 tags: ["#透明感", "#精致", "#从容感"]
             },
             ko: {
                 title: "Apple 타입",
-                badge: "클리어 오라",
-                description: "투명하고 정돈된 분위기에 잔잔한 여유가 스며 있는 연애 필터.",
+                badge: "클리어 타입",
+                description: "투명하고 정돈된 분위기에 잔잔한 여유가 스며 있는 개성.",
                 tags: ["#투명한무드", "#세련됨", "#잔잔한여유"]
             }
         }
@@ -384,26 +389,26 @@ const themeProfiles = {
         locales: {
             ja: {
                 title: "Googleタイプ",
-                badge: "カラフルオーラ",
-                description: "明るさと好奇心が弾ける、ポップで親しみやすい恋愛フィルター。",
+                badge: "カラフルタイプ",
+                description: "明るさと好奇心が弾ける、ポップで親しみやすい個性の持ち主。",
                 tags: ["#カラフル", "#好奇心", "#明るさ"]
             },
             en: {
                 title: "Google Type",
-                badge: "Color Pop Aura",
-                description: "Bright, curious, and playful. A love filter that feels fun from the first tap.",
+                badge: "Color Pop Type",
+                description: "Bright, curious, and playful. A personality that lights up any room.",
                 tags: ["#ColorPop", "#CuriousHeart", "#BrightEnergy"]
             },
             zh: {
                 title: "Google型",
-                badge: "多彩气场",
-                description: "明亮、好奇又有玩心，轻松就能带起氛围的恋爱滤镜。",
+                badge: "多彩型",
+                description: "明亮、好奇又有玩心，轻松就能带动气氛的个性。",
                 tags: ["#多巴胺", "#好奇心", "#明亮感"]
             },
             ko: {
                 title: "Google 타입",
-                badge: "컬러팝 오라",
-                description: "밝고 호기심 많고 장난기 있는, 첫인상부터 기분 좋은 연애 필터.",
+                badge: "컬러팝 타입",
+                description: "밝고 호기심 많고 장난기 있는, 어디서든 분위기를 밝히는 개성.",
                 tags: ["#컬러팝", "#호기심", "#밝은에너지"]
             }
         }
@@ -413,26 +418,26 @@ const themeProfiles = {
         locales: {
             ja: {
                 title: "Amazonタイプ",
-                badge: "アクティブオーラ",
-                description: "テンポの良さと行動力がそのまま伝わる、熱量高めの恋愛フィルター。",
+                badge: "アクティブタイプ",
+                description: "テンポの良さと行動力がにじみ出る、熱量高めの個性の持ち主。",
                 tags: ["#行動派", "#テンポ感", "#まっすぐ"]
             },
             en: {
                 title: "Amazon Type",
-                badge: "Fast Pace Aura",
-                description: "Quick, active, and direct. A love filter that moves with bold momentum.",
+                badge: "Action Type",
+                description: "Quick, active, and direct. A personality that moves with bold momentum.",
                 tags: ["#ActionFirst", "#FastPace", "#StraightForward"]
             },
             zh: {
                 title: "Amazon型",
-                badge: "行动气场",
-                description: "节奏明快、行动力在线，带着一点热度的恋爱滤镜。",
+                badge: "行动型",
+                description: "节奏明快、行动力在线，带着一股热劲的个性。",
                 tags: ["#行动派", "#节奏快", "#很直接"]
             },
             ko: {
                 title: "Amazon 타입",
-                badge: "액티브 오라",
-                description: "템포가 빠르고 행동력이 살아 있는, 열기가 느껴지는 연애 필터.",
+                badge: "액티브 타입",
+                description: "템포가 빠르고 행동력이 살아 있는, 뜨거운 에너지를 가진 개성.",
                 tags: ["#행동파", "#빠른템포", "#직진무드"]
             }
         }
@@ -442,26 +447,26 @@ const themeProfiles = {
         locales: {
             ja: {
                 title: "Microsoftタイプ",
-                badge: "やさしさオーラ",
-                description: "安心感と誠実さがやわらかく広がる、落ち着いた恋愛フィルター。",
+                badge: "やさしさタイプ",
+                description: "安心感と誠実さがやわらかく広がる、落ち着いた個性の持ち主。",
                 tags: ["#優しさ", "#安心感", "#誠実"]
             },
             en: {
                 title: "Microsoft Type",
-                badge: "Soft Blue Aura",
-                description: "Gentle, steady, and reassuring. A love filter that feels safe and sincere.",
+                badge: "Steady Type",
+                description: "Gentle, steady, and reassuring. A personality that makes others feel safe.",
                 tags: ["#SoftEnergy", "#SafeVibes", "#SincereHeart"]
             },
             zh: {
                 title: "Microsoft型",
-                badge: "温柔气场",
-                description: "带着安心感和真诚感，温柔又稳定的恋爱滤镜。",
+                badge: "温柔型",
+                description: "带着安心感和真诚感，温柔又稳定的个性。",
                 tags: ["#温柔", "#安心感", "#真诚"]
             },
             ko: {
                 title: "Microsoft 타입",
-                badge: "다정한 오라",
-                description: "안정감과 성실함이 부드럽게 퍼지는 편안한 연애 필터.",
+                badge: "다정한 타입",
+                description: "안정감과 성실함이 부드럽게 퍼지는, 편안한 개성.",
                 tags: ["#다정함", "#안정감", "#성실함"]
             }
         }
@@ -471,26 +476,26 @@ const themeProfiles = {
         locales: {
             ja: {
                 title: "Teslaタイプ",
-                badge: "情熱オーラ",
-                description: "惹かれる力が強くてまっすぐ。温度が高めに伝わる恋愛フィルター。",
+                badge: "情熱タイプ",
+                description: "惹きつける力が強くてまっすぐ。温度高めの個性の持ち主。",
                 tags: ["#情熱型", "#引力強め", "#一直線"]
             },
             en: {
                 title: "Tesla Type",
-                badge: "Passion Aura",
-                description: "Intense, magnetic, and impossible to ignore. A love filter full of heat.",
+                badge: "Passion Type",
+                description: "Intense, magnetic, and impossible to ignore. A personality full of drive.",
                 tags: ["#PassionMode", "#Magnetic", "#AllIn"]
             },
             zh: {
                 title: "Tesla型",
-                badge: "热感气场",
-                description: "吸引力很强，也很直接，是会把氛围一下子点燃的恋爱滤镜。",
-                tags: ["#热恋体质", "#吸引力强", "#一旦喜欢就直球"]
+                badge: "热感型",
+                description: "吸引力很强，也很直接，是会把氛围一下子点燃的个性。",
+                tags: ["#热情体质", "#吸引力强", "#直球感"]
             },
             ko: {
                 title: "Tesla 타입",
-                badge: "열정 오라",
-                description: "강한 끌림과 직진 에너지가 느껴지는, 온도가 높은 연애 필터.",
+                badge: "열정 타입",
+                description: "강한 끌림과 직진 에너지가 느껴지는, 온도가 높은 개성.",
                 tags: ["#열정형", "#강한끌림", "#직진스타일"]
             }
         }
@@ -500,26 +505,26 @@ const themeProfiles = {
         locales: {
             ja: {
                 title: "Metaタイプ",
-                badge: "共感オーラ",
-                description: "共感とつながりが自然に広がる、SNSっぽくやさしい恋愛フィルター。",
+                badge: "共感タイプ",
+                description: "共感とつながりが自然に広がる、やわらかいコミュニケーション力を持つ個性。",
                 tags: ["#共感", "#つながり", "#やわらかい"]
             },
             en: {
                 title: "Meta Type",
-                badge: "Connection Aura",
-                description: "Warm, social, and emotionally tuned in. A love filter built on connection.",
+                badge: "Connection Type",
+                description: "Warm, social, and emotionally tuned in. A personality built on empathy.",
                 tags: ["#Empathy", "#Connected", "#SoftTalk"]
             },
             zh: {
                 title: "Meta型",
-                badge: "共感气场",
-                description: "很会连接情绪和关系，带着社交感与温柔感的恋爱滤镜。",
+                badge: "共感型",
+                description: "很会连接情绪和关系，带着社交感与温柔感的个性。",
                 tags: ["#共感力", "#连接感", "#会聊天"]
             },
             ko: {
                 title: "Meta 타입",
-                badge: "공감 오라",
-                description: "공감과 연결감이 자연스럽게 번지는, 소통형 연애 필터.",
+                badge: "공감 타입",
+                description: "공감과 연결감이 자연스럽게 번지는, 소통 능력이 뛰어난 개성.",
                 tags: ["#공감력", "#연결감", "#부드러운소통"]
             }
         }
@@ -529,26 +534,26 @@ const themeProfiles = {
         locales: {
             ja: {
                 title: "Nvidiaタイプ",
-                badge: "ミステリアスオーラ",
-                description: "深夜っぽい余韻と静かな吸引力。少し謎めいた恋愛フィルター。",
+                badge: "ミステリアスタイプ",
+                description: "深みのある余韻と静かな吸引力。少し謎めいた独特の個性の持ち主。",
                 tags: ["#ミステリアス", "#深夜感", "#余韻強め"]
             },
             en: {
                 title: "Nvidia Type",
-                badge: "Midnight Aura",
-                description: "Quiet, deep, and a little mysterious. A love filter with late-night pull.",
+                badge: "Midnight Type",
+                description: "Quiet, deep, and a little mysterious. A personality with quiet depth.",
                 tags: ["#MidnightMood", "#Mystery", "#LingeringVibe"]
             },
             zh: {
                 title: "Nvidia型",
-                badge: "深夜气场",
-                description: "安静、神秘又有余韵，是让人越看越上头的恋爱滤镜。",
+                badge: "深夜型",
+                description: "安静、神秘又有余韵，是让人越了解越上头的个性。",
                 tags: ["#神秘感", "#深夜氛围", "#后劲强"]
             },
             ko: {
                 title: "Nvidia 타입",
-                badge: "미드나잇 오라",
-                description: "조용하고 깊고 살짝 비밀스러운, 밤 같은 매력을 가진 연애 필터.",
+                badge: "미드나잇 타입",
+                description: "조용하고 깊고 살짝 비밀스러운, 밤 같은 매력을 가진 개성.",
                 tags: ["#미스터리", "#심야무드", "#여운강함"]
             }
         }
@@ -558,27 +563,27 @@ const themeProfiles = {
         locales: {
             ja: {
                 title: "Netflixタイプ",
-                badge: "シネマオーラ",
-                description: "感情の余韻がきれいに残る、エモさ多めの映画みたいな恋愛フィルター。",
-                tags: ["#エモ", "#映画感", "#余韻"]
+                badge: "シネマタイプ",
+                description: "感情の余韻がきれいに残る、エモさと表現力を持つ個性の持ち主。",
+                tags: ["#エモ", "#表現力", "#余韻"]
             },
             en: {
                 title: "Netflix Type",
-                badge: "Cinema Aura",
-                description: "Emotional, cinematic, and immersive. A love filter that feels like a scene.",
+                badge: "Cinema Type",
+                description: "Emotional, expressive, and immersive. A personality that leaves a lasting impression.",
                 tags: ["#Cinematic", "#Emotional", "#Afterglow"]
             },
             zh: {
                 title: "Netflix型",
-                badge: "电影气场",
-                description: "情绪感很强，也很有故事氛围，是会留下余韵的恋爱滤镜。",
-                tags: ["#很有戏", "#电影感", "#余韵感"]
+                badge: "电影型",
+                description: "情绪感很强，也很有表现力，是会在人心里留下余韵的个性。",
+                tags: ["#很有戏", "#表现力", "#余韵感"]
             },
             ko: {
                 title: "Netflix 타입",
-                badge: "시네마 오라",
-                description: "감정의 여운이 깊게 남는, 장면 같은 몰입감을 가진 연애 필터.",
-                tags: ["#에모감성", "#영화무드", "#긴여운"]
+                badge: "시네마 타입",
+                description: "감정의 여운이 깊게 남는, 풍부한 표현력을 가진 개성.",
+                tags: ["#에모감성", "#표현력", "#긴여운"]
             }
         }
     }
@@ -1147,9 +1152,11 @@ function renderCompatibility(items, language = currentLanguage) {
 function applyCarouselLabels(language = currentLanguage) {
     const locale = getTranslations(language);
 
-    if (resultCarouselDots) {
-        resultCarouselDots.setAttribute("aria-label", locale.carouselPagesLabel);
+    if (!resultCarouselDots) {
+        return;
     }
+
+    resultCarouselDots.setAttribute("aria-label", locale.carouselPagesLabel);
 
     Array.from(resultCarouselDots.children).forEach((dot, index) => {
         dot.setAttribute("aria-label", `${locale.carouselDotLabel} ${index + 1}`);
@@ -1318,6 +1325,7 @@ function applyTranslations() {
     setText(heroLead, locale.heroLead);
     setTextList(heroTags, locale.heroTags);
     setTextList(floatingNotes, locale.floatingNotes);
+    setText(auraCoreText, locale.auraCore);
     setText(startButton, locale.startButton);
     setText(questionLoadingTitle, locale.questionLoadingTitle);
     setText(questionLoadingStage, locale.questionLoadingSequence[0].stage);
@@ -1368,11 +1376,11 @@ function setLanguage(language, { resetView = false } = {}) {
         console.warn("Failed to save language:", error);
     }
 
-    applyTranslations();
-
     if (resetView) {
         resetExperience();
     }
+
+    applyTranslations();  // 常に最後に呼ぶ（resetExperience の後に翻訳を上書き）
 }
 
 function createParticleField() {
@@ -1398,8 +1406,7 @@ function createParticleField() {
 function initialize() {
     createParticleField();
     setupCarouselControls();
-    setLanguage(currentLanguage);
-    resetExperience();
+    setLanguage(currentLanguage, { resetView: true });  // reset → translations の順で実行
 }
 
 languageButtons.forEach((button) => {
