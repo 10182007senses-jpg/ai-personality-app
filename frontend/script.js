@@ -6,6 +6,7 @@ const loadingScreen = document.getElementById("loading-screen");
 const resultScreen = document.getElementById("result-screen");
 const startButton = document.getElementById("start-button");
 const restartButton = document.getElementById("restart-button");
+const homeButton = document.getElementById("home-button");
 const questionCount = document.getElementById("question-count");
 const questionText = document.getElementById("question-text");
 const choicesContainer = document.getElementById("choices");
@@ -130,6 +131,7 @@ const translations = {
         carouselPrev: "前へ",
         carouselNext: "次へ",
         restartButton: "もう一度診断する",
+        homeButton: "ホームに戻る",
         errorStartTitle: "ちょっと準備に失敗しました",
         errorStartCopy: "質問の表示に少し時間がかかっています。",
         errorStartDescription: "少し待ってから、もう一度診断してみてください。",
@@ -188,6 +190,7 @@ const translations = {
         carouselPrev: "Prev",
         carouselNext: "Next",
         restartButton: "Try Again",
+        homeButton: "Back to Home",
         errorStartTitle: "We hit a small setup glitch",
         errorStartCopy: "The questions are taking a little longer to appear.",
         errorStartDescription: "Give it a moment, then try the test again.",
@@ -246,6 +249,7 @@ const translations = {
         carouselPrev: "上一张",
         carouselNext: "下一张",
         restartButton: "再测一次",
+        homeButton: "返回首页",
         errorStartTitle: "准备时出了点小问题",
         errorStartCopy: "问题出现得比平时慢一点。",
         errorStartDescription: "稍等一下，再重新测试看看。",
@@ -304,6 +308,7 @@ const translations = {
         carouselPrev: "이전",
         carouselNext: "다음",
         restartButton: "다시 진단하기",
+        homeButton: "홈으로 돌아가기",
         errorStartTitle: "준비 중에 작은 문제가 생겼어요",
         errorStartCopy: "질문이 뜨기까지 조금 더 시간이 걸리고 있어요.",
         errorStartDescription: "잠깐 기다렸다가 다시 테스트해 주세요.",
@@ -1330,6 +1335,7 @@ function applyTranslations() {
     setText(resultCarouselNext, locale.carouselNext);
     applyCarouselLabels(currentLanguage);
     setText(restartButton, locale.restartButton);
+    setText(homeButton, locale.homeButton);
     applyLanguageButtonState();
 }
 
@@ -1409,5 +1415,6 @@ languageButtons.forEach((button) => {
 
 startButton.addEventListener("click", startDiagnosis);
 restartButton.addEventListener("click", startDiagnosis);
+homeButton.addEventListener("click", resetExperience);
 
 initialize();
