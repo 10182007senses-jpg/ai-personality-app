@@ -832,6 +832,10 @@ h2 {
     justify-content: center;
 }
 
+.result-slide .result-tag-collection {
+    margin-top: 10px;
+}
+
 .trait-list {
     width: min(100%, 440px);
     display: grid;
