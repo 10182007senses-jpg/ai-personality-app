@@ -777,7 +777,7 @@ h2 {
     scrollbar-width: none;
     -ms-overflow-style: none;
     overscroll-behavior-x: contain;
-    touch-action: pan-x;
+    touch-action: pan-x pan-y;
 }
 
 .result-carousel::-webkit-scrollbar {
