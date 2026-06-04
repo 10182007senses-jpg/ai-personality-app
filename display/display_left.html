@@ -45,28 +45,27 @@
   .corner-bl { bottom:2vw; left:2vw; border-bottom:2px solid rgba(114,231,255,0.5); border-left:2px solid rgba(114,231,255,0.5); }
   .corner-br { bottom:2vw; right:2vw; border-bottom:2px solid rgba(255,123,216,0.4); border-right:2px solid rgba(255,123,216,0.4); }
 
-  /* ── 中央レイアウト ── */
+  /* ── 横並びレイアウト ── */
   .layout {
     position:relative; z-index:10;
     width:100vw; height:100vh;
-    display:flex;
+    display:grid;
+    grid-template-columns: 58% 42%;
     align-items:center;
-    justify-content:center;
   }
 
-  /* ── 左パネル：オーラ＋タイトル ── */
+  /* ── 左：オーラ ── */
   .left {
-    display:flex; flex-direction:column;
+    display:flex;
     align-items:center; justify-content:center;
-    padding:2vw 4vw;
-    gap:2.5vh;
+    height:100%;
   }
 
   /* オーラ */
   .aura-wrap {
     position:relative;
-    width:min(34vw, 44vh);
-    height:min(34vw, 44vh);
+    width:min(36vw, 72vh);
+    height:min(36vw, 72vh);
     flex-shrink:0;
   }
   .aura-ring {
@@ -87,7 +86,7 @@
     background:radial-gradient(circle,rgba(255,255,255,0.15),rgba(155,124,255,0.08));
     border:1px solid rgba(255,255,255,0.25);
     display:flex; align-items:center; justify-content:center;
-    font-family:'Outfit',sans-serif; font-size:3.5vw; font-weight:800;
+    font-family:'Outfit',sans-serif; font-size:3vw; font-weight:800;
     color:#fff8ff; letter-spacing:0.1em;
   }
 
@@ -101,39 +100,44 @@
     border:1px solid rgba(255,255,255,0.16);
     border-radius:100px;
     padding:0.35em 1em;
-    font-size:1.1vw; font-weight:700; white-space:nowrap;
+    font-size:1vw; font-weight:700; white-space:nowrap;
     animation:floatLabel 3s ease-in-out infinite;
     backdrop-filter:blur(8px);
   }
-  .fl1 { top:8%;  left:-10%;  color:#ff7bd8; animation-delay:0s; }
-  .fl2 { top:38%; right:-14%; color:#9b7cff; animation-delay:1s; }
-  .fl3 { bottom:8%; left:-8%; color:#72e7ff; animation-delay:2s; }
+  .fl1 { top:8%;  left:-8%;   color:#ff7bd8; animation-delay:0s; }
+  .fl2 { top:38%; right:-12%; color:#9b7cff; animation-delay:1s; }
+  .fl3 { bottom:8%; left:-6%; color:#72e7ff; animation-delay:2s; }
   @keyframes floatLabel {
     0%,100%{ transform:translateY(0); }
     50%    { transform:translateY(-6px); }
   }
 
-  /* タイトルエリア */
-  .title-area { text-align:center; width:100%; }
+  /* ── 右：タイトル ── */
+  .right {
+    display:flex; flex-direction:column;
+    align-items:flex-start; justify-content:center;
+    padding:4vw 5vw 4vw 2vw;
+    gap:2vh;
+  }
+
   .chip {
     display:inline-block;
-    font-family:'Outfit',sans-serif; font-size:1vw; font-weight:700;
+    font-family:'Outfit',sans-serif; font-size:0.9vw; font-weight:700;
     letter-spacing:0.15em; color:rgba(255,241,250,0.6);
     background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.14);
-    border-radius:100px; padding:0.3em 1.2em; margin-bottom:1vh;
+    border-radius:100px; padding:0.3em 1.2em;
     text-transform:uppercase;
   }
   .main-title {
-    font-size:clamp(30px, 5vw, 80px);
+    font-size:clamp(32px, 5.5vw, 90px);
     font-weight:800; line-height:1.15; letter-spacing:0.03em;
     background:linear-gradient(135deg,#ffffff 0%,#ffc6ee 35%,#c9a8ff 65%,#72e7ff 100%);
     -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-    margin-bottom:1vh;
   }
   .sub-title {
-    font-size:clamp(10px, 1vw, 17px);
+    font-size:clamp(11px, 1.1vw, 20px);
     color:rgba(255,241,250,0.6); font-weight:700;
-    line-height:1.7;
+    line-height:1.8;
   }
 
   /* フッター */
@@ -155,6 +159,8 @@
 <div class="corner corner-br"></div>
 
 <div class="layout">
+
+  <!-- 左：オーラ -->
   <div class="left">
     <div class="aura-wrap">
       <div class="aura-ring ar1"></div>
@@ -166,16 +172,18 @@
       <div class="float-label fl2">思考パターン</div>
       <div class="float-label fl3">本音フィルター</div>
     </div>
+  </div>
 
-    <div class="title-area">
-      <div class="chip">✦ AI Personality Analyzer ✦</div>
-      <div class="main-title">あなたは<br>何タイプ？</div>
-      <div class="sub-title">
-        Apple・Google・Amazon・Microsoft<br>
-        Tesla・Meta・Nvidia・Netflix
-      </div>
+  <!-- 右：タイトル -->
+  <div class="right">
+    <div class="chip">✦ AI Personality Analyzer ✦</div>
+    <div class="main-title">あなたは<br>何タイプ？</div>
+    <div class="sub-title">
+      Apple・Google・Amazon・Microsoft<br>
+      Tesla・Meta・Nvidia・Netflix
     </div>
   </div>
+
 </div>
 
 <div class="footer">◆ AI Personality Analyzer — Powered by OpenRouter AI ◆</div>
