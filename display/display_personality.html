@@ -276,7 +276,7 @@
   <!-- CTA -->
   <div class="cta-bar">
     <div class="qr-box">
-      <img src="qr.png" alt="QR" onerror="this.style.display='none'">
+      <div id="qrcode"></div>
     </div>
     <div class="cta-text">
       <div class="cta-hl">📱 QRコードで今すぐ体験！</div>
@@ -295,7 +295,16 @@
 
 <div class="footer">◆ AI Personality Analyzer — Powered by OpenRouter AI ◆</div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
+// QRコード生成
+new QRCode(document.getElementById('qrcode'), {
+  text: 'https://ai-personality-app-production.up.railway.app/',
+  width: 85, height: 85,
+  colorDark: '#000000', colorLight: '#ffffff',
+  correctLevel: QRCode.CorrectLevel.H
+});
+
 const container = document.getElementById('particles');
 const colors = ['#ff7bd8','#9b7cff','#72e7ff','#ffffff'];
 for (let i = 0; i < 18; i++) {
