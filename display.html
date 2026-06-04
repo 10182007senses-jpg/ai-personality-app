@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIパーソナリティ診断 — 文化祭</title>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html, body {
+    width:100vw; height:100vh;
+    overflow:hidden;
+    background:#170821;
+    font-family:'M PLUS Rounded 1c', sans-serif;
+    color:#fff8ff;
+  }
+
+  /* ── 背景 ── */
+  .bg {
+    position:fixed; inset:0; z-index:0;
+    background:
+      radial-gradient(ellipse 60% 70% at 5% 50%,  rgba(255,121,214,0.28) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 95% 10%,  rgba(151,118,255,0.24) 0%, transparent 55%),
+      radial-gradient(ellipse 60% 50% at 80% 90%, rgba(115,231,255,0.20) 0%, transparent 55%),
+      radial-gradient(ellipse 40% 40% at 50% 50%, rgba(151,118,255,0.10) 0%, transparent 60%),
+      linear-gradient(135deg,#1a082a 0%,#170821 40%,#0f1d38 100%);
+  }
+
+  /* パーティクル */
+  .particles { position:fixed; inset:0; z-index:1; pointer-events:none; }
+  .p { position:absolute; border-radius:50%; animation:float linear infinite; }
+
+  @keyframes float {
+    0%   { transform:translateY(0) scale(1); opacity:0; }
+    10%  { opacity:1; }
+    90%  { opacity:0.6; }
+    100% { transform:translateY(-100vh) scale(0.5); opacity:0; }
+  }
+
+  /* コーナー */
+  .corner { position:fixed; width:5vw; height:5vw; z-index:5; }
+  .corner-tl { top:2vw; left:2vw; border-top:2px solid rgba(255,123,216,0.5); border-left:2px solid rgba(255,123,216,0.5); }
+  .corner-tr { top:2vw; right:2vw; border-top:2px solid rgba(155,124,255,0.5); border-right:2px solid rgba(155,124,255,0.5); }
+  .corner-bl { bottom:2vw; left:2vw; border-bottom:2px solid rgba(114,231,255,0.5); border-left:2px solid rgba(114,231,255,0.5); }
+  .corner-br { bottom:2vw; right:2vw; border-bottom:2px solid rgba(255,123,216,0.4); border-right:2px solid rgba(255,123,216,0.4); }
+
+  /* ── メインレイアウト ── */
+  .layout {
+    position:relative; z-index:10;
+    width:100vw; height:100vh;
+    display:grid;
+    grid-template-columns: 38% 62%;
+    grid-template-rows: 1fr;
+  }
+
+  /* ── 左パネル：オーラ＋タイトル ── */
+  .left {
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    padding:3vw 2vw 3vw 4vw;
+    gap:2vh;
+  }
+
+  /* オーラ */
+  .aura-wrap {
+    position:relative;
+    width:min(28vw, 48vh);
+    height:min(28vw, 48vh);
+    flex-shrink:0;
+  }
+  .aura-ring {
+    position:absolute; inset:0; border-radius:50%;
+    border:1.5px solid transparent;
+  }
+  .ar1 { border-top-color:#ff7bd8; border-right-color:rgba(255,123,216,0.25); animation:spin 8s linear infinite; }
+  .ar2 { inset:7%; border-top-color:#9b7cff; border-left-color:rgba(155,124,255,0.25); animation:spin 12s linear infinite reverse; }
+  .ar3 { inset:14%; border-top-color:#72e7ff; border-right-color:rgba(114,231,255,0.25); animation:spin 18s linear infinite; }
+  .aura-glow {
+    position:absolute; inset:20%; border-radius:50%;
+    background:radial-gradient(circle,rgba(255,123,216,0.35),rgba(155,124,255,0.18) 50%,transparent 70%);
+    filter:blur(12px);
+    animation:pulse 4s ease-in-out infinite;
+  }
+  .aura-core {
+    position:absolute; inset:26%; border-radius:50%;
+    background:radial-gradient(circle,rgba(255,255,255,0.15),rgba(155,124,255,0.08));
+    border:1px solid rgba(255,255,255,0.25);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Outfit',sans-serif; font-size:2.2vw; font-weight:800;
+    color:#fff8ff; letter-spacing:0.1em;
+  }
+
+  @keyframes spin  { to { transform:rotate(360deg); } }
+  @keyframes pulse { 0%,100%{opacity:0.7;transform:scale(1);} 50%{opacity:1;transform:scale(1.08);} }
+
+  /* フローティングラベル */
+  .float-label {
+    position:absolute;
+    background:rgba(15,8,32,0.75);
+    border:1px solid rgba(255,255,255,0.16);
+    border-radius:100px;
+    padding:0.3em 0.9em;
+    font-size:0.8vw; font-weight:700; white-space:nowrap;
+    animation:floatLabel 3s ease-in-out infinite;
+    backdrop-filter:blur(8px);
+  }
+  .fl1 { top:8%;  left:-8%;  color:#ff7bd8; animation-delay:0s; }
+  .fl2 { top:38%; right:-12%; color:#9b7cff; animation-delay:1s; }
+  .fl3 { bottom:8%; left:-5%; color:#72e7ff; animation-delay:2s; }
+  @keyframes floatLabel {
+    0%,100%{ transform:translateY(0); }
+    50%    { transform:translateY(-4px); }
+  }
+
+  /* タイトルエリア */
+  .title-area { text-align:center; width:100%; }
+  .chip {
+    display:inline-block;
+    font-family:'Outfit',sans-serif; font-size:0.75vw; font-weight:700;
+    letter-spacing:0.15em; color:rgba(255,241,250,0.6);
+    background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.14);
+    border-radius:100px; padding:0.3em 1.2em; margin-bottom:1.2vh;
+    text-transform:uppercase;
+  }
+  .main-title {
+    font-size:clamp(28px, 4.2vw, 72px);
+    font-weight:800; line-height:1.15; letter-spacing:0.03em;
+    background:linear-gradient(135deg,#ffffff 0%,#ffc6ee 35%,#c9a8ff 65%,#72e7ff 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    margin-bottom:1vh;
+  }
+  .sub-title {
+    font-size:clamp(10px, 0.9vw, 16px);
+    color:rgba(255,241,250,0.6); font-weight:700;
+    line-height:1.7;
+  }
+
+  /* ── 右パネル ── */
+  .right {
+    display:flex; flex-direction:column;
+    padding:2.5vh 4vw 2.5vh 2vw;
+    gap:1.8vh;
+    justify-content:center;
+  }
+
+  /* ヒーロー文 */
+  .hero-copy {
+    font-size:clamp(18px, 2.2vw, 38px);
+    font-weight:800; line-height:1.25;
+    color:#ff7bd8;
+    margin-bottom:0.8vh;
+  }
+  .hero-copy span { color:#c9a8ff; }
+  .hero-lead {
+    font-size:clamp(11px, 1.05vw, 18px);
+    line-height:1.75; color:rgba(255,241,250,0.78);
+  }
+  .hero-lead strong { color:#ff7bd8; }
+
+  /* タグ */
+  .tags { display:flex; gap:0.5vw; flex-wrap:wrap; }
+  .tag {
+    background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.14);
+    border-radius:100px; padding:0.25em 0.9em;
+    font-size:clamp(9px,0.75vw,13px); font-weight:700;
+  }
+  .tag:nth-child(1){color:#ff7bd8;border-color:rgba(255,123,216,0.35);}
+  .tag:nth-child(2){color:#9b7cff;border-color:rgba(155,124,255,0.35);}
+  .tag:nth-child(3){color:#72e7ff;border-color:rgba(114,231,255,0.35);}
+  .tag:nth-child(4){color:rgba(255,241,250,0.6);}
+
+  /* 仕切り */
+  .divider {
+    width:100%; height:1px;
+    background:linear-gradient(90deg,rgba(255,255,255,0.12),transparent);
+  }
+
+  /* 企業グリッド 4×2 */
+  .company-grid {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    grid-template-rows:repeat(2,1fr);
+    gap:0.6vw;
+    flex:1;
+  }
+  .company-card {
+    background:rgba(22,12,40,0.72);
+    border:1px solid rgba(255,255,255,0.10);
+    border-radius:0.7vw;
+    padding:0.9vw 0.9vw;
+    display:flex; flex-direction:column;
+    justify-content:space-between;
+    position:relative; overflow:hidden;
+    transition:transform 0.2s, border-color 0.2s;
+    cursor:default;
+  }
+  .company-card:hover {
+    transform:translateY(-2px);
+    border-color:rgba(255,255,255,0.22);
+  }
+  .company-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  }
+  .card-apple::before   { background:linear-gradient(90deg,#c8daff,#e8f0ff); }
+  .card-google::before  { background:linear-gradient(90deg,#5ba3ff,#ff6b60,#ffd048); }
+  .card-amazon::before  { background:linear-gradient(90deg,#ff8c42,#ffb347); }
+  .card-microsoft::before { background:linear-gradient(90deg,#3fa8f0,#00c8a0); }
+  .card-tesla::before   { background:linear-gradient(90deg,#ff4545,#ff8060); }
+  .card-meta::before    { background:linear-gradient(90deg,#3d9eff,#00c8ff); }
+  .card-nvidia::before  { background:linear-gradient(90deg,#60ee54,#00d890); }
+  .card-netflix::before { background:linear-gradient(90deg,#ff2d2d,#ff6644); }
+
+  .card-name {
+    font-family:'Outfit',sans-serif;
+    font-size:clamp(12px,1.1vw,20px); font-weight:800;
+    margin-bottom:0.4vh; letter-spacing:0.02em;
+  }
+  .card-apple   .card-name { color:#c8daff; }
+  .card-google  .card-name { color:#5ba3ff; }
+  .card-amazon  .card-name { color:#ff8c42; }
+  .card-microsoft .card-name { color:#3fa8f0; }
+  .card-tesla   .card-name { color:#ff6060; }
+  .card-meta    .card-name { color:#3d9eff; }
+  .card-nvidia  .card-name { color:#60ee54; }
+  .card-netflix .card-name { color:#ff5555; }
+
+  .card-profile {
+    font-size:clamp(9px,0.72vw,13px); font-weight:700;
+    color:rgba(255,241,250,0.45); margin-bottom:0.5vh; line-height:1.45;
+  }
+  .card-copy {
+    font-size:clamp(9px,0.78vw,14px); line-height:1.65;
+    color:rgba(255,241,250,0.72); margin-bottom:0.5vh;
+  }
+  .card-traits { display:flex; flex-wrap:wrap; gap:3px; margin-top:0.4vh; }
+  .card-trait {
+    font-size:clamp(7px,0.52vw,9px); font-weight:700;
+    padding:1px 6px; border-radius:100px;
+    background:rgba(255,255,255,0.07);
+    border:1px solid rgba(255,255,255,0.12);
+    color:rgba(255,241,250,0.6); white-space:nowrap;
+  }
+
+  /* CTA */
+  .cta-bar {
+    background:rgba(22,12,40,0.75);
+    border:1px solid rgba(255,255,255,0.13);
+    border-radius:1.2vw; padding:1.5vh 1.5vw;
+    display:flex; align-items:center; gap:1.5vw;
+    box-shadow:0 8px 32px rgba(20,0,35,0.5), inset 0 1px 0 rgba(255,255,255,0.09);
+  }
+  .qr-box {
+    width:min(9vw,110px); height:min(9vw,110px);
+    background:#fff; border-radius:0.5vw; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; overflow:hidden;
+  }
+  .qr-box img { width:100%; height:100%; object-fit:contain; }
+  .cta-text { flex:1; }
+  .cta-hl { font-size:clamp(11px,1vw,18px); font-weight:800; color:#fff8ff; margin-bottom:0.3vh; }
+  .cta-url { font-family:'Outfit',monospace; font-size:clamp(8px,0.7vw,12px); color:rgba(255,241,250,0.55); margin-bottom:0.4vh; }
+  .lang-pills { display:flex; gap:0.4vw; }
+  .lang-pill {
+    font-size:clamp(7px,0.6vw,11px); font-weight:700;
+    padding:2px 8px; border-radius:100px;
+    border:1px solid rgba(255,255,255,0.18); color:rgba(255,241,250,0.58);
+  }
+
+  /* フッター */
+  .footer {
+    position:fixed; bottom:1.5vh; left:50%; transform:translateX(-50%);
+    font-size:clamp(7px,0.6vw,10px); color:rgba(255,241,250,0.28);
+    letter-spacing:0.1em; white-space:nowrap; z-index:20;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+
+<!-- パーティクル -->
+<div class="particles" id="particles"></div>
+
+<!-- コーナー -->
+<div class="corner corner-tl"></div>
+<div class="corner corner-tr"></div>
+<div class="corner corner-bl"></div>
+<div class="corner corner-br"></div>
+
+<div class="layout">
+
+  <!-- 左：オーラ＋タイトル -->
+  <div class="left">
+    <div class="aura-wrap">
+      <div class="aura-ring ar1"></div>
+      <div class="aura-ring ar2"></div>
+      <div class="aura-ring ar3"></div>
+      <div class="aura-glow"></div>
+      <div class="aura-core">YOU</div>
+      <div class="float-label fl1">隠れた個性</div>
+      <div class="float-label fl2">思考パターン</div>
+      <div class="float-label fl3">本音フィルター</div>
+    </div>
+
+    <div class="title-area">
+      <div class="chip">✦ AI Personality Analyzer ✦</div>
+      <div class="main-title">あなたは<br>何タイプ？</div>
+      <div class="sub-title">
+        Apple・Google・Amazon・Microsoft<br>
+        Tesla・Meta・Nvidia・Netflix
+      </div>
+    </div>
+  </div>
+
+  <!-- 右：テキスト＋カード＋CTA -->
+  <div class="right">
+
+    <div>
+      <div class="hero-copy">あなたの「隠れた個性」<br><span>AIに見抜かれてみる？</span></div>
+      <div class="hero-lead">
+        直感で答えるだけで、思考パターンや行動の癖をAIが鮮やかに可視化します。<br>
+        <strong>所要時間：約3〜5分　無料・登録不要</strong>
+      </div>
+    </div>
+
+    <div class="tags">
+      <span class="tag">#個性</span>
+      <span class="tag">#思考のクセ</span>
+      <span class="tag">#スクショしたい</span>
+      <span class="tag">#文化祭</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 企業タイプ -->
+    <div class="company-grid">
+      <div class="company-card card-apple">
+        <div class="card-name">Apple</div>
+        <div class="card-profile">透明感・洗練・静かな余裕</div>
+        <div class="card-copy">透明感と洗練で静かに際立つ。上品な存在感で人を惹きつける。</div>
+        <div class="card-traits"><span class="card-trait">こだわり派</span><span class="card-trait">美意識高め</span></div>
+      </div>
+      <div class="company-card card-google">
+        <div class="card-name">Google</div>
+        <div class="card-profile">好奇心・明るさ・遊び心</div>
+        <div class="card-copy">明るさと好奇心でどこでも空気を変える。場を軽やかにする。</div>
+        <div class="card-traits"><span class="card-trait">好奇心旺盛</span><span class="card-trait">探求型</span></div>
+      </div>
+      <div class="company-card card-amazon">
+        <div class="card-name">Amazon</div>
+        <div class="card-profile">行動力・実用感・テンポ</div>
+        <div class="card-copy">決めたら動く。行動力とテンポで存在感を示すパーソナリティ。</div>
+        <div class="card-traits"><span class="card-trait">即行動</span><span class="card-trait">実行力</span></div>
+      </div>
+      <div class="company-card card-microsoft">
+        <div class="card-name">Microsoft</div>
+        <div class="card-profile">安心感・やさしさ・誠実さ</div>
+        <div class="card-copy">やさしさでそっと場を支える。信頼関係を丁寧に育てる。</div>
+        <div class="card-traits"><span class="card-trait">陰の実力者</span><span class="card-trait">安定感</span></div>
+      </div>
+      <div class="company-card card-tesla">
+        <div class="card-name">Tesla</div>
+        <div class="card-profile">情熱・強い引力・勢い</div>
+        <div class="card-copy">情熱の熱量で一気に空気を塗り替える。場の温度を引き上げる。</div>
+        <div class="card-traits"><span class="card-trait">熱量高め</span><span class="card-trait">カリスマ性</span></div>
+      </div>
+      <div class="company-card card-meta">
+        <div class="card-name">Meta</div>
+        <div class="card-profile">共感・つながり・会話力</div>
+        <div class="card-copy">共感とつながりで人と人の間をあたためる。自然に寄り添う。</div>
+        <div class="card-traits"><span class="card-trait">共感力◎</span><span class="card-trait">コミュ力◎</span></div>
+      </div>
+      <div class="company-card card-nvidia">
+        <div class="card-name">Nvidia</div>
+        <div class="card-profile">ミステリアス・深夜感・引力</div>
+        <div class="card-copy">余韻と深みでじわっと惹きつける。全部見せず余韻で引き寄せる。</div>
+        <div class="card-traits"><span class="card-trait">謎めいている</span><span class="card-trait">独特</span></div>
+      </div>
+      <div class="company-card card-netflix">
+        <div class="card-name">Netflix</div>
+        <div class="card-profile">映画感・余韻・感情表現</div>
+        <div class="card-copy">感情の余韻と表現力で深く記憶に刻む。場の空気づくりが上手。</div>
+        <div class="card-traits"><span class="card-trait">記憶に残る</span><span class="card-trait">ドラマチック</span></div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-bar">
+      <div class="qr-box">
+        <img src="qr.png" alt="QR" onerror="this.style.display='none'">
+      </div>
+      <div class="cta-text">
+        <div class="cta-hl">📱 QRコードで今すぐ体験！</div>
+        <div class="cta-url">🌐 https://ai-personality-app-production.up.railway.app/</div>
+      </div>
+      <div class="lang-pills">
+        <span class="lang-pill">🇯🇵 日本語</span>
+        <span class="lang-pill">🇺🇸 EN</span>
+        <span class="lang-pill">🇨🇳 中文</span>
+        <span class="lang-pill">🇰🇷 한국어</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">◆ AI Personality Analyzer — Powered by OpenRouter AI ◆</div>
+
+<script>
+// パーティクル生成
+const container = document.getElementById('particles');
+const colors = ['#ff7bd8','#9b7cff','#72e7ff','#ffffff'];
+for (let i = 0; i < 18; i++) {
+  const p = document.createElement('div');
+  p.className = 'p';
+  const size = Math.random() * 4 + 2;
+  p.style.cssText = `
+    width:${size}px; height:${size}px;
+    background:${colors[Math.floor(Math.random()*colors.length)]};
+    left:${Math.random()*100}%;
+    top:${Math.random()*100 + 100}%;
+    animation-duration:${Math.random()*12+8}s;
+    animation-delay:${Math.random()*8}s;
+    opacity:${Math.random()*0.4+0.1};
+  `;
+  container.appendChild(p);
+}
+</script>
+</body>
+</html>

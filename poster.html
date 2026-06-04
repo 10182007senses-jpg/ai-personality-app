@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>AIパーソナリティ診断 — 文化祭ポスター</title>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  @page { size:A3 portrait; margin:0; }
+  @media print {
+    html, body {
+      -webkit-print-color-adjust:exact !important;
+      print-color-adjust:exact !important;
+    }
+    /* アニメーション停止による表示崩れを防ぐ */
+    .ar1 { border-color:#ff7bd8 rgba(255,123,216,0.2) transparent transparent !important; }
+    .ar2 { border-color:#9b7cff transparent transparent rgba(155,124,255,0.2) !important; }
+    .ar3 { border-color:#72e7ff rgba(114,231,255,0.2) transparent transparent !important; }
+    /* blurフィルターを無効化（青い四角になる原因） */
+    .aura-glow { filter:none !important; opacity:0.5 !important; }
+  }
+
+  html { background:#170821; }
+
+  body {
+    width:297mm; height:420mm;
+    overflow:hidden;
+    background:#170821;
+    font-family:'M PLUS Rounded 1c', sans-serif;
+    color:#fff8ff;
+    position:relative;
+  }
+
+  /* ── 背景 ── */
+  .bg {
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 0%,   rgba(255,121,214,0.32) 0%, transparent 55%),
+      radial-gradient(ellipse 60% 40% at 10% 30%,  rgba(151,118,255,0.22) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 40% at 90% 30%,  rgba(114,231,255,0.18) 0%, transparent 50%),
+      radial-gradient(ellipse 80% 40% at 50% 100%, rgba(115,231,255,0.20) 0%, transparent 55%),
+      linear-gradient(180deg,#1d0a2e 0%,#170821 30%,#0f1e38 100%);
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+
+  /* コーナー */
+  .corner { position:absolute; width:18mm; height:18mm; z-index:5; }
+  .corner-tl { top:5mm;left:5mm; border-top:2px solid rgba(255,123,216,0.5); border-left:2px solid rgba(255,123,216,0.5); }
+  .corner-tr { top:5mm;right:5mm; border-top:2px solid rgba(155,124,255,0.5); border-right:2px solid rgba(155,124,255,0.5); }
+  .corner-bl { bottom:5mm;left:5mm; border-bottom:2px solid rgba(114,231,255,0.5); border-left:2px solid rgba(114,231,255,0.5); }
+  .corner-br { bottom:5mm;right:5mm; border-bottom:2px solid rgba(255,123,216,0.4); border-right:2px solid rgba(255,123,216,0.4); }
+
+  .dot { position:absolute; border-radius:50%; }
+
+  /* ── レイアウト ── */
+  .content {
+    position:relative; z-index:10;
+    width:100%; height:100%;
+    display:flex; flex-direction:column; align-items:center;
+    padding:10mm 14mm 8mm;
+    gap:0;
+  }
+
+  /* ── HERO（全幅中央） ── */
+  .hero {
+    display:flex; flex-direction:column; align-items:center;
+    width:100%; margin-bottom:6mm;
+  }
+
+  .chip {
+    font-family:'Outfit',sans-serif; font-size:9pt; font-weight:700;
+    letter-spacing:0.14em; color:rgba(255,241,250,0.60);
+    background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.13);
+    border-radius:100px; padding:3px 16px; margin-bottom:6mm;
+    text-transform:uppercase;
+  }
+
+  /* オーラ＋タイトル横並び */
+  .hero-inner {
+    display:flex; align-items:center; justify-content:center;
+    gap:10mm; width:100%; margin-bottom:5mm;
+  }
+
+  @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+  .hero-text { flex:1; min-width:0; overflow:visible; }
+  .hero-sub {
+    font-size:9.5pt; font-weight:700; color:rgba(255,241,250,0.60);
+    margin-bottom:3mm; line-height:1.65;
+  }
+
+  .hero-title {
+    font-size:24pt; font-weight:800; line-height:1.28;
+    color:#ff7bd8;
+    margin-bottom:4mm;
+  }
+  .hero-lead {
+    font-size:10pt; line-height:1.75; color:rgba(255,241,250,0.78); margin-bottom:4mm;
+  }
+  .hero-lead strong { color:#ff7bd8; }
+
+  .tags { display:flex; gap:6px; flex-wrap:wrap; }
+  .tag {
+    background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.14);
+    border-radius:100px; padding:3px 11px; font-size:9pt; font-weight:700;
+  }
+  .tag:nth-child(1){color:#ff7bd8;border-color:rgba(255,123,216,0.3);}
+  .tag:nth-child(2){color:#9b7cff;border-color:rgba(155,124,255,0.3);}
+  .tag:nth-child(3){color:#72e7ff;border-color:rgba(114,231,255,0.3);}
+  .tag:nth-child(4){color:rgba(255,241,250,0.55);}
+
+  /* ── ステップ説明バー ── */
+  .steps {
+    display:flex; align-items:stretch; gap:0;
+    width:100%; margin-bottom:5mm;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.10);
+    border-radius:16px; overflow:hidden;
+  }
+  .step {
+    flex:1; padding:4mm 5mm;
+    display:flex; align-items:center; gap:3.5mm;
+    position:relative;
+  }
+  .step + .step::before {
+    content:'';
+    position:absolute; left:0; top:15%; bottom:15%;
+    width:1px; background:rgba(255,255,255,0.10);
+  }
+  .step-num {
+    width:8mm; height:8mm; border-radius:50%; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Outfit',sans-serif; font-size:11pt; font-weight:800;
+  }
+  .step:nth-child(1) .step-num { background:rgba(255,123,216,0.18); color:#ff7bd8; }
+  .step:nth-child(2) .step-num { background:rgba(155,124,255,0.18); color:#9b7cff; }
+  .step:nth-child(3) .step-num { background:rgba(114,231,255,0.18); color:#72e7ff; }
+  .step-body { flex:1; }
+  .step-title { font-size:9.5pt; font-weight:800; color:#fff8ff; margin-bottom:1mm; }
+  .step-desc  { font-size:8pt; color:rgba(255,241,250,0.58); line-height:1.5; }
+
+  /* ── 企業タイプグリッド ── */
+  .section-label {
+    font-size:8.5pt; font-weight:700; letter-spacing:0.12em;
+    color:rgba(255,241,250,0.45); text-transform:uppercase;
+    width:100%; margin-bottom:3.5mm;
+  }
+
+  .company-grid {
+    display:grid; grid-template-columns:repeat(4,1fr);
+    grid-auto-rows:auto;
+    gap:3.5mm; width:100%; margin-bottom:auto;
+  }
+  .company-card {
+    background:rgba(22,12,40,0.75);
+    border:1px solid rgba(255,255,255,0.10);
+    border-radius:13px; padding:4.5mm 5mm;
+    display:flex; flex-direction:column;
+    position:relative; overflow:hidden;
+  }
+  .company-card::before {
+    content:''; position:absolute; top:0;left:0;right:0; height:2.5px;
+    border-radius:13px 13px 0 0;
+  }
+  .card-apple::before   { background:linear-gradient(90deg,#c8daff,#e8f0ff); }
+  .card-google::before  { background:linear-gradient(90deg,#5ba3ff,#ff6b60,#ffd048); }
+  .card-amazon::before  { background:linear-gradient(90deg,#ff8c42,#ffb347); }
+  .card-microsoft::before { background:linear-gradient(90deg,#3fa8f0,#00c8a0); }
+  .card-tesla::before   { background:linear-gradient(90deg,#ff4545,#ff8060); }
+  .card-meta::before    { background:linear-gradient(90deg,#3d9eff,#00c8ff); }
+  .card-nvidia::before  { background:linear-gradient(90deg,#60ee54,#00d890); }
+  .card-netflix::before { background:linear-gradient(90deg,#ff2d2d,#ff6644); }
+
+  .card-name {
+    font-family:'Outfit',sans-serif; font-size:14pt; font-weight:800;
+    margin-bottom:2mm; letter-spacing:0.02em;
+  }
+  .card-apple   .card-name { color:#c8daff; }
+  .card-google  .card-name { color:#5ba3ff; }
+  .card-amazon  .card-name { color:#ff8c42; }
+  .card-microsoft .card-name { color:#3fa8f0; }
+  .card-tesla   .card-name { color:#ff6060; }
+  .card-meta    .card-name { color:#3d9eff; }
+  .card-nvidia  .card-name { color:#60ee54; }
+  .card-netflix .card-name { color:#ff5555; }
+
+  .card-profile {
+    font-size:9pt; font-weight:700; color:rgba(255,241,250,0.45);
+    margin-bottom:3mm; line-height:1.5;
+  }
+  .card-copy {
+    font-size:10pt; line-height:1.7; color:rgba(255,241,250,0.75);
+    margin-bottom:3mm;
+  }
+  .card-traits {
+    display:flex; flex-wrap:wrap; gap:3px;
+    margin-top:3mm;
+  }
+  .card-trait {
+    font-size:7pt; font-weight:700; padding:2px 6px;
+    border-radius:100px;
+    background:rgba(255,255,255,0.07);
+    border:1px solid rgba(255,255,255,0.13);
+    color:rgba(255,241,250,0.6);
+    white-space:nowrap;
+  }
+
+  /* ── CTA ── */
+  .cta-card {
+    background:rgba(22,12,40,0.75);
+    border:1px solid rgba(255,255,255,0.13);
+    border-radius:18px; padding:5mm 8mm;
+    display:flex; align-items:center; gap:7mm; width:100%;
+    box-shadow:0 8px 32px rgba(20,0,35,0.5), inset 0 1px 0 rgba(255,255,255,0.09);
+    margin-bottom:4mm;
+  }
+  .qr-box {
+    width:30mm; height:30mm; background:#fff;
+    border-radius:8px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; overflow:hidden;
+  }
+  .qr-box img { width:30mm; height:30mm; object-fit:contain; }
+  .cta-hl { font-size:13pt; font-weight:800; color:#fff8ff; margin-bottom:1.5mm; }
+  .cta-url { font-family:'Outfit',monospace; font-size:9pt; color:rgba(255,241,250,0.55); margin-bottom:2mm; }
+  .cta-note { font-size:8.5pt; color:rgba(255,241,250,0.55); margin-bottom:2.5mm; }
+  .lang-pills { display:flex; gap:5px; }
+  .lang-pill {
+    font-size:7.5pt; font-weight:700; padding:2px 8px; border-radius:100px;
+    border:1px solid rgba(255,255,255,0.18); color:rgba(255,241,250,0.58);
+  }
+
+  .footer { font-size:7pt; color:rgba(255,241,250,0.28); letter-spacing:0.08em; text-align:center; }
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="corner corner-tl"></div>
+<div class="corner corner-tr"></div>
+<div class="corner corner-bl"></div>
+<div class="corner corner-br"></div>
+
+<div class="dot" style="width:2.5mm;height:2.5mm;background:#ff7bd8;top:5%;left:3%;opacity:0.4;"></div>
+<div class="dot" style="width:2mm;height:2mm;background:#9b7cff;top:9%;right:4%;opacity:0.4;"></div>
+<div class="dot" style="width:2mm;height:2mm;background:#72e7ff;top:60%;left:2%;opacity:0.25;"></div>
+<div class="dot" style="width:1.5mm;height:1.5mm;background:#ff7bd8;top:70%;right:3%;opacity:0.3;"></div>
+
+<div class="content">
+
+  <!-- メインタイトル（SVGグラデーション） -->
+  <svg width="100%" height="90" viewBox="0 0 1000 90" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:6mm;display:block;overflow:visible;">
+    <defs>
+      <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#ffffff"/>
+        <stop offset="35%"  stop-color="#ffc6ee"/>
+        <stop offset="65%"  stop-color="#c9a8ff"/>
+        <stop offset="100%" stop-color="#72e7ff"/>
+      </linearGradient>
+    </defs>
+    <text x="500" y="72" text-anchor="middle"
+      font-family="'M PLUS Rounded 1c', sans-serif"
+      font-size="72" font-weight="800" letter-spacing="4"
+      fill="url(#titleGrad)">あなたは何タイプ？</text>
+  </svg>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="chip">✦ AI Personality Analyzer ✦</div>
+    <div class="hero-inner">
+      <!-- オーラをSVGで描画（印刷・PDF対応） -->
+      <svg width="55mm" height="55mm" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+        <defs>
+          <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stop-color="#ff7bd8" stop-opacity="0.3"/>
+            <stop offset="60%"  stop-color="#9b7cff" stop-opacity="0.12"/>
+            <stop offset="100%" stop-color="#9b7cff" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <!-- グロー -->
+        <circle cx="80" cy="80" r="55" fill="url(#glowGrad)"/>
+        <!-- リング -->
+        <circle cx="80" cy="80" r="75" fill="none" stroke="#ff7bd8" stroke-width="1.2" stroke-opacity="0.7" stroke-dasharray="120 60"/>
+        <circle cx="80" cy="80" r="60" fill="none" stroke="#9b7cff" stroke-width="1.2" stroke-opacity="0.65" stroke-dasharray="80 80"/>
+        <circle cx="80" cy="80" r="45" fill="none" stroke="#72e7ff" stroke-width="1.2" stroke-opacity="0.6" stroke-dasharray="60 90"/>
+        <!-- コア -->
+        <circle cx="80" cy="80" r="28" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.22)" stroke-width="0.8"/>
+        <text x="80" y="85" text-anchor="middle" font-family="'Outfit',sans-serif" font-size="14" font-weight="800" fill="#fff8ff" letter-spacing="2">YOU</text>
+      </svg>
+      <div class="hero-text">
+        <div class="hero-sub">あなたは Apple・Google・Amazon・Microsoft<br>Tesla・Meta・Nvidia・Netflix　どのタイプ？</div>
+        <div class="hero-title">あなたの「隠れた個性」<br>AIに見抜かれてみる？</div>
+        <div class="hero-lead">
+          直感で答えるだけで、思考パターンや行動の癖を<br>
+          AIが鮮やかに可視化します。<strong>所要時間：約3〜5分</strong>　無料・登録不要
+        </div>
+        <div class="tags">
+          <span class="tag">#個性</span>
+          <span class="tag">#思考のクセ</span>
+          <span class="tag">#スクショしたい</span>
+          <span class="tag">#文化祭</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ステップ説明 -->
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">QRコードを読み取る</div>
+        <div class="step-desc">スマホカメラで右下のQRを<br>スキャンしてアクセス</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">直感で質問に答える</div>
+        <div class="step-desc">考えすぎず、ピンときた<br>選択肢を選ぶだけ</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">AIが個性を分析</div>
+        <div class="step-desc">8タイプの中からあなたの<br>パーソナリティを判定</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- タイプグリッドラベル -->
+  <div class="section-label">◆ 診断で判定される8つのパーソナリティタイプ</div>
+
+  <!-- 企業タイプ 4×2 -->
+  <div class="company-grid">
+    <div class="company-card card-apple">
+      <div class="card-name">Apple</div>
+      <div class="card-profile">透明感・洗練・静かな余裕</div>
+      <div class="card-copy">透明感と洗練で、静かに際立つパーソナリティ。感情を大げさに見せず、上品な存在感で自然に人を惹きつける。</div>
+      <div class="card-traits"><span class="card-trait">こだわり派</span><span class="card-trait">美意識高め</span><span class="card-trait">上品</span></div>
+    </div>
+    <div class="company-card card-google">
+      <div class="card-name">Google</div>
+      <div class="card-profile">好奇心・明るさ・遊び心</div>
+      <div class="card-copy">明るさと好奇心で、どこでも空気を変えるパーソナリティ。会話や新しい発見を楽しみながら場を軽やかにする。</div>
+      <div class="card-traits"><span class="card-trait">知的好奇心</span><span class="card-trait">場を明るく</span><span class="card-trait">探求型</span></div>
+    </div>
+    <div class="company-card card-amazon">
+      <div class="card-name">Amazon</div>
+      <div class="card-profile">行動力・実用感・テンポの良さ</div>
+      <div class="card-copy">決めたら動く、行動力とテンポで存在感を示すパーソナリティ。迷う時間より動くタイミングを大切にする。</div>
+      <div class="card-traits"><span class="card-trait">即行動</span><span class="card-trait">効率重視</span><span class="card-trait">実行力</span></div>
+    </div>
+    <div class="company-card card-microsoft">
+      <div class="card-name">Microsoft</div>
+      <div class="card-profile">安心感・やさしさ・誠実さ</div>
+      <div class="card-copy">安心感とやさしさで、そっと場を支えるパーソナリティ。周囲に寄り添い、信頼関係を丁寧に育てる。</div>
+      <div class="card-traits"><span class="card-trait">陰の実力者</span><span class="card-trait">誠実</span><span class="card-trait">安定感</span></div>
+    </div>
+    <div class="company-card card-tesla">
+      <div class="card-name">Tesla</div>
+      <div class="card-profile">情熱・強い引力・勢い</div>
+      <div class="card-copy">情熱の熱量で、一気に空気を塗り替えるパーソナリティ。気持ちが高まると一直線で場の温度を引き上げる。</div>
+      <div class="card-traits"><span class="card-trait">熱量高め</span><span class="card-trait">一直線</span><span class="card-trait">カリスマ性</span></div>
+    </div>
+    <div class="company-card card-meta">
+      <div class="card-name">Meta</div>
+      <div class="card-profile">共感・つながり・やわらかな会話</div>
+      <div class="card-copy">共感とつながりで、人と人の間をあたためるパーソナリティ。相手の気持ちに自然に寄り添い場を温める。</div>
+      <div class="card-traits"><span class="card-trait">共感力◎</span><span class="card-trait">コミュ力◎</span><span class="card-trait">ムードメーカー</span></div>
+    </div>
+    <div class="company-card card-nvidia">
+      <div class="card-name">Nvidia</div>
+      <div class="card-profile">ミステリアス・深夜感・静かな引力</div>
+      <div class="card-copy">ミステリアスな余韻と深みで、じわっと惹きつけるパーソナリティ。全部を見せ切らず余韻で人を引き寄せる。</div>
+      <div class="card-traits"><span class="card-trait">謎めいている</span><span class="card-trait">深みがある</span><span class="card-trait">独特</span></div>
+    </div>
+    <div class="company-card card-netflix">
+      <div class="card-name">Netflix</div>
+      <div class="card-profile">映画感・余韻・感情表現の強さ</div>
+      <div class="card-copy">感情の余韻と表現力で、深く記憶に刻むパーソナリティ。場の空気づくりがうまく感情の印象を深く残す。</div>
+      <div class="card-traits"><span class="card-trait">記憶に残る</span><span class="card-trait">表現豊か</span><span class="card-trait">ドラマチック</span></div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-card">
+    <div class="qr-box">
+      <img src="qr.png" alt="QRコード" onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'font-size:7pt;color:#555;text-align:center;padding:6px;\'>QR<br>ここに<br>貼る</div>'">
+    </div>
+    <div style="flex:1;">
+      <div class="cta-hl">📱 QRコードで今すぐ体験！</div>
+      <div class="cta-url">🌐 https://ai-personality-app-production.up.railway.app/</div>
+      <div class="cta-note">スマホでQRを読み取って診断スタート　無料・登録不要</div>
+      <div class="lang-pills">
+        <span class="lang-pill">🇯🇵 日本語</span>
+        <span class="lang-pill">🇺🇸 EN</span>
+        <span class="lang-pill">🇨🇳 中文</span>
+        <span class="lang-pill">🇰🇷 한국어</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">◆ AI Personality Analyzer &nbsp;—&nbsp; Powered by OpenRouter AI &nbsp;◆</div>
+
+</div>
+</body>
+</html>
