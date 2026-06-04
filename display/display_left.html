@@ -129,7 +129,7 @@
     text-transform:uppercase;
   }
   .main-title {
-    font-size:clamp(32px, 5.5vw, 90px);
+    font-size:clamp(36px, 6.2vw, 105px);
     font-weight:800; line-height:1.15; letter-spacing:0.03em;
     background:linear-gradient(135deg,#ffffff 0%,#ffc6ee 35%,#c9a8ff 65%,#72e7ff 100%);
     -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
@@ -138,6 +138,37 @@
     font-size:clamp(11px, 1.1vw, 20px);
     color:rgba(255,241,250,0.6); font-weight:700;
     line-height:1.8;
+  }
+
+  /* QRエリア */
+  .qr-area {
+    display:flex; align-items:center; gap:1.4vw;
+    background:rgba(22,12,40,0.72);
+    border:1px solid rgba(255,255,255,0.13);
+    border-radius:1.2vw;
+    padding:1.2vh 1.4vw;
+    margin-top:0.5vh;
+    box-shadow:0 8px 32px rgba(20,0,35,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+  .qr-box {
+    width:min(7vw, 90px); height:min(7vw, 90px);
+    background:#fff; border-radius:0.6vw; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; overflow:hidden;
+  }
+  .qr-box img { width:100%; height:100%; object-fit:contain; }
+  .qr-info { display:flex; flex-direction:column; gap:0.4vh; }
+  .qr-hl {
+    font-size:clamp(11px, 1vw, 18px); font-weight:800; color:#fff8ff;
+  }
+  .qr-url {
+    font-family:'Outfit',monospace;
+    font-size:clamp(8px, 0.65vw, 12px); color:rgba(255,241,250,0.5);
+  }
+  .lang-pills { display:flex; gap:0.4vw; flex-wrap:wrap; }
+  .lang-pill {
+    font-size:clamp(7px, 0.6vw, 11px); font-weight:700;
+    padding:2px 8px; border-radius:100px;
+    border:1px solid rgba(255,255,255,0.18); color:rgba(255,241,250,0.58);
   }
 
   /* フッター */
@@ -181,6 +212,21 @@
     <div class="sub-title">
       Apple・Google・Amazon・Microsoft<br>
       Tesla・Meta・Nvidia・Netflix
+    </div>
+    <div class="qr-area">
+      <div class="qr-box">
+        <img src="qr.png" alt="QR" onerror="this.style.display='none'">
+      </div>
+      <div class="qr-info">
+        <div class="qr-hl">📱 QRコードで今すぐ体験！</div>
+        <div class="qr-url">🌐 https://ai-personality-app-production.up.railway.app/</div>
+        <div class="lang-pills">
+          <span class="lang-pill">🇯🇵 日本語</span>
+          <span class="lang-pill">🇺🇸 EN</span>
+          <span class="lang-pill">🇨🇳 中文</span>
+          <span class="lang-pill">🇰🇷 한국어</span>
+        </div>
+      </div>
     </div>
   </div>
 
