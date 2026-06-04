@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>あなたは何タイプ？ — AI Personality Analyzer</title>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html, body {
+    width:100vw; height:100vh;
+    overflow:hidden;
+    background:#170821;
+    font-family:'M PLUS Rounded 1c', sans-serif;
+    color:#fff8ff;
+  }
+
+  /* ── 背景 ── */
+  .bg {
+    position:fixed; inset:0; z-index:0;
+    background:
+      radial-gradient(ellipse 70% 80% at 50% 50%,  rgba(255,121,214,0.28) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 90% 10%,  rgba(151,118,255,0.24) 0%, transparent 55%),
+      radial-gradient(ellipse 60% 50% at 10% 90%, rgba(115,231,255,0.20) 0%, transparent 55%),
+      radial-gradient(ellipse 40% 40% at 50% 50%, rgba(151,118,255,0.10) 0%, transparent 60%),
+      linear-gradient(135deg,#1a082a 0%,#170821 40%,#0f1d38 100%);
+  }
+
+  /* パーティクル */
+  .particles { position:fixed; inset:0; z-index:1; pointer-events:none; }
+  .p { position:absolute; border-radius:50%; animation:float linear infinite; }
+
+  @keyframes float {
+    0%   { transform:translateY(0) scale(1); opacity:0; }
+    10%  { opacity:1; }
+    90%  { opacity:0.6; }
+    100% { transform:translateY(-100vh) scale(0.5); opacity:0; }
+  }
+
+  /* コーナー */
+  .corner { position:fixed; width:5vw; height:5vw; z-index:5; }
+  .corner-tl { top:2vw; left:2vw; border-top:2px solid rgba(255,123,216,0.5); border-left:2px solid rgba(255,123,216,0.5); }
+  .corner-tr { top:2vw; right:2vw; border-top:2px solid rgba(155,124,255,0.5); border-right:2px solid rgba(155,124,255,0.5); }
+  .corner-bl { bottom:2vw; left:2vw; border-bottom:2px solid rgba(114,231,255,0.5); border-left:2px solid rgba(114,231,255,0.5); }
+  .corner-br { bottom:2vw; right:2vw; border-bottom:2px solid rgba(255,123,216,0.4); border-right:2px solid rgba(255,123,216,0.4); }
+
+  /* ── 中央レイアウト ── */
+  .layout {
+    position:relative; z-index:10;
+    width:100vw; height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  /* ── 左パネル：オーラ＋タイトル ── */
+  .left {
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    padding:3vw 4vw;
+    gap:4vh;
+  }
+
+  /* オーラ */
+  .aura-wrap {
+    position:relative;
+    width:min(42vw, 56vh);
+    height:min(42vw, 56vh);
+    flex-shrink:0;
+  }
+  .aura-ring {
+    position:absolute; inset:0; border-radius:50%;
+    border:1.5px solid transparent;
+  }
+  .ar1 { border-top-color:#ff7bd8; border-right-color:rgba(255,123,216,0.25); animation:spin 8s linear infinite; }
+  .ar2 { inset:7%; border-top-color:#9b7cff; border-left-color:rgba(155,124,255,0.25); animation:spin 12s linear infinite reverse; }
+  .ar3 { inset:14%; border-top-color:#72e7ff; border-right-color:rgba(114,231,255,0.25); animation:spin 18s linear infinite; }
+  .aura-glow {
+    position:absolute; inset:20%; border-radius:50%;
+    background:radial-gradient(circle,rgba(255,123,216,0.35),rgba(155,124,255,0.18) 50%,transparent 70%);
+    filter:blur(18px);
+    animation:pulse 4s ease-in-out infinite;
+  }
+  .aura-core {
+    position:absolute; inset:26%; border-radius:50%;
+    background:radial-gradient(circle,rgba(255,255,255,0.15),rgba(155,124,255,0.08));
+    border:1px solid rgba(255,255,255,0.25);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Outfit',sans-serif; font-size:3.5vw; font-weight:800;
+    color:#fff8ff; letter-spacing:0.1em;
+  }
+
+  @keyframes spin  { to { transform:rotate(360deg); } }
+  @keyframes pulse { 0%,100%{opacity:0.7;transform:scale(1);} 50%{opacity:1;transform:scale(1.08);} }
+
+  /* フローティングラベル */
+  .float-label {
+    position:absolute;
+    background:rgba(15,8,32,0.75);
+    border:1px solid rgba(255,255,255,0.16);
+    border-radius:100px;
+    padding:0.35em 1em;
+    font-size:1.1vw; font-weight:700; white-space:nowrap;
+    animation:floatLabel 3s ease-in-out infinite;
+    backdrop-filter:blur(8px);
+  }
+  .fl1 { top:8%;  left:-10%;  color:#ff7bd8; animation-delay:0s; }
+  .fl2 { top:38%; right:-14%; color:#9b7cff; animation-delay:1s; }
+  .fl3 { bottom:8%; left:-8%; color:#72e7ff; animation-delay:2s; }
+  @keyframes floatLabel {
+    0%,100%{ transform:translateY(0); }
+    50%    { transform:translateY(-6px); }
+  }
+
+  /* タイトルエリア */
+  .title-area { text-align:center; width:100%; }
+  .chip {
+    display:inline-block;
+    font-family:'Outfit',sans-serif; font-size:1vw; font-weight:700;
+    letter-spacing:0.15em; color:rgba(255,241,250,0.6);
+    background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.14);
+    border-radius:100px; padding:0.35em 1.4em; margin-bottom:1.5vh;
+    text-transform:uppercase;
+  }
+  .main-title {
+    font-size:clamp(38px, 6.5vw, 110px);
+    font-weight:800; line-height:1.15; letter-spacing:0.03em;
+    background:linear-gradient(135deg,#ffffff 0%,#ffc6ee 35%,#c9a8ff 65%,#72e7ff 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    margin-bottom:1.5vh;
+  }
+  .sub-title {
+    font-size:clamp(12px, 1.3vw, 22px);
+    color:rgba(255,241,250,0.6); font-weight:700;
+    line-height:1.7;
+  }
+
+  /* フッター */
+  .footer {
+    position:fixed; bottom:1.5vh; left:50%; transform:translateX(-50%);
+    font-size:clamp(7px,0.6vw,10px); color:rgba(255,241,250,0.28);
+    letter-spacing:0.1em; white-space:nowrap; z-index:20;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="particles" id="particles"></div>
+
+<div class="corner corner-tl"></div>
+<div class="corner corner-tr"></div>
+<div class="corner corner-bl"></div>
+<div class="corner corner-br"></div>
+
+<div class="layout">
+  <div class="left">
+    <div class="aura-wrap">
+      <div class="aura-ring ar1"></div>
+      <div class="aura-ring ar2"></div>
+      <div class="aura-ring ar3"></div>
+      <div class="aura-glow"></div>
+      <div class="aura-core">YOU</div>
+      <div class="float-label fl1">隠れた個性</div>
+      <div class="float-label fl2">思考パターン</div>
+      <div class="float-label fl3">本音フィルター</div>
+    </div>
+
+    <div class="title-area">
+      <div class="chip">✦ AI Personality Analyzer ✦</div>
+      <div class="main-title">あなたは<br>何タイプ？</div>
+      <div class="sub-title">
+        Apple・Google・Amazon・Microsoft<br>
+        Tesla・Meta・Nvidia・Netflix
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">◆ AI Personality Analyzer — Powered by OpenRouter AI ◆</div>
+
+<script>
+const container = document.getElementById('particles');
+const colors = ['#ff7bd8','#9b7cff','#72e7ff','#ffffff'];
+for (let i = 0; i < 22; i++) {
+  const p = document.createElement('div');
+  p.className = 'p';
+  const size = Math.random() * 5 + 2;
+  p.style.cssText = `
+    width:${size}px; height:${size}px;
+    background:${colors[Math.floor(Math.random()*colors.length)]};
+    left:${Math.random()*100}%;
+    top:${Math.random()*100 + 100}%;
+    animation-duration:${Math.random()*12+8}s;
+    animation-delay:${Math.random()*8}s;
+    opacity:${Math.random()*0.4+0.1};
+  `;
+  container.appendChild(p);
+}
+</script>
+</body>
+</html>
