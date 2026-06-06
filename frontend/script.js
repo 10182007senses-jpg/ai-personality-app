@@ -31,6 +31,8 @@ const resultInnerTags = document.getElementById("result-inner-tags");
 const resultLoveTags = document.getElementById("result-love-tags");
 const resultCompatibility = document.getElementById("result-compatibility");
 const resultCompatibilityLabel = document.getElementById("result-compatibility-label");
+const resultMatrix = document.getElementById("result-matrix");
+const resultMatrixLabel = document.getElementById("result-matrix-label");
 const resultCarousel = document.getElementById("result-carousel");
 const resultCarouselPrev = document.getElementById("carousel-prev");
 const resultCarouselNext = document.getElementById("carousel-next");
@@ -82,6 +84,23 @@ const HTML_LANG_MAP = {
     ko: "ko"
 };
 
+const TYPE_ORDER = ["Apple", "Google", "Amazon", "Microsoft", "Tesla", "Meta", "Nvidia", "Netflix"];
+const TYPE_ABBR = {
+    Apple: "Ap", Google: "Go", Amazon: "Am", Microsoft: "Ms",
+    Tesla: "Te", Meta: "Me", Nvidia: "Nv", Netflix: "Nf"
+};
+const STATIC_COMPATIBILITY = {
+    Apple:     { Google: 2, Amazon: 1, Microsoft: 3, Tesla: 2, Meta: 2, Nvidia: 3, Netflix: 2 },
+    Google:    { Apple: 2, Amazon: 3, Microsoft: 1, Tesla: 2, Meta: 3, Nvidia: 1, Netflix: 2 },
+    Amazon:    { Apple: 1, Google: 3, Microsoft: 2, Tesla: 3, Meta: 1, Nvidia: 1, Netflix: 1 },
+    Microsoft: { Apple: 3, Google: 1, Amazon: 2, Tesla: 1, Meta: 3, Nvidia: 3, Netflix: 2 },
+    Tesla:     { Apple: 2, Google: 2, Amazon: 3, Microsoft: 1, Meta: 2, Nvidia: 2, Netflix: 3 },
+    Meta:      { Apple: 2, Google: 3, Amazon: 1, Microsoft: 3, Tesla: 2, Nvidia: 2, Netflix: 3 },
+    Nvidia:    { Apple: 3, Google: 1, Amazon: 1, Microsoft: 3, Tesla: 2, Meta: 2, Netflix: 2 },
+    Netflix:   { Apple: 2, Google: 2, Amazon: 1, Microsoft: 2, Tesla: 3, Meta: 3, Nvidia: 2 }
+};
+const MATRIX_SYMBOLS = { 3: "◎", 2: "○", 1: "△" };
+
 const translations = {
     ja: {
         metaTitle: "AIパーソナリティ診断",
@@ -127,6 +146,8 @@ const translations = {
         resultDescriptionLabel: "AIが読んだ個性",
         resultRecommendationLabel: "恋愛モード",
         resultCompatibilityLabel: "相性の良いタイプ",
+        resultMatrixLabel: "相性マップ",
+        matrixReasons: { 3: "最も相性がいいタイプです。", 2: "相性がいいタイプです。", 1: "関わり方次第で相性が出るタイプです。" },
         compatibilityPlaceholder: "もう一度診断すると相性タイプが表示されます。",
         carouselPagesLabel: "結果カード",
         carouselDotLabel: "結果カード",
@@ -187,6 +208,8 @@ const translations = {
         resultDescriptionLabel: "Your personality read",
         resultRecommendationLabel: "Love mode",
         resultCompatibilityLabel: "Best Match Types",
+        resultMatrixLabel: "Compatibility Map",
+        matrixReasons: { 3: "Your best match type.", 2: "A good match type.", 1: "Compatible depending on how you connect." },
         compatibilityPlaceholder: "Run the diagnosis again to reveal your best matches.",
         carouselPagesLabel: "Result cards",
         carouselDotLabel: "Result card",
@@ -247,6 +270,8 @@ const translations = {
         resultDescriptionLabel: "AI读出的个性",
         resultRecommendationLabel: "恋爱模式",
         resultCompatibilityLabel: "相性好的类型",
+        resultMatrixLabel: "相性地图",
+        matrixReasons: { 3: "最相配的类型。", 2: "相性不错的类型。", 1: "相处方式决定相性的类型。" },
         compatibilityPlaceholder: "重新测试后会显示更适合的类型。",
         carouselPagesLabel: "结果卡片",
         carouselDotLabel: "结果卡片",
@@ -307,6 +332,8 @@ const translations = {
         resultDescriptionLabel: "AI가 읽은 개성",
         resultRecommendationLabel: "연애 모드",
         resultCompatibilityLabel: "잘 맞는 타입",
+        resultMatrixLabel: "궁합 지도",
+        matrixReasons: { 3: "가장 잘 맞는 타입입니다.", 2: "잘 맞는 타입입니다.", 1: "관계 방식에 따라 달라지는 타입입니다." },
         compatibilityPlaceholder: "다시 진단하면 잘 맞는 타입이 표시됩니다.",
         carouselPagesLabel: "결과 카드",
         carouselDotLabel: "결과 카드",
@@ -825,6 +852,7 @@ function clearResultContent() {
     renderTagCollection(resultInnerTags, []);
     renderTagCollection(resultLoveTags, []);
     renderCompatibility([]);
+    renderCompatibilityMatrix("");
     populateThemeProfile("default", null);
     setCarouselIndex(0, { behavior: "auto" });
 }
@@ -1078,7 +1106,8 @@ function renderResultCarousel(resultType, language = currentLanguage) {
     renderTraits(Array.isArray(resultType.traits) ? resultType.traits : []);
     renderTagCollection(resultInnerTags, Array.isArray(resultType.innerTags) ? resultType.innerTags : []);
     renderTagCollection(resultLoveTags, Array.isArray(resultType.loveTags) ? resultType.loveTags : []);
-    renderCompatibility(Array.isArray(resultType.compatibility) ? resultType.compatibility : [], language);
+    renderCompatibility(buildStaticCompatibilityList(resultType.bestType || "", language), language);
+    renderCompatibilityMatrix(resultType.bestType || "");
 
     activeCarouselIndex = 0;
     updateCarouselState();
@@ -1146,6 +1175,76 @@ function renderCompatibility(items, language = currentLanguage) {
         body.append(type, reason);
         wrapper.append(rank, body);
         resultCompatibility.appendChild(wrapper);
+    });
+}
+
+function buildStaticCompatibilityList(bestType, language) {
+    if (!bestType || !STATIC_COMPATIBILITY[bestType]) {
+        return [];
+    }
+    const locale = getTranslations(language);
+    const scores = STATIC_COMPATIBILITY[bestType];
+    return Object.entries(scores)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3)
+        .map(([type, score]) => ({
+            type,
+            reason: (locale.matrixReasons || {})[score] || ""
+        }));
+}
+
+function renderCompatibilityMatrix(bestType) {
+    if (!resultMatrix) {
+        return;
+    }
+    resultMatrix.replaceChildren();
+
+    // ヘッダー行
+    const header = document.createElement("div");
+    header.className = "matrix-row matrix-header";
+    const corner = document.createElement("span");
+    corner.className = "matrix-cell matrix-corner";
+    header.appendChild(corner);
+    TYPE_ORDER.forEach((type) => {
+        const cell = document.createElement("span");
+        cell.className = "matrix-cell matrix-head-cell";
+        if (type === bestType) {
+            cell.classList.add("is-user-type");
+        }
+        cell.textContent = TYPE_ABBR[type];
+        header.appendChild(cell);
+    });
+    resultMatrix.appendChild(header);
+
+    // データ行
+    TYPE_ORDER.forEach((rowType) => {
+        const isUserRow = rowType === bestType;
+        const row = document.createElement("div");
+        row.className = "matrix-row " + (isUserRow ? "is-user-row" : "is-ref-row");
+
+        const label = document.createElement("span");
+        label.className = "matrix-cell matrix-row-label" + (isUserRow ? " is-user-type" : "");
+        label.textContent = TYPE_ABBR[rowType];
+        row.appendChild(label);
+
+        TYPE_ORDER.forEach((colType) => {
+            const cell = document.createElement("span");
+            cell.className = "matrix-cell";
+
+            if (rowType === colType) {
+                cell.classList.add("matrix-self");
+                cell.textContent = "―";
+            } else {
+                const rowData = STATIC_COMPATIBILITY[rowType] || {};
+                const score = rowData[colType]
+                    || (STATIC_COMPATIBILITY[colType] || {})[rowType]
+                    || 1;
+                cell.classList.add("matrix-score-" + score);
+                cell.textContent = MATRIX_SYMBOLS[score];
+            }
+            row.appendChild(cell);
+        });
+        resultMatrix.appendChild(row);
     });
 }
 
@@ -1339,6 +1438,7 @@ function applyTranslations() {
     setText(resultDescriptionLabel, locale.resultDescriptionLabel);
     setText(resultRecommendationLabel, locale.resultRecommendationLabel);
     setText(resultCompatibilityLabel, locale.resultCompatibilityLabel);
+    setText(resultMatrixLabel, locale.resultMatrixLabel);
     setText(resultCarouselPrev, locale.carouselPrev);
     setText(resultCarouselNext, locale.carouselNext);
     applyCarouselLabels(currentLanguage);

@@ -1018,7 +1018,6 @@ def build_fallback_diagnosis_payload(best_type: str, sub_type: str | None, langu
         "traits": build_fallback_traits(best_type, language),
         "innerTags": build_fallback_tags(best_type, "inner_tags", language),
         "loveTags": build_fallback_tags(best_type, "love_tags", language),
-        "compatibility": build_fallback_compatibility(best_type, sub_type, language),
     }
 
 
@@ -1556,7 +1555,7 @@ compatibility requirements:
                 {"role": "user", "content": user_prompt},
             ],
             timeout=30,
-            max_tokens=700,
+            max_tokens=800,
         )
         parsed = json.loads(strip_json_wrapper(raw_text))
         description = normalize_short_text(parsed.get("description"), max_length=520)
@@ -1574,12 +1573,6 @@ compatibility requirements:
             "traits": normalize_generated_traits(parsed.get("traits"), best_type, normalized_language),
             "innerTags": normalize_generated_tags(parsed.get("innerTags"), best_type, "inner_tags", normalized_language),
             "loveTags": normalize_generated_tags(parsed.get("loveTags"), best_type, "love_tags", normalized_language),
-            "compatibility": normalize_generated_compatibility(
-                parsed.get("compatibility"),
-                best_type,
-                sub_type,
-                normalized_language,
-            ),
         }
     except Exception as error:
         print("AI diagnosis text error:", error)
@@ -1719,7 +1712,6 @@ def diagnose(data: AnswerData):
         "traits": diagnosis_text["traits"],
         "innerTags": diagnosis_text["innerTags"],
         "loveTags": diagnosis_text["loveTags"],
-        "compatibility": diagnosis_text["compatibility"],
         "bestType": best_type,
         "subtype": sub_type,
         "language": normalized_language,
