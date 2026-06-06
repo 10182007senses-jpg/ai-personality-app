@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/style.css?v=20260603-5">
+    <link rel="stylesheet" href="/static/style.css?v=20260603-7">
 </head>
 <body data-theme="default" data-screen="start">
     <div class="scene" aria-hidden="true">
@@ -96,6 +96,16 @@
                 <p id="question-kicker" class="question-kicker">気分に近いものをタップ</p>
                 <h2 id="question-text">質問がここに表示されます。</h2>
                 <div id="choices" class="choices"></div>
+                <div id="other-input-area" class="other-input-area" hidden>
+                    <textarea
+                        id="other-text"
+                        class="other-textarea"
+                        maxlength="200"
+                        rows="3"
+                    ></textarea>
+                    <p id="other-char-count" class="other-char-count">0 / 200</p>
+                    <button id="other-submit" type="button" class="other-submit-button" disabled>送信</button>
+                </div>
             </div>
         </section>
 
@@ -177,6 +187,6 @@
         </section>
     </main>
 
-    <script src="/static/script.js?v=20260603-5"></script>
+    <script src="/static/script.js?v=20260603-7"></script>
 </body>
 </html>

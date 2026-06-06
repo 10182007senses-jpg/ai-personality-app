@@ -38,6 +38,10 @@ const resultCarouselPrev = document.getElementById("carousel-prev");
 const resultCarouselNext = document.getElementById("carousel-next");
 const resultCarouselDots = document.getElementById("carousel-dots");
 const auraCoreText = document.getElementById("aura-core-text");
+const otherInputArea = document.getElementById("other-input-area");
+const otherText = document.getElementById("other-text");
+const otherCharCount = document.getElementById("other-char-count");
+const otherSubmitButton = document.getElementById("other-submit");
 const particleField = document.getElementById("particle-field");
 const brandChip = document.getElementById("brand-chip");
 const langSwitcher = document.getElementById("lang-switcher");
@@ -113,6 +117,12 @@ const translations = {
         heroTags: ["#個性", "#思考のクセ", "#スクショしたい"],
         floatingNotes: ["隠れた個性", "思考パターン", "本音フィルター"],
         auraCore: "YOU",
+        otherButton: "その他",
+        otherPlaceholder: "自分で書いてみる...",
+        otherSubmit: "送信",
+        otherSubmitLoading: "分析中...",
+        otherHint: "AIがあなたの回答を分析します",
+        otherMinCharsHint: "5文字以上で送信できます",
         startButton: "診断スタート",
         questionLoadingTitle: "あなた向けの質問をえらんでいます",
         questionLoadingSequence: [
@@ -162,7 +172,8 @@ const translations = {
         errorResultAbortCopy: "結果の整理に少しだけ時間がかかっています。",
         errorResultCopy: "結果の表示に失敗しました。",
         errorResultDescription: "通信環境を確認して、もう一度診断してみてください。",
-        errorResultRecommendation: "もう一度はじめると、パーソナリティをやさしく表示し直します。"
+        errorResultRecommendation: "もう一度はじめると、パーソナリティをやさしく表示し直します。",
+        classifyingAnswers: "あなたの回答をひとつひとつ分析しています..."
     },
     en: {
         metaTitle: "AI Personality Test",
@@ -175,6 +186,12 @@ const translations = {
         heroTags: ["#Personality", "#TrueColors", "#ScreenshotWorthy"],
         floatingNotes: ["Hidden Self", "Thought Pattern", "Inner Voice"],
         auraCore: "YOU",
+        otherButton: "Other",
+        otherPlaceholder: "Write your own answer...",
+        otherSubmit: "Submit",
+        otherSubmitLoading: "Analyzing...",
+        otherHint: "AI will analyze your answer",
+        otherMinCharsHint: "At least 5 characters to submit",
         startButton: "Start Test",
         questionLoadingTitle: "Picking questions that match your vibe",
         questionLoadingSequence: [
@@ -224,7 +241,8 @@ const translations = {
         errorResultAbortCopy: "Your result needs a few more seconds to come together.",
         errorResultCopy: "We could not show your result this time.",
         errorResultDescription: "Please check your connection and try again.",
-        errorResultRecommendation: "Start over and we will refresh your personality card."
+        errorResultRecommendation: "Start over and we will refresh your personality card.",
+        classifyingAnswers: "Analyzing each of your answers..."
     },
     zh: {
         metaTitle: "AI性格测试",
@@ -237,6 +255,12 @@ const translations = {
         heroTags: ["#个性", "#思维习惯", "#想截图"],
         floatingNotes: ["隐藏个性", "思维模式", "真心滤镜"],
         auraCore: "YOU",
+        otherButton: "其他",
+        otherPlaceholder: "自己填写...",
+        otherSubmit: "提交",
+        otherSubmitLoading: "分析中...",
+        otherHint: "AI会分析你的回答",
+        otherMinCharsHint: "至少输入5个字符才能提交",
         startButton: "开始测试",
         questionLoadingTitle: "正在挑选适合你的问题",
         questionLoadingSequence: [
@@ -286,7 +310,8 @@ const translations = {
         errorResultAbortCopy: "这次结果需要再多一点时间。",
         errorResultCopy: "这次没有成功显示结果。",
         errorResultDescription: "请检查网络后再试一次。",
-        errorResultRecommendation: "重新开始后，我们会再温柔地整理你的性格结果。"
+        errorResultRecommendation: "重新开始后，我们会再温柔地整理你的性格结果。",
+        classifyingAnswers: "正在逐一分析你的回答..."
     },
     ko: {
         metaTitle: "AI 성격 테스트",
@@ -299,6 +324,12 @@ const translations = {
         heroTags: ["#개성", "#사고패턴", "#스크린샷각"],
         floatingNotes: ["숨겨진 개성", "사고 패턴", "속마음 필터"],
         auraCore: "YOU",
+        otherButton: "기타",
+        otherPlaceholder: "직접 입력해 보세요...",
+        otherSubmit: "제출",
+        otherSubmitLoading: "분석 중...",
+        otherHint: "AI가 답변을 분석합니다",
+        otherMinCharsHint: "5자 이상 입력하면 제출할 수 있습니다",
         startButton: "테스트 시작",
         questionLoadingTitle: "너한테 맞는 질문을 고르는 중",
         questionLoadingSequence: [
@@ -348,7 +379,8 @@ const translations = {
         errorResultAbortCopy: "이번 결과는 몇 초만 더 기다려야 해요.",
         errorResultCopy: "이번에는 결과를 보여 주지 못했어요.",
         errorResultDescription: "연결 상태를 확인한 뒤 다시 시도해 주세요.",
-        errorResultRecommendation: "처음부터 다시 시작하면 성격 카드를 부드럽게 다시 정리해 드릴게요."
+        errorResultRecommendation: "처음부터 다시 시작하면 성격 카드를 부드럽게 다시 정리해 드릴게요.",
+        classifyingAnswers: "각각의 답변을 하나씩 분석하고 있어요..."
     }
 };
 
@@ -882,8 +914,139 @@ async function renderQuestion(sessionId = activeSessionId, language = currentLan
     currentQuestion.choices.forEach((choice, index) => {
         fragment.appendChild(createChoiceButton(choice, index, sessionId, language));
     });
-
+    fragment.appendChild(createOtherChoiceButton(sessionId, language));
     choicesContainer.replaceChildren(fragment);
+
+    // その他入力欄をリセット
+    const locale = getTranslations(language);
+    otherInputArea.hidden = true;
+    otherText.value = "";
+    otherText.disabled = false;
+    otherCharCount.textContent = locale.otherMinCharsHint + "  0 / 200";
+    otherCharCount.classList.add("is-warning");
+    otherSubmitButton.disabled = true;
+    otherSubmitButton.dataset.state = "";
+    otherSubmitButton.textContent = locale.otherSubmit;
+    otherSubmitButton.onclick = null;
+    otherText.oninput = null;
+}
+
+function createOtherChoiceButton(sessionId, language) {
+    const locale = getTranslations(language);
+    const button = document.createElement("button");
+    const choiceCopy = document.createElement("span");
+    const choiceText = document.createElement("strong");
+    const choiceHint = document.createElement("small");
+
+    button.type = "button";
+    button.className = "choice-button choice-button-other";
+
+    choiceCopy.className = "choice-copy";
+    choiceText.className = "choice-text";
+    choiceText.textContent = locale.otherButton;
+    choiceHint.className = "choice-hint";
+    choiceHint.textContent = locale.otherHint;
+    choiceCopy.append(choiceText, choiceHint);
+    button.appendChild(choiceCopy);
+
+    button.addEventListener("click", () => showOtherInput(button, sessionId, language));
+    return button;
+}
+
+function showOtherInput(otherButton, sessionId, language) {
+    if (choicesContainer.dataset.locked === "true" || sessionId !== activeSessionId) {
+        return;
+    }
+
+    choicesContainer.dataset.locked = "true";
+    Array.from(choicesContainer.querySelectorAll("button")).forEach((btn) => {
+        btn.disabled = true;
+    });
+    otherButton.classList.add("is-selected");
+    otherButton.disabled = false;
+
+    otherInputArea.hidden = false;
+
+    // スマホキーボードが出た後にスクロール（300ms待ってから送信ボタンが見えるよう調整）
+    setTimeout(() => {
+        otherSubmitButton.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, 300);
+
+    otherText.focus();
+
+    // 文字数カウント更新・送信ボタン制御
+    const locale = getTranslations(language);
+    const updateCharCount = () => {
+        const len = otherText.value.length;
+        const trimLen = otherText.value.trim().length;
+        if (trimLen < 5) {
+            otherCharCount.textContent = locale.otherMinCharsHint + "  " + len + " / 200";
+            otherCharCount.classList.add("is-warning");
+        } else {
+            otherCharCount.textContent = len + " / 200";
+            otherCharCount.classList.remove("is-warning");
+        }
+        otherSubmitButton.disabled = trimLen < 5;
+    };
+    updateCharCount();
+    otherText.oninput = updateCharCount;
+
+    otherSubmitButton.onclick = () => submitOtherAnswer(sessionId, language);
+}
+
+async function submitOtherAnswer(sessionId, language) {
+    if (sessionId !== activeSessionId) {
+        return;
+    }
+
+    const locale = getTranslations(language);
+    const freeText = otherText.value.trim();
+    if (freeText.length < 5) {
+        return;
+    }
+
+    otherSubmitButton.disabled = true;
+    otherText.disabled = true;
+
+    const questions = await getQuestions(language);
+    if (sessionId !== activeSessionId) {
+        return;
+    }
+    const currentQuestion = questions[currentQuestionIndex];
+
+    answers.push({
+        questions: currentQuestion.text,
+        answer: freeText,
+        type: "__pending__",
+    });
+
+    await wait(180);
+
+    if (sessionId !== activeSessionId) {
+        return;
+    }
+
+    currentQuestionIndex += 1;
+
+    if (currentQuestionIndex < questions.length) {
+        await renderQuestion(sessionId, language);
+        return;
+    }
+
+    showScreen(loadingScreen, "loading");
+    await waitForNextFrame();
+
+    if (sessionId !== activeSessionId) {
+        return;
+    }
+
+    await batchClassifyPendingAnswers(sessionId, language);
+
+    if (sessionId !== activeSessionId) {
+        return;
+    }
+
+    await showResult(sessionId, language);
 }
 
 function createChoiceButton(choice, index, sessionId, language) {
@@ -955,6 +1118,12 @@ async function selectAnswer(choice, selectedButton, sessionId, language) {
 
     showScreen(loadingScreen, "loading");
     await waitForNextFrame();
+
+    if (sessionId !== activeSessionId) {
+        return;
+    }
+
+    await batchClassifyPendingAnswers(sessionId, language);
 
     if (sessionId !== activeSessionId) {
         return;
@@ -1389,6 +1558,64 @@ function stopTicker() {
     }
 }
 
+async function batchClassifyPendingAnswers(sessionId, language) {
+    const pendingIndices = answers
+        .map((a, i) => (a.type === "__pending__" ? i : -1))
+        .filter((i) => i >= 0);
+
+    if (pendingIndices.length === 0) {
+        return;
+    }
+
+    const locale = getTranslations(language);
+    stopTicker();
+    setText(loadingStatusText, locale.classifyingAnswers);
+
+    const items = pendingIndices.map((i) => ({
+        question: answers[i].questions,
+        answer: answers[i].answer,
+    }));
+
+    try {
+        const controller = new AbortController();
+        const timeoutId = window.setTimeout(() => controller.abort(), 35000);
+        const response = await fetch("/batch-classify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ items }),
+            signal: controller.signal,
+        });
+        window.clearTimeout(timeoutId);
+        if (response.ok) {
+            const data = await response.json();
+            const results = data.results || [];
+            pendingIndices.forEach((answerIndex, resultIndex) => {
+                const result = results[resultIndex];
+                if (result && result.type) {
+                    answers[answerIndex].type = result.type;
+                }
+            });
+        }
+    } catch (error) {
+        console.warn("batch-classify fallback:", error);
+    }
+
+    const typeKeys = ["Apple", "Google", "Amazon", "Microsoft", "Tesla", "Meta", "Nvidia", "Netflix"];
+    answers.forEach((a) => {
+        if (a.type === "__pending__") {
+            a.type = typeKeys[Math.floor(Math.random() * typeKeys.length)];
+        }
+    });
+
+    if (sessionId !== activeSessionId) {
+        return;
+    }
+
+    startTicker(locale.resultLoadingSequence, 1500, (message) => {
+        loadingStatusText.textContent = message;
+    });
+}
+
 function setText(node, value) {
     if (node) {
         node.textContent = value;
@@ -1425,6 +1652,12 @@ function applyTranslations() {
     setTextList(heroTags, locale.heroTags);
     setTextList(floatingNotes, locale.floatingNotes);
     setText(auraCoreText, locale.auraCore);
+    if (otherText) {
+        otherText.placeholder = locale.otherPlaceholder;
+    }
+    if (otherSubmitButton && otherSubmitButton.dataset.state !== "loading") {
+        otherSubmitButton.textContent = locale.otherSubmit;
+    }
     setText(startButton, locale.startButton);
     setText(questionLoadingTitle, locale.questionLoadingTitle);
     setText(questionLoadingStage, locale.questionLoadingSequence[0].stage);

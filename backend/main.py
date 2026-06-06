@@ -55,8 +55,8 @@ LANGUAGE_SETTINGS = {
         "result_output_rule": "所有结果文案都必须使用自然的简体中文。",
         "comment_length": "30 to 60 Chinese characters",
         "love_length": "50 to 90 Chinese characters",
-        "diagnosis_description_length": "160字から200字",
-        "diagnosis_recommendation_length": "160字から200字",
+        "diagnosis_description_length": "160 to 200 Chinese characters (strict minimum — each sentence must be at least 40 characters)",
+        "diagnosis_recommendation_length": "160 to 200 Chinese characters (strict minimum — each sentence must be at least 40 characters)",
         "fallback_comment": "准备中...",
         "fallback_love": "准备中...",
     },
@@ -915,6 +915,21 @@ class AnswerData(BaseModel):
     answers: list[AnswerItem]
 
 
+class ClassifyAnswerPayload(BaseModel):
+    question: str
+    answer: str
+    language: str = "ja"
+
+
+class BatchClassifyItem(BaseModel):
+    question: str
+    answer: str
+
+
+class BatchClassifyPayload(BaseModel):
+    items: list[BatchClassifyItem]
+
+
 def normalize_language(language: str | None) -> str:
     if not language:
         return "ja"
@@ -1632,6 +1647,107 @@ def get_or_create_questions(language: str) -> list[dict]:
 @app.get("/")
 def read_index():
     return FileResponse(FRONTEND_DIR / "index.html")
+
+
+CLASSIFY_SYSTEM_PROMPT = """You classify free-form answers to personality quiz questions into one of 8 types.
+Output JSON only. No markdown. No extra text.
+Each type must be exactly one of: Apple, Google, Amazon, Microsoft, Tesla, Meta, Nvidia, Netflix
+
+Type behavioral definitions (use these to classify, regardless of input language):
+- Apple: values aesthetics, refinement, quiet confidence, and emotional depth; prefers quality over quantity
+- Google: analytical, curious, information-driven; approaches problems systematically and logically
+- Amazon: results-oriented, practical, efficient; focuses on execution, speed, and concrete outcomes
+- Microsoft: structured, collaborative, reliable; values process, teamwork, and stable systems
+- Tesla: visionary, independent, unconventional; driven by ideals and willing to go against the grain
+- Meta: social, expressive, connection-focused; thrives on relationships and sharing experiences
+- Nvidia: ambitious, high-performance, intense; pushes limits and is motivated by excellence and mastery
+- Netflix: observant, selective, introspective; prefers depth over breadth and curates experiences carefully"""
+
+
+@app.post("/classify-answer")
+def classify_answer(data: ClassifyAnswerPayload):
+    if not OPEN_ROUTER_KEY:
+        return {"type": random.choice(sorted(ALLOWED_TYPE_KEYS)), "message": "fallback"}
+
+    system_prompt = CLASSIFY_SYSTEM_PROMPT + '\nOutput format: {"type": "TypeName"}'
+
+    user_prompt = f"""Question: {data.question}
+User's free-form answer: {data.answer}
+
+Which of the 8 personality types best fits this answer? Return JSON only."""
+
+    try:
+        raw = call_openrouter_chat(
+            [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt},
+            ],
+            timeout=10,
+            max_tokens=20,
+        )
+        parsed = json.loads(strip_json_wrapper(raw))
+        type_name = str(parsed.get("type", "")).strip()
+        if type_name not in ALLOWED_TYPE_KEYS:
+            raise ValueError(f"Invalid type: {type_name}")
+        return {"type": type_name, "message": "ok"}
+    except Exception as error:
+        print("classify_answer error:", error)
+        return {"type": random.choice(sorted(ALLOWED_TYPE_KEYS)), "message": "fallback"}
+
+
+@app.post("/batch-classify")
+def batch_classify(data: BatchClassifyPayload):
+    if not data.items:
+        return {"results": []}
+    if not OPEN_ROUTER_KEY:
+        return {
+            "results": [
+                {"type": random.choice(sorted(ALLOWED_TYPE_KEYS)), "message": "fallback"}
+                for _ in data.items
+            ]
+        }
+
+    items_text = "\n\n".join(
+        f"[{i + 1}]\nQuestion: {item.question}\nAnswer: {item.answer}"
+        for i, item in enumerate(data.items)
+    )
+    user_prompt = f"""Classify each answer below into one of the 8 personality types.
+Return a JSON array with one object per answer, in the same order.
+Output format: [{{"type": "TypeName"}}, ...]
+
+{items_text}"""
+
+    timeout = min(max(len(data.items) * 4, 15), 30)
+    max_tokens = len(data.items) * 25 + 20
+
+    try:
+        raw = call_openrouter_chat(
+            [
+                {"role": "system", "content": CLASSIFY_SYSTEM_PROMPT},
+                {"role": "user", "content": user_prompt},
+            ],
+            timeout=timeout,
+            max_tokens=max_tokens,
+        )
+        parsed = json.loads(strip_json_wrapper(raw))
+        if not isinstance(parsed, list):
+            raise ValueError("Expected JSON array")
+        results = []
+        for i, _ in enumerate(data.items):
+            entry = parsed[i] if i < len(parsed) else {}
+            type_name = str(entry.get("type", "")).strip()
+            if type_name not in ALLOWED_TYPE_KEYS:
+                type_name = random.choice(sorted(ALLOWED_TYPE_KEYS))
+            results.append({"type": type_name, "message": "ok"})
+        return {"results": results}
+    except Exception as error:
+        print("batch_classify error:", error)
+        return {
+            "results": [
+                {"type": random.choice(sorted(ALLOWED_TYPE_KEYS)), "message": "fallback"}
+                for _ in data.items
+            ]
+        }
 
 
 @app.get("/reset-questions")

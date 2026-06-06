@@ -1193,3 +1193,86 @@ h2 {
     color: rgba(255, 255, 255, 0.18);
     font-size: 0.85rem;
 }
+
+/* ── その他（自由記述）入力エリア ── */
+.other-input-area {
+    display: grid;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.other-input-area[hidden] {
+    display: none;
+}
+
+.other-textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-main);
+    font-size: 0.96rem;
+    line-height: 1.65;
+    resize: none;
+    box-sizing: border-box;
+    caret-color: var(--accent);
+    transition: border-color 0.2s ease;
+}
+
+.other-textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.other-textarea:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.32);
+}
+
+.other-textarea:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.other-char-count {
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-align: right;
+}
+
+.other-char-count.is-warning {
+    color: var(--accent-3);
+}
+
+.other-submit-button {
+    width: 100%;
+    border: none;
+    border-radius: 18px;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2) 55%, var(--accent-3));
+    color: var(--button-text);
+    font-size: 0.96rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.other-submit-button:disabled {
+    opacity: 0.4;
+    cursor: default;
+    transform: none;
+}
+
+.other-submit-button:not(:disabled):hover {
+    transform: translateY(-1px);
+}
+
+.choice-button-other {
+    justify-content: center;
+    text-align: center;
+}
+
+.choice-button-other .choice-copy {
+    text-align: center;
+}
