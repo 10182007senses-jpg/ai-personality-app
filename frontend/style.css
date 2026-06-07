@@ -685,6 +685,7 @@ h2 {
     color: var(--text-main);
     text-align: left;
     cursor: pointer;
+    touch-action: manipulation;
     transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 

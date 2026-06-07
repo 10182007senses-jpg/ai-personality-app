@@ -974,6 +974,14 @@ function showOtherInput(otherButton, sessionId, language) {
 
     otherInputArea.hidden = false;
 
+    // モバイルでテキストエリアが自動フォーカスされてキーボードが開き
+    // 選択肢ボタンがスクロールアウトするのを防ぐ
+    window.setTimeout(() => {
+        if (document.activeElement === otherText) {
+            otherText.blur();
+        }
+    }, 0);
+
     // 文字数カウント更新・送信ボタン制御
     const locale = getTranslations(language);
     const updateCharCount = () => {
