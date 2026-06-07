@@ -954,25 +954,25 @@ function createOtherChoiceButton(sessionId, language) {
 }
 
 function showOtherInput(otherButton, sessionId, language) {
-    if (choicesContainer.dataset.locked === "true" || sessionId !== activeSessionId) {
+    if (sessionId !== activeSessionId) {
         return;
     }
 
-    choicesContainer.dataset.locked = "true";
-    Array.from(choicesContainer.querySelectorAll("button")).forEach((btn) => {
-        btn.disabled = true;
-    });
+    // Already open → toggle off
+    if (!otherInputArea.hidden) {
+        otherButton.classList.remove("is-selected");
+        otherInputArea.hidden = true;
+        otherText.value = "";
+        return;
+    }
+
+    if (choicesContainer.dataset.locked === "true") {
+        return;
+    }
+
     otherButton.classList.add("is-selected");
-    otherButton.disabled = false;
 
     otherInputArea.hidden = false;
-
-    // スマホキーボードが出た後にスクロール（300ms待ってから送信ボタンが見えるよう調整）
-    setTimeout(() => {
-        otherSubmitButton.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    }, 300);
-
-    otherText.focus();
 
     // 文字数カウント更新・送信ボタン制御
     const locale = getTranslations(language);
@@ -1078,6 +1078,14 @@ function createChoiceButton(choice, index, sessionId, language) {
 async function selectAnswer(choice, selectedButton, sessionId, language) {
     if (choicesContainer.dataset.locked === "true" || sessionId !== activeSessionId) {
         return;
+    }
+
+    // Close "Other" input area if open
+    if (!otherInputArea.hidden) {
+        const otherBtn = choicesContainer.querySelector(".choice-button-other");
+        if (otherBtn) otherBtn.classList.remove("is-selected");
+        otherInputArea.hidden = true;
+        otherText.value = "";
     }
 
     choicesContainer.dataset.locked = "true";
